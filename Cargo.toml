@@ -26,5 +26,5 @@ members = [
 ]
 
 [dependencies]
-qinetic_dylib = { path = "crates/dylib" }
-qinetic_internal = { path = "crates/internal" }
+qinetic_dylib = { path = "crates/dylib", version = "0.1.0" }
+qinetic_internal = { path = "crates/internal", version = "0.1.0" }

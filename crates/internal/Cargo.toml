@@ -13,5 +13,5 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
-qinetic_core = { path = "../core" }
-qinetic_math = { path = "../math" }
+qinetic_core = { path = "../core", version = "0.1.0" }
+qinetic_math = { path = "../math", version = "0.1.0" }

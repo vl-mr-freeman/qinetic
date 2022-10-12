@@ -1,7 +1,5 @@
 <div align="center">
   <img src="assets/qinetic_logo2.png" alt="Qinetic" />
-
-  <h1>Qinetic engine</h1>
 </div>
 
 [![Crates.io](https://img.shields.io/crates/v/qinetic.svg)](https://crates.io/crates/qinetic)
