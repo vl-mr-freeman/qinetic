@@ -1,0 +1,19 @@
+[package]
+name = "qinetic_dylib"
+version = "0.1.0"
+authors = [
+	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
+]
+edition = "2021"
+description = "force the Qinetic to be dynamically linked for faster linking"
+documentation = "https://docs.rs/qinetic_dylib"
+readme = "README.md"
+repository = "https://github.com/vl-mr-freeman/qinetic"
+license = "MIT"
+keywords = ["qinetic"]
+
+[lib]
+crate-type = ["dylib"]
+
+[dependencies]
+qinetic_internal = { path = "../internal" }

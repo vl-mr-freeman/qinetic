@@ -1,0 +1,17 @@
+[package]
+name = "qinetic_internal"
+version = "0.1.0"
+authors = [
+	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
+]
+edition = "2021"
+description = "internal Qinetic's crate used to facilitate optional dynamic linking via the 'dynamic' feature"
+documentation = "https://docs.rs/qinetic_internal"
+readme = "README.md"
+repository = "https://github.com/vl-mr-freeman/qinetic"
+license = "MIT"
+keywords = ["qinetic"]
+
+[dependencies]
+qinetic_core = { path = "../core" }
+qinetic_math = { path = "../math" }

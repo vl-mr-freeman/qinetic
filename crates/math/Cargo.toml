@@ -1,0 +1,15 @@
+[package]
+name = "qinetic_math"
+version = "0.1.0"
+authors = [
+	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
+]
+edition = "2021"
+description = "shared library for Qinetic, containing math functionality"
+documentation = "https://docs.rs/qinetic_math"
+readme = "README.md"
+repository = "https://github.com/vl-mr-freeman/qinetic"
+license = "MIT"
+keywords = ["qinetic"]
+
+[dependencies]

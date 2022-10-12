@@ -1,0 +1,15 @@
+[package]
+name = "qinetic_core"
+version = "0.1.0"
+authors = [
+	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
+]
+edition = "2021"
+description = "shared library for Qinetic engine, containing core functionality"
+documentation = "https://docs.rs/qinetic_core"
+readme = "README.md"
+repository = "https://github.com/vl-mr-freeman/qinetic"
+license = "MIT"
+keywords = ["qinetic"]
+
+[dependencies]

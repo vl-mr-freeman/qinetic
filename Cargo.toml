@@ -1,0 +1,30 @@
+[package]
+name = "qinetic"
+version = "0.1.0"
+authors = [
+	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
+]
+edition = "2021"
+description = "free, cross-platform, open-source simple game engine, designed to be fast, simple and modular"
+documentation = "https://docs.rs/qinetic"
+readme = "README.md"
+repository = "https://github.com/vl-mr-freeman/qinetic"
+license = "MIT"
+keywords = ["gamedev", "graphics", "game", "engine", "qinetic"]
+categories = ["game-engines"]
+
+# force dynamic linking, which improves iterative compile times.
+dynamic = ["qinetic_dylib"]
+
+[workspace]
+exclude = [
+	"benches",
+	"tests",
+]
+members = [
+	"crates/*",
+]
+
+[dependencies]
+qinetic_dylib = { path = "crates/dylib" }
+qinetic_internal = { path = "crates/internal" }
