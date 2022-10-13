@@ -1,6 +1,6 @@
 [package]
 name = "qinetic_dylib"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
@@ -16,4 +16,4 @@ keywords = ["qinetic"]
 crate-type = ["dylib"]
 
 [dependencies]
-qinetic_internal = { path = "../internal", version = "0.1.0" }
+qinetic_internal = { path = "../internal", version = "0.1.1" }

@@ -1,6 +1,6 @@
 [package]
 name = "qinetic"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
@@ -42,5 +42,5 @@ render = ["qinetic_internal/qinetic_render"]
 ui = ["qinetic_internal/qinetic_ui"]
 
 [dependencies]
-qinetic_dylib = { path = "crates/dylib", version = "0.1.0" }
-qinetic_internal = { path = "crates/internal", version = "0.1.0" }
+qinetic_dylib = { path = "crates/dylib", version = "0.1.1" }
+qinetic_internal = { path = "crates/internal", version = "0.1.1" }
