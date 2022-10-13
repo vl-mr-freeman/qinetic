@@ -1,6 +1,6 @@
-//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo2.png)](https://github.com/vl-mr-freeman/qinetic)
+//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
 //!
-//! Qinetic-math is shared library for Qinetic, containing math functionality.
+//! Qinetic-math is crate for Qinetic, containing math functionality.
 
 /// Provides 4-dimensional vector.
 pub mod vec4;

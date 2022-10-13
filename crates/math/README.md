@@ -1,15 +1,12 @@
-<div align="center">
-  <img src="../../assets/qinetic_logo2.png" alt="Qinetic" />
+# [![Qinetic](../../assets/qinetic_logo.svg)]()
 
-  <h1>Qinetic engine</h1>
-</div>
-
-[![Crates.io](https://img.shields.io/crates/v/qinetic_core.svg)](https://crates.io/crates/qinetic_core)
-[![License (MIT)](https://img.shields.io/crates/l/qinetic_core.svg)](https://github.com/vl-mr-freeman/qinetic/blob/master/crates/qinetic_core/LICENSE)
-[![docs.rs](https://img.shields.io/badge/docs-website-blue)](https://docs.rs/qinetic_core/)
+[![Crates.io](https://img.shields.io/crates/v/qinetic_math.svg)](https://crates.io/crates/qinetic_math)
+[![Crates.io](https://img.shields.io/crates/d/qinetic_math.svg)](https://crates.io/crates/qinetic_math)
+[![License (MIT)](https://img.shields.io/crates/l/qinetic_math.svg)](https://github.com/vl-mr-freeman/qinetic/blob/master/crates/qinetic_math/LICENSE)
+[![docs.rs](https://img.shields.io/badge/docs-website-blue)](https://docs.rs/qinetic_math)
 
 ## About
-Qinetic-core is shared library for Qinetic, containing core functionality.
+Qinetic-math is crate for Qinetic, containing math functionality.
 
 ## Docs
-* **[Qinetic-core Rust API Docs](https://docs.rs/qinetic_core):** Qinetic-core's Rust API docs, which are automatically generated from the doc comments in this repo.
+* **[Rust Docs](https://docs.rs/qinetic_math):** Automatically generated from the doc comments in this repo.

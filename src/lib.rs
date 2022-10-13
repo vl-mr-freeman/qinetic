@@ -1,4 +1,4 @@
-//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo2.png)](https://github.com/vl-mr-freeman/qinetic)
+//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
 //!
 //! Qinetic is free, cross-platform, open-source game engine, designed to be fast, simple and modular.
 //!
@@ -8,7 +8,9 @@
 //!  use qinetic::prelude::*;
 //!
 //!  fn main() {
-//!     Application::new().run();
+//!     Application::new()
+//!         .add_plugin_group(DefaultPluginGroup)
+//!         .run();
 //!  }
 //! ```
 

@@ -1,15 +1,19 @@
-//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo2.png)](https://github.com/vl-mr-freeman/qinetic)
+//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
 //!
-//! Qinetic-core is shared library for Qinetic, containing core functionality.
-
-/// Provides application.
-pub mod application;
-
-/// Provides application plugins.
-pub mod plugin;
+//! Qinetic-core is crate for Qinetic, containing core functionality.
 
 pub mod prelude {
     //! Provides main core functionality.
     #[doc(hidden)]
-    pub use crate::{application::*, plugin::*};
+    pub use crate::CorePlugin;
+}
+
+use qinetic_app::prelude::*;
+
+/// Adds core functionality to [`App`].
+#[derive(Default)]
+pub struct CorePlugin {}
+
+impl Plugin for CorePlugin {
+    fn build(&self, app: &mut App) {}
 }

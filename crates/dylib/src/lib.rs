@@ -1,6 +1,6 @@
-//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo2.png)](https://github.com/vl-mr-freeman/qinetic)
+//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
 //!
-//! Qinetic-dylib forces dynamic linking of Qinetic.
+//! Qinetic-dylib is crate for Qinetic, force to be dynamically linked.
 //!
 //! # Enabling dynamic linking.
 //!

@@ -5,7 +5,7 @@ authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
 edition = "2021"
-description = "force the Qinetic to be dynamically linked for faster linking"
+description = "crate for Qinetic force to be dynamically linked"
 documentation = "https://docs.rs/qinetic_dylib"
 readme = "README.md"
 repository = "https://github.com/vl-mr-freeman/qinetic"

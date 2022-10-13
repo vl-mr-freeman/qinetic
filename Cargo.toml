@@ -25,6 +25,22 @@ members = [
 	"crates/*",
 ]
 
+[features]
+default = [
+	"animation",
+	"audio",
+	"physics",
+	"render",
+]
+
+# Optional Qinetic crates
+animation = ["qinetic_internal/qinetic_animation"]
+audio = ["qinetic_internal/qinetic_audio"]
+network = ["qinetic_internal/qinetic_audio"]
+physics = ["qinetic_internal/qinetic_physics"]
+render = ["qinetic_internal/qinetic_render"]
+ui = ["qinetic_internal/qinetic_ui"]
+
 [dependencies]
 qinetic_dylib = { path = "crates/dylib", version = "0.1.0" }
 qinetic_internal = { path = "crates/internal", version = "0.1.0" }
