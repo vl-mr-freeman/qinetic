@@ -14,7 +14,7 @@ keywords = ["qinetic"]
 
 [dependencies]
 qinetic_animation = { path = "../animation", optional = true, version = "0.1.0" }
-qinetic_app = { path = "../app", version = "0.1.0" }
+qinetic_app = { path = "../app", version = "0.1.1" }
 qinetic_asset = { path = "../asset", version = "0.1.0" }
 qinetic_audio = { path = "../audio", optional = true, version = "0.1.0" }
 qinetic_core = { path = "../core", version = "0.1.1" }
