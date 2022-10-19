@@ -21,7 +21,7 @@ qinetic_core = { path = "../core", version = "0.1.1" }
 qinetic_ecs = { path = "../ecs", version = "0.1.0" }
 qinetic_input = { path = "../input", version = "0.1.0" }
 qinetic_log = { path = "../log", version = "0.1.0" }
-qinetic_math = { path = "../math", version = "0.1.1" }
+qinetic_math = { path = "../math", version = "0.1.2" }
 qinetic_network = { path = "../network", optional = true, version = "0.1.0" }
 qinetic_physics = { path = "../physics", optional = true, version = "0.1.0" }
 qinetic_render = { path = "../render", optional = true, version = "0.1.0" }

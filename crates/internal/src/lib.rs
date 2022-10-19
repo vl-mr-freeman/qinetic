@@ -116,9 +116,3 @@ pub mod window {
 
 mod default_plugins;
 pub use default_plugins::*;
-
-mod default_stages;
-pub use default_stages::*;
-
-mod default_states;
-pub use default_states::*;

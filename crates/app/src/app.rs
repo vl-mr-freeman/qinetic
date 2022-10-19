@@ -41,7 +41,7 @@ impl App {
         T: PluginGroup,
     {
         let mut builder = PluginGroupBuilder::default();
-        group.build(&mut builder);
+        group.configure(&mut builder);
         builder.build(self);
 
         self
@@ -54,7 +54,7 @@ impl App {
         F: FnOnce(&mut PluginGroupBuilder) -> &mut PluginGroupBuilder,
     {
         let mut builder = PluginGroupBuilder::default();
-        group.build(&mut builder);
+        group.configure(&mut builder);
         func(&mut builder);
         builder.build(self);
 

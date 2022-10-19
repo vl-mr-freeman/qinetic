@@ -18,7 +18,7 @@ pub trait Plugin: Any + Send + Sync {
 /// Combines multiple [`Plugin`]s into a group.
 pub trait PluginGroup {
     /// Configures the [`Plugin`]s that are to be added.
-    fn build(&mut self, group: &mut PluginGroupBuilder);
+    fn configure(&mut self, group: &mut PluginGroupBuilder);
 }
 
 struct PluginEntry {
