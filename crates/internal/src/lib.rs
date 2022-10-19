@@ -114,94 +114,11 @@ pub mod window {
     pub use qinetic_window::*;
 }
 
-#[cfg(feature = "animation")]
-use qinetic_animation::AnimationPlugin;
+mod default_plugins;
+pub use default_plugins::*;
 
-use qinetic_app::plugin::{PluginGroup, PluginGroupBuilder};
+mod default_stages;
+pub use default_stages::*;
 
-use qinetic_asset::AssetPlugin;
-
-#[cfg(feature = "audio")]
-use qinetic_audio::AudioPlugin;
-
-use qinetic_core::CorePlugin;
-
-use qinetic_ecs::EcsPlugin;
-
-use qinetic_input::InputPlugin;
-
-use qinetic_log::LogPlugin;
-
-#[cfg(feature = "network")]
-use qinetic_network::NetworkPlugin;
-
-#[cfg(feature = "physics")]
-use qinetic_physics::PhysicsPlugin;
-
-#[cfg(feature = "render")]
-use qinetic_render::RenderPlugin;
-
-#[cfg(feature = "ui")]
-use qinetic_ui::UiPlugin;
-
-use qinetic_window::WindowPlugin;
-
-/// Minimal plugin group includes:
-/// * [`CorePlugin`]
-///
-/// See also [`DefaultPluginGroup`] for a more complete set of plugins.
-pub struct MinimalPluginGroup;
-
-impl PluginGroup for MinimalPluginGroup {
-    fn build(&mut self, group: &mut PluginGroupBuilder) {
-        group.add(qinetic_core::CorePlugin::default());
-    }
-}
-
-/// Default plugin group includes:
-/// * [`AnimationPlugin`](../qinetic_animation/struct.AnimationPlugin.html) - feature = `animation`
-/// * [`AssetPlugin`]
-/// * [`AudioPlugin`](../qinetic_audio/struct.AudioPlugin.html) - feature = `audio`
-/// * [`CorePlugin`]
-/// * [`EcsPlugin`]
-/// * [`InputPlugin`]
-/// * [`LogPlugin`]
-/// * [`NetworkPlugin`](../qinetic_network/struct.NetworkPlugin.html) - feature = `network`
-/// * [`PhysicsPlugin`](../qinetic_physics/struct.PhysicsPlugin.html) - feature = `physics`
-/// * [`RenderPlugin`](../qinetic_render/struct.RenderPlugin.html) - feature = `render`
-/// * [`UiPlugin`](../qinetic_ui/struct.UiPlugin.html) - feature = `ui`
-/// * [`WindowPlugin`]
-///
-/// See also [`MinimalPluginGroup`] for a slimmed down option.
-pub struct DefaultPluginGroup;
-
-impl PluginGroup for DefaultPluginGroup {
-    fn build(&mut self, group: &mut PluginGroupBuilder) {
-        #[cfg(feature = "animation")]
-        group.add(AnimationPlugin::default());
-
-        group.add(AssetPlugin::default());
-
-        #[cfg(feature = "audio")]
-        group.add(AudioPlugin::default());
-
-        group.add(CorePlugin::default());
-
-        group.add(EcsPlugin::default());
-
-        group.add(InputPlugin::default());
-
-        group.add(LogPlugin::default());
-
-        #[cfg(feature = "physics")]
-        group.add(PhysicsPlugin::default());
-
-        #[cfg(feature = "render")]
-        group.add(RenderPlugin::default());
-
-        #[cfg(feature = "ui")]
-        group.add(UiPlugin::default());
-
-        group.add(WindowPlugin::default());
-    }
-}
+mod default_states;
+pub use default_states::*;
