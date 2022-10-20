@@ -1,4 +1,4 @@
-use crate::{vec4::Vec4, vec::*};
+use crate::{bvec3::BVec3, vec::*, vec4::Vec4};
 
 /// A 3-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
@@ -147,16 +147,15 @@ impl Vec for Vec3 {
 
     #[inline]
     fn is_negative_bitmask(self) -> u32 {
-        (self.x.is_sign_negative() as u32) 
-        | (self.y.is_sign_negative() as u32) << 1 
-        | (self.z.is_sign_negative() as u32) << 2
+        (self.x.is_sign_negative() as u32)
+            | (self.y.is_sign_negative() as u32) << 1
+            | (self.z.is_sign_negative() as u32) << 2
     }
 
     #[inline]
     fn is_finite(self) -> bool {
         self.x.is_finite() && self.y.is_finite() && self.z.is_finite()
     }
-
 
     #[inline]
     fn is_nan(self) -> bool {
@@ -231,6 +230,76 @@ impl Vec3 {
         s[0] = self.x;
         s[1] = self.y;
         s[2] = self.z;
+    }
+
+    /// Creates a [`Vec3`] from elements `if_true` or `if_false`, by `mask`.
+    #[inline]
+    pub fn mask(mask: BVec3, if_true: Self, if_false: Self) -> Self {
+        Self {
+            x: if mask.x { if_true.x } else { if_false.x },
+            y: if mask.y { if_true.y } else { if_false.y },
+            z: if mask.z { if_true.z } else { if_false.z },
+        }
+    }
+
+    /// Returns a [`BVec3`] of a `==` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpeq(self, other: Self) -> BVec3 {
+        BVec3::new(
+            self.x.eq(&other.x),
+            self.y.eq(&other.y),
+            self.z.eq(&other.z),
+        )
+    }
+
+    /// Returns a [`BVec3`] of a `!=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpne(self, other: Self) -> BVec3 {
+        BVec3::new(
+            self.x.ne(&other.x),
+            self.y.ne(&other.y),
+            self.z.ne(&other.z),
+        )
+    }
+
+    /// Returns a [`BVec3`] of a `>=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpge(self, other: Self) -> BVec3 {
+        BVec3::new(
+            self.x.ge(&other.x),
+            self.y.ge(&other.y),
+            self.z.ge(&other.z),
+        )
+    }
+
+    /// Returns a [`BVec3`] of a `>` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpgt(self, other: Self) -> BVec3 {
+        BVec3::new(
+            self.x.gt(&other.x),
+            self.y.gt(&other.y),
+            self.z.gt(&other.z),
+        )
+    }
+
+    /// Returns a [`BVec3`] of a `<=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmple(self, other: Self) -> BVec3 {
+        BVec3::new(
+            self.x.le(&other.x),
+            self.y.le(&other.y),
+            self.z.le(&other.z),
+        )
+    }
+
+    /// Returns a [`BVec3`] of a `<` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmplt(self, other: Self) -> BVec3 {
+        BVec3::new(
+            self.x.lt(&other.x),
+            self.y.lt(&other.y),
+            self.z.lt(&other.z),
+        )
     }
 }
 

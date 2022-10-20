@@ -1,4 +1,4 @@
-use crate::{vec::*, vec3::Vec3, vec4::Vec4};
+use crate::{bvec2::BVec2, vec::*, vec3::Vec3, vec4::Vec4};
 
 /// A 2-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
@@ -209,6 +209,51 @@ impl Vec2 {
     pub fn to_slice(self, s: &mut [f32]) {
         s[0] = self.x;
         s[1] = self.y;
+    }
+
+    /// Creates a [`Vec2`] from elements `if_true` or `if_false`, by `mask`.
+    #[inline]
+    pub fn mask(mask: BVec2, if_true: Self, if_false: Self) -> Self {
+        Self {
+            x: if mask.x { if_true.x } else { if_false.x },
+            y: if mask.y { if_true.y } else { if_false.y },
+        }
+    }
+
+    /// Returns a [`BVec2`] of a `==` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpeq(self, other: Self) -> BVec2 {
+        BVec2::new(self.x.eq(&other.x), self.y.eq(&other.y))
+    }
+
+    /// Returns a [`BVec2`] of a `!=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpne(self, other: Self) -> BVec2 {
+        BVec2::new(self.x.ne(&other.x), self.y.ne(&other.y))
+    }
+
+    /// Returns a [`BVec2`] of a `>=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpge(self, other: Self) -> BVec2 {
+        BVec2::new(self.x.ge(&other.x), self.y.ge(&other.y))
+    }
+
+    /// Returns a [`BVec2`] of a `>` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpgt(self, other: Self) -> BVec2 {
+        BVec2::new(self.x.gt(&other.x), self.y.gt(&other.y))
+    }
+
+    /// Returns a [`BVec2`] of a `<=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmple(self, other: Self) -> BVec2 {
+        BVec2::new(self.x.le(&other.x), self.y.le(&other.y))
+    }
+
+    /// Returns a [`BVec2`] of a `<` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmplt(self, other: Self) -> BVec2 {
+        BVec2::new(self.x.lt(&other.x), self.y.lt(&other.y))
     }
 }
 

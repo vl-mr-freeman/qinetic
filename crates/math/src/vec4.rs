@@ -1,4 +1,4 @@
-use crate::vec::*;
+use crate::{bvec4::BVec4, vec::*};
 
 /// A 4-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
@@ -260,6 +260,83 @@ impl Vec4 {
         s[1] = self.y;
         s[2] = self.z;
         s[3] = self.w;
+    }
+
+    /// Creates a [`Vec4`] from elements `if_true` or `if_false`, by `mask`.
+    #[inline]
+    pub fn mask(mask: BVec4, if_true: Self, if_false: Self) -> Self {
+        Self {
+            x: if mask.x { if_true.x } else { if_false.x },
+            y: if mask.y { if_true.y } else { if_false.y },
+            z: if mask.z { if_true.z } else { if_false.z },
+            w: if mask.w { if_true.w } else { if_false.w },
+        }
+    }
+
+    /// Returns a [`BVec4`] of a `==` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpeq(self, other: Self) -> BVec4 {
+        BVec4::new(
+            self.x.eq(&other.x),
+            self.y.eq(&other.y),
+            self.z.eq(&other.z),
+            self.w.eq(&other.w),
+        )
+    }
+
+    /// Returns a [`BVec4`] of a `!=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpne(self, other: Self) -> BVec4 {
+        BVec4::new(
+            self.x.ne(&other.x),
+            self.y.ne(&other.y),
+            self.z.ne(&other.z),
+            self.w.ne(&other.w),
+        )
+    }
+
+    /// Returns a [`BVec4`] of a `>=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpge(self, other: Self) -> BVec4 {
+        BVec4::new(
+            self.x.ge(&other.x),
+            self.y.ge(&other.y),
+            self.z.ge(&other.z),
+            self.w.ge(&other.w),
+        )
+    }
+
+    /// Returns a [`BVec4`] of a `>` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmpgt(self, other: Self) -> BVec4 {
+        BVec4::new(
+            self.x.gt(&other.x),
+            self.y.gt(&other.y),
+            self.z.gt(&other.z),
+            self.w.gt(&other.w),
+        )
+    }
+
+    /// Returns a [`BVec4`] of a `<=` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmple(self, other: Self) -> BVec4 {
+        BVec4::new(
+            self.x.le(&other.x),
+            self.y.le(&other.y),
+            self.z.le(&other.z),
+            self.w.le(&other.w),
+        )
+    }
+
+    /// Returns a [`BVec4`] of a `<` comparison elements of `self` and `other`.
+    #[inline]
+    pub fn cmplt(self, other: Self) -> BVec4 {
+        BVec4::new(
+            self.x.lt(&other.x),
+            self.y.lt(&other.y),
+            self.z.lt(&other.z),
+            self.w.lt(&other.w),
+        )
     }
 }
 
