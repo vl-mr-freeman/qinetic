@@ -1,4 +1,4 @@
-use crate::vec::*;
+use crate::{vec4::Vec4, vec::*};
 
 /// A 3-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
@@ -65,16 +65,6 @@ impl Vec for Vec3 {
     }
 
     #[inline]
-    fn length(self) -> f32 {
-        self.dot(self).sqrt()
-    }
-
-    #[inline]
-    fn length_squared(self) -> f32 {
-        self.dot(self)
-    }
-
-    #[inline]
     fn distance(self, other: Self) -> f32 {
         (self - other).length()
     }
@@ -132,6 +122,45 @@ impl Vec for Vec3 {
             y: self.y.powf(n),
             z: self.z.powf(n),
         }
+    }
+
+    #[inline]
+    fn recip(self) -> Self {
+        Self {
+            x: self.x.recip(),
+            y: self.y.recip(),
+            z: self.z.recip(),
+        }
+    }
+
+    #[inline]
+    fn normalize(self) -> Self {
+        let n = self.mul(self.length_recip());
+        assert!(n.is_finite());
+        n
+    }
+
+    #[inline]
+    fn is_normalized(self) -> bool {
+        (self.length_squared() - 1.0).abs() <= 1e-4
+    }
+
+    #[inline]
+    fn is_negative_bitmask(self) -> u32 {
+        (self.x.is_sign_negative() as u32) 
+        | (self.y.is_sign_negative() as u32) << 1 
+        | (self.z.is_sign_negative() as u32) << 2
+    }
+
+    #[inline]
+    fn is_finite(self) -> bool {
+        self.x.is_finite() && self.y.is_finite() && self.z.is_finite()
+    }
+
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.x.is_nan() || self.y.is_nan() || self.z.is_nan()
     }
 }
 
@@ -480,6 +509,13 @@ impl fmt::Debug for Vec3 {
     }
 }
 
+impl From<Vec4> for Vec3 {
+    #[inline]
+    fn from(v: Vec4) -> Self {
+        Self::new(v.x, v.y, v.z)
+    }
+}
+
 impl From<[f32; 3]> for Vec3 {
     #[inline]
     fn from(a: [f32; 3]) -> Self {
@@ -519,5 +555,45 @@ impl AsMut<[f32; 3]> for Vec3 {
     #[inline]
     fn as_mut(&mut self) -> &mut [f32; 3] {
         unsafe { &mut *(self as *mut Vec3 as *mut [f32; 3]) }
+    }
+}
+
+impl Sum for Vec3 {
+    #[inline]
+    fn sum<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = Self>,
+    {
+        iter.fold(Self::ZERO, Self::add)
+    }
+}
+
+impl<'a> Sum<&'a Self> for Vec3 {
+    #[inline]
+    fn sum<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = &'a Self>,
+    {
+        iter.fold(Self::ZERO, |a, &b| Self::add(a, b))
+    }
+}
+
+impl Product for Vec3 {
+    #[inline]
+    fn product<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = Self>,
+    {
+        iter.fold(Self::ONE, Self::mul)
+    }
+}
+
+impl<'a> Product<&'a Self> for Vec3 {
+    #[inline]
+    fn product<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = &'a Self>,
+    {
+        iter.fold(Self::ONE, |a, &b| Self::mul(a, b))
     }
 }

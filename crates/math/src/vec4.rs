@@ -71,16 +71,6 @@ impl Vec for Vec4 {
     }
 
     #[inline]
-    fn length(self) -> f32 {
-        self.dot(self).sqrt()
-    }
-
-    #[inline]
-    fn length_squared(self) -> f32 {
-        self.dot(self)
-    }
-
-    #[inline]
     fn distance(self, other: Self) -> f32 {
         (self - other).length()
     }
@@ -143,6 +133,47 @@ impl Vec for Vec4 {
             z: self.z.powf(n),
             w: self.w.powf(n),
         }
+    }
+
+    #[inline]
+    fn recip(self) -> Self {
+        Self {
+            x: self.x.recip(),
+            y: self.y.recip(),
+            z: self.z.recip(),
+            w: self.w.recip(),
+        }
+    }
+
+    #[inline]
+    fn normalize(self) -> Self {
+        let n = self.mul(self.length_recip());
+        assert!(n.is_finite());
+        n
+    }
+
+    #[inline]
+    fn is_normalized(self) -> bool {
+        (self.length_squared() - 1.0).abs() <= 1e-4
+    }
+
+    #[inline]
+    fn is_negative_bitmask(self) -> u32 {
+        (self.x.is_sign_negative() as u32) 
+        | (self.y.is_sign_negative() as u32) << 1 
+        | (self.z.is_sign_negative() as u32) << 2
+        | (self.w.is_sign_negative() as u32) << 2
+    }
+
+    #[inline]
+    fn is_finite(self) -> bool {
+        self.x.is_finite() && self.y.is_finite() && self.z.is_finite() && self.w.is_finite()
+    }
+
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.x.is_nan() || self.y.is_nan() || self.z.is_nan() || self.w.is_nan()
     }
 }
 
@@ -571,5 +602,45 @@ impl AsMut<[f32; 4]> for Vec4 {
     #[inline]
     fn as_mut(&mut self) -> &mut [f32; 4] {
         unsafe { &mut *(self as *mut Vec4 as *mut [f32; 4]) }
+    }
+}
+
+impl Sum for Vec4 {
+    #[inline]
+    fn sum<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = Self>,
+    {
+        iter.fold(Self::ZERO, Self::add)
+    }
+}
+
+impl<'a> Sum<&'a Self> for Vec4 {
+    #[inline]
+    fn sum<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = &'a Self>,
+    {
+        iter.fold(Self::ZERO, |a, &b| Self::add(a, b))
+    }
+}
+
+impl Product for Vec4 {
+    #[inline]
+    fn product<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = Self>,
+    {
+        iter.fold(Self::ONE, Self::mul)
+    }
+}
+
+impl<'a> Product<&'a Self> for Vec4 {
+    #[inline]
+    fn product<I>(iter: I) -> Self
+    where
+        I: Iterator<Item = &'a Self>,
+    {
+        iter.fold(Self::ONE, |a, &b| Self::mul(a, b))
     }
 }

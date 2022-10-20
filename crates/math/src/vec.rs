@@ -3,12 +3,16 @@ pub use std::fmt;
 #[doc(hidden)]
 pub use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Rem, RemAssign, Sub,
-    SubAssign,
+    SubAssign, 
 };
+#[doc(hidden)]
+pub use std::iter::{Sum, Product};
 
 /// A n-dimensional vector.
 pub trait Vec:
-    Default
+    Clone
+    + Copy
+    + Default
     + PartialEq
     + PartialOrd
     + Add
@@ -36,6 +40,8 @@ pub trait Vec:
     + IndexMut<usize>
     + fmt::Display
     + fmt::Debug
+    + Sum
+    + Product
     + Sized
 {
     /// Absolutes values of `self`.
@@ -60,10 +66,22 @@ pub trait Vec:
     fn dot(self, other: Self) -> f32;
 
     /// Computes the length of `self`.
-    fn length(self) -> f32;
+    #[inline]
+    fn length(self) -> f32 {
+        self.dot(self).sqrt()
+    }
 
     /// Computes the squared length of `self`.
-    fn length_squared(self) -> f32;
+    #[inline]
+    fn length_squared(self) -> f32 {
+        self.dot(self)
+    }
+
+    /// Computes `1.0 / length()`.
+    #[inline]
+    fn length_recip(self) -> f32 {
+        self.length().recip()
+    }
 
     /// Computes the Euclidean distance.
     fn distance(self, other: Self) -> f32;
@@ -88,4 +106,22 @@ pub trait Vec:
 
     /// Raises values of `self` to the power of `n`.
     fn powf(self, n: f32) -> Self;
+
+    /// Reciprocals values of `self`
+    fn recip(self) -> Self;
+
+    /// Normalizes the length of `self`.
+    fn normalize(self) -> Self;
+
+    // Returns whether `self` is length `1.0` or not.
+    fn is_normalized(self) -> bool;
+
+    ///  Returns a bitmask with the lowest bits set to the sign bits from the elements of `self`.
+    fn is_negative_bitmask(self) -> u32;
+
+    /// Returns `true` if, and only if, all elements are finite.
+    fn is_finite(self) -> bool;
+
+    /// Returns `true` if any elements are `NaN`.
+    fn is_nan(self) -> bool;
 }
