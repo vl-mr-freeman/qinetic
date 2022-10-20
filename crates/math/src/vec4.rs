@@ -159,17 +159,16 @@ impl Vec for Vec4 {
 
     #[inline]
     fn is_negative_bitmask(self) -> u32 {
-        (self.x.is_sign_negative() as u32) 
-        | (self.y.is_sign_negative() as u32) << 1 
-        | (self.z.is_sign_negative() as u32) << 2
-        | (self.w.is_sign_negative() as u32) << 2
+        (self.x.is_sign_negative() as u32)
+            | (self.y.is_sign_negative() as u32) << 1
+            | (self.z.is_sign_negative() as u32) << 2
+            | (self.w.is_sign_negative() as u32) << 2
     }
 
     #[inline]
     fn is_finite(self) -> bool {
         self.x.is_finite() && self.y.is_finite() && self.z.is_finite() && self.w.is_finite()
     }
-
 
     #[inline]
     fn is_nan(self) -> bool {

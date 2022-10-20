@@ -191,6 +191,34 @@ impl fmt::Display for BVec4 {
     }
 }
 
+impl From<[bool; 4]> for BVec4 {
+    #[inline]
+    fn from(a: [bool; 4]) -> Self {
+        Self::new(a[0], a[1], a[2], a[3])
+    }
+}
+
+impl From<BVec4> for [bool; 4] {
+    #[inline]
+    fn from(v: BVec4) -> Self {
+        [v.x, v.y, v.z, v.w]
+    }
+}
+
+impl From<(bool, bool, bool, bool)> for BVec4 {
+    #[inline]
+    fn from(t: (bool, bool, bool, bool)) -> Self {
+        Self::new(t.0, t.1, t.2, t.3)
+    }
+}
+
+impl From<BVec4> for (bool, bool, bool, bool) {
+    #[inline]
+    fn from(v: BVec4) -> Self {
+        (v.x, v.y, v.z, v.w)
+    }
+}
+
 impl AsRef<[bool; 4]> for BVec4 {
     #[inline]
     fn as_ref(&self) -> &[bool; 4] {

@@ -1,4 +1,4 @@
-use crate::bvec::*;
+use crate::{bvec::*, bvec3::BVec3, bvec4::BVec4};
 
 /// A 2-dimensional boolean vector.
 #[derive(Clone, Copy, PartialEq, Default)]
@@ -158,6 +158,48 @@ impl fmt::Display for BVec2 {
             .field(&self.x)
             .field(&self.y)
             .finish()
+    }
+}
+
+impl From<BVec3> for BVec2 {
+    #[inline]
+    fn from(v: BVec3) -> Self {
+        Self::new(v.x, v.y)
+    }
+}
+
+impl From<BVec4> for BVec2 {
+    #[inline]
+    fn from(v: BVec4) -> Self {
+        Self::new(v.x, v.y)
+    }
+}
+
+impl From<[bool; 2]> for BVec2 {
+    #[inline]
+    fn from(a: [bool; 2]) -> Self {
+        Self::new(a[0], a[1])
+    }
+}
+
+impl From<BVec2> for [bool; 2] {
+    #[inline]
+    fn from(v: BVec2) -> Self {
+        [v.x, v.y]
+    }
+}
+
+impl From<(bool, bool)> for BVec2 {
+    #[inline]
+    fn from(t: (bool, bool)) -> Self {
+        Self::new(t.0, t.1)
+    }
+}
+
+impl From<BVec2> for (bool, bool) {
+    #[inline]
+    fn from(v: BVec2) -> Self {
+        (v.x, v.y)
     }
 }
 
