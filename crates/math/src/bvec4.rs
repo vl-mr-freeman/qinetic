@@ -96,6 +96,20 @@ impl BitAnd for BVec4 {
     }
 }
 
+impl BitAnd<bool> for BVec4 {
+    type Output = Self;
+
+    #[inline]
+    fn bitand(self, other: bool) -> Self {
+        Self {
+            x: self.x & other,
+            y: self.y & other,
+            z: self.z & other,
+            w: self.w & other,
+        }
+    }
+}
+
 impl BitAndAssign for BVec4 {
     #[inline]
     fn bitand_assign(&mut self, other: Self) {
@@ -104,6 +118,18 @@ impl BitAndAssign for BVec4 {
             y: self.y & other.y,
             z: self.z & other.z,
             w: self.w & other.w,
+        }
+    }
+}
+
+impl BitAndAssign<bool> for BVec4 {
+    #[inline]
+    fn bitand_assign(&mut self, other: bool) {
+        *self = Self {
+            x: self.x & other,
+            y: self.y & other,
+            z: self.z & other,
+            w: self.w & other,
         }
     }
 }
@@ -122,6 +148,20 @@ impl BitOr for BVec4 {
     }
 }
 
+impl BitOr<bool> for BVec4 {
+    type Output = Self;
+
+    #[inline]
+    fn bitor(self, other: bool) -> Self {
+        Self {
+            x: self.x | other,
+            y: self.y | other,
+            z: self.z | other,
+            w: self.w | other,
+        }
+    }
+}
+
 impl BitOrAssign for BVec4 {
     #[inline]
     fn bitor_assign(&mut self, other: Self) {
@@ -130,6 +170,18 @@ impl BitOrAssign for BVec4 {
             y: self.y | other.y,
             z: self.z | other.z,
             w: self.w | other.w,
+        }
+    }
+}
+
+impl BitOrAssign<bool> for BVec4 {
+    #[inline]
+    fn bitor_assign(&mut self, other: bool) {
+        *self = Self {
+            x: self.x | other,
+            y: self.y | other,
+            z: self.z | other,
+            w: self.w | other,
         }
     }
 }
@@ -148,6 +200,20 @@ impl BitXor for BVec4 {
     }
 }
 
+impl BitXor<bool> for BVec4 {
+    type Output = Self;
+
+    #[inline]
+    fn bitxor(self, other: bool) -> Self {
+        Self {
+            x: self.x ^ other,
+            y: self.y ^ other,
+            z: self.z ^ other,
+            w: self.w ^ other,
+        }
+    }
+}
+
 impl BitXorAssign for BVec4 {
     #[inline]
     fn bitxor_assign(&mut self, other: Self) {
@@ -156,6 +222,18 @@ impl BitXorAssign for BVec4 {
             y: self.y ^ other.y,
             z: self.z ^ other.z,
             w: self.w ^ other.w,
+        }
+    }
+}
+
+impl BitXorAssign<bool> for BVec4 {
+    #[inline]
+    fn bitxor_assign(&mut self, other: bool) {
+        *self = Self {
+            x: self.x ^ other,
+            y: self.y ^ other,
+            z: self.z ^ other,
+            w: self.w ^ other,
         }
     }
 }

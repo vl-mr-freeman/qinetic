@@ -11,11 +11,17 @@ pub trait BVec:
     + Default
     + PartialEq
     + BitAnd
+    + BitAnd<bool>
     + BitAndAssign
+    + BitAndAssign<bool>
     + BitOr
+    + BitOr<bool>
     + BitOrAssign
+    + BitOrAssign<bool>
     + BitXor
+    + BitXor<bool>
     + BitXorAssign
+    + BitXorAssign<bool>
     + Not
     + fmt::Display
     + fmt::Debug

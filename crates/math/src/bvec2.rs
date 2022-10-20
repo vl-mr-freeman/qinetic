@@ -80,12 +80,34 @@ impl BitAnd for BVec2 {
     }
 }
 
+impl BitAnd<bool> for BVec2 {
+    type Output = Self;
+
+    #[inline]
+    fn bitand(self, other: bool) -> Self {
+        Self {
+            x: self.x & other,
+            y: self.y & other,
+        }
+    }
+}
+
 impl BitAndAssign for BVec2 {
     #[inline]
     fn bitand_assign(&mut self, other: Self) {
         *self = Self {
             x: self.x & other.x,
             y: self.y & other.y,
+        }
+    }
+}
+
+impl BitAndAssign<bool> for BVec2 {
+    #[inline]
+    fn bitand_assign(&mut self, other: bool) {
+        *self = Self {
+            x: self.x & other,
+            y: self.y & other,
         }
     }
 }
@@ -102,12 +124,34 @@ impl BitOr for BVec2 {
     }
 }
 
+impl BitOr<bool> for BVec2 {
+    type Output = Self;
+
+    #[inline]
+    fn bitor(self, other: bool) -> Self {
+        Self {
+            x: self.x | other,
+            y: self.y | other,
+        }
+    }
+}
+
 impl BitOrAssign for BVec2 {
     #[inline]
     fn bitor_assign(&mut self, other: Self) {
         *self = Self {
             x: self.x | other.x,
             y: self.y | other.y,
+        }
+    }
+}
+
+impl BitOrAssign<bool> for BVec2 {
+    #[inline]
+    fn bitor_assign(&mut self, other: bool) {
+        *self = Self {
+            x: self.x | other,
+            y: self.y | other,
         }
     }
 }
@@ -124,12 +168,34 @@ impl BitXor for BVec2 {
     }
 }
 
+impl BitXor<bool> for BVec2 {
+    type Output = Self;
+
+    #[inline]
+    fn bitxor(self, other: bool) -> Self {
+        Self {
+            x: self.x ^ other,
+            y: self.y ^ other,
+        }
+    }
+}
+
 impl BitXorAssign for BVec2 {
     #[inline]
     fn bitxor_assign(&mut self, other: Self) {
         *self = Self {
             x: self.x ^ other.x,
             y: self.y ^ other.y,
+        }
+    }
+}
+
+impl BitXorAssign<bool> for BVec2 {
+    #[inline]
+    fn bitxor_assign(&mut self, other: bool) {
+        *self = Self {
+            x: self.x ^ other,
+            y: self.y ^ other,
         }
     }
 }
