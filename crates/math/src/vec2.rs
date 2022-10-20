@@ -1,4 +1,4 @@
-use crate::{vec3::Vec3, vec4::Vec4, vec::*};
+use crate::{vec::*, vec3::Vec3, vec4::Vec4};
 
 /// A 2-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
@@ -142,7 +142,6 @@ impl Vec for Vec2 {
     fn is_finite(self) -> bool {
         self.x.is_finite() && self.y.is_finite()
     }
-
 
     #[inline]
     fn is_nan(self) -> bool {

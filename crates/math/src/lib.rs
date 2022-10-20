@@ -11,11 +11,17 @@ pub mod vec3;
 /// Provides 2-dimensional vector.
 pub mod vec2;
 
+/// Provides 2-dimensional boolean vector.
+pub mod bvec2;
+
 /// Provides n-dimensional vector.
 pub mod vec;
+
+/// Provides n-dimensional boolean vector.
+pub mod bvec;
 
 pub mod prelude {
     //! Provides main math functionality.
     #[doc(hidden)]
-    pub use crate::{vec2::*, vec3::*, vec4::*};
+    pub use crate::{bvec2::*, vec2::*, vec3::*, vec4::*};
 }

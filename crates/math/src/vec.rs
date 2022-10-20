@@ -1,12 +1,12 @@
 #[doc(hidden)]
 pub use std::fmt;
 #[doc(hidden)]
+pub use std::iter::{Product, Sum};
+#[doc(hidden)]
 pub use std::ops::{
     Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Rem, RemAssign, Sub,
-    SubAssign, 
+    SubAssign,
 };
-#[doc(hidden)]
-pub use std::iter::{Sum, Product};
 
 /// A n-dimensional vector.
 pub trait Vec:
@@ -113,7 +113,7 @@ pub trait Vec:
     /// Normalizes the length of `self`.
     fn normalize(self) -> Self;
 
-    // Returns whether `self` is length `1.0` or not.
+    /// Returns whether `self` is length `1.0` or not.
     fn is_normalized(self) -> bool;
 
     ///  Returns a bitmask with the lowest bits set to the sign bits from the elements of `self`.
