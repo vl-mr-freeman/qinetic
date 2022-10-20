@@ -34,7 +34,7 @@ impl BVec3 {
     /// Creates a [`BVec3`].
     #[inline(always)]
     pub const fn new(x: bool, y: bool, z: bool) -> Self {
-        Self { x: x, y: y }
+        Self { x: x, y: y, z: z }
     }
 
     /// Creates a [`BVec3`] with all elements set to v.
