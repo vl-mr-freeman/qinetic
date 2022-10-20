@@ -190,3 +190,17 @@ impl fmt::Display for BVec4 {
             .finish()
     }
 }
+
+impl AsRef<[bool; 4]> for BVec4 {
+    #[inline]
+    fn as_ref(&self) -> &[bool; 4] {
+        unsafe { &*(self as *const BVec4 as *const [bool; 4]) }
+    }
+}
+
+impl AsMut<[bool; 4]> for BVec4 {
+    #[inline]
+    fn as_mut(&mut self) -> &mut [bool; 4] {
+        unsafe { &mut *(self as *mut BVec4 as *mut [bool; 4]) }
+    }
+}

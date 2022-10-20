@@ -160,3 +160,17 @@ impl fmt::Display for BVec2 {
             .finish()
     }
 }
+
+impl AsRef<[bool; 2]> for BVec2 {
+    #[inline]
+    fn as_ref(&self) -> &[bool; 2] {
+        unsafe { &*(self as *const BVec2 as *const [bool; 2]) }
+    }
+}
+
+impl AsMut<[bool; 2]> for BVec2 {
+    #[inline]
+    fn as_mut(&mut self) -> &mut [bool; 2] {
+        unsafe { &mut *(self as *mut BVec2 as *mut [bool; 2]) }
+    }
+}
