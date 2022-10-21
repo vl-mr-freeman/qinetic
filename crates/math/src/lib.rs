@@ -26,6 +26,9 @@ pub mod mat4;
 /// Provides 3x3 column major matrix.
 pub mod mat3;
 
+/// Provides 2x2 column major matrix.
+pub mod mat2;
+
 /// Provides n-dimensional vector.
 pub mod vec;
 
@@ -38,5 +41,7 @@ pub mod mat;
 pub mod prelude {
     //! Provides main math functionality.
     #[doc(hidden)]
-    pub use crate::{bvec2::*, bvec3::*, bvec4::*, vec2::*, vec3::*, vec4::*};
+    pub use crate::{
+        bvec2::*, bvec3::*, bvec4::*, mat2::*, mat3::*, mat4::*, vec2::*, vec3::*, vec4::*,
+    };
 }

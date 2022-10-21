@@ -1,6 +1,6 @@
 [package]
 name = "qinetic_math"
-version = "0.2.4"
+version = "0.3.0"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
