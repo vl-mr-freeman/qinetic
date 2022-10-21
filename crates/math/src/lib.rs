@@ -23,6 +23,9 @@ pub mod bvec2;
 /// Provides 4x4 column major matrix.
 pub mod mat4;
 
+/// Provides 3x3 column major matrix.
+pub mod mat3;
+
 /// Provides n-dimensional vector.
 pub mod vec;
 
