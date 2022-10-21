@@ -20,11 +20,17 @@ pub mod vec2;
 /// Provides 2-dimensional boolean vector.
 pub mod bvec2;
 
+/// Provides 4x4 column major matrix.
+pub mod mat4;
+
 /// Provides n-dimensional vector.
 pub mod vec;
 
 /// Provides n-dimensional boolean vector.
 pub mod bvec;
+
+/// Provides nxn column major matrix.
+pub mod mat;
 
 pub mod prelude {
     //! Provides main math functionality.
