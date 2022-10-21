@@ -115,6 +115,30 @@ impl Mat4 {
             s[14], s[15],
         )
     }
+
+    /// Converts a [`Mat4`] to slice.
+    #[inline]
+    pub fn to_slice(self: s: &mut [f32]) {
+        s[0] = self.x_axis.x;
+        s[1] = self.x_axis.y;
+        s[2] = self.x_axis.z;
+        s[3] = self.x_axis.w;
+
+        s[4] = self.y_axis.x;
+        s[5] = self.y_axis.y;
+        s[6] = self.y_axis.z;
+        s[7] = self.y_axis.w;
+
+        s[8] = self.z_axis.x;
+        s[9] = self.z_axis.y;
+        s[10] = self.z_axis.z;
+        s[11] = self.z_axis.w;
+
+        s[12] = self.w_axis.x;
+        s[13] = self.w_axis.y;
+        s[14] = self.w_axis.z;
+        s[15] = self.w_axis.w;
+    }
 }
 
 impl Add for Mat4 {
