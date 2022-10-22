@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="808"
-   height="256"
-   viewBox="0 0 213.78334 67.733332"
+   width="404"
+   height="128"
+   viewBox="0 0 106.89167 33.866666"
    version="1.1"
    id="svg1597"
    inkscape:export-filename="qinetic_logo.png"
@@ -74,7 +74,7 @@
        fy="37.0844"
        r="33.866669"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.87571851,-0.8673435,0.87055699,0.8758616,-67.411929,69.980662)" />
+       gradientTransform="matrix(0.43785826,-0.43367175,0.43527751,0.4379308,-33.705888,34.990331)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient1522"
@@ -84,7 +84,7 @@
        x2="53.351307"
        y2="8.6416492"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="scale(4.0035364)" />
+       gradientTransform="scale(2.0017659)" />
   </defs>
   <g
      inkscape:label="Layer 1"
@@ -92,19 +92,19 @@
      id="layer1">
     <path
        id="path1072"
-       style="display:inline;fill:url(#radialGradient1256);fill-opacity:1;stroke-width:1.06102;stroke-linejoin:round"
-       d="M 4.2903329,15.342108 A 5.49866,5.4890956 0 0 0 0.18733163,19.2761 5.49866,5.4890956 0 0 0 4.075077,25.998614 a 5.49866,5.4890956 0 0 0 6.020767,-2.29582 l 22.674392,6.06489 a 5.49866,5.4890956 0 0 0 0.17602,1.121788 5.49866,5.4890956 0 0 0 5.060784,4.061292 l 6.094109,22.703972 a 5.49866,5.4890956 0 0 0 -2.300454,6.01018 5.49866,5.4890956 0 0 0 6.734461,3.88138 5.49866,5.4890956 0 0 0 3.888135,-6.722744 5.49866,5.4890956 0 0 0 -5.002576,-4.05674 L 41.316703,34.025944 a 5.49866,5.4890956 0 0 0 2.252153,-5.977836 5.49866,5.4890956 0 0 0 -0.377705,-1.003326 L 59.878899,10.386669 a 5.498674,5.4890956 0 0 0 6.364049,-1.0169074 5.498674,5.4890956 0 0 0 -2.3e-4,-7.7623605 5.498674,5.4890956 0 0 0 -7.775891,2.276e-4 5.498674,5.4890956 0 0 0 -1.018191,6.3525649 L 40.785722,24.59432 a 5.49866,5.4890956 0 0 0 -3.951319,-0.42759 5.49866,5.4890956 0 0 0 -3.168805,2.288402 L 10.985153,20.38839 A 5.49866,5.4890956 0 0 0 6.9215601,15.395117 5.49866,5.4890956 0 0 0 4.2903329,15.342107 Z" />
+       style="display:inline;fill:url(#radialGradient1256);fill-opacity:1;stroke-width:0.530509;stroke-linejoin:round"
+       d="m 2.1451616,7.6710543 a 2.7493237,2.7445478 0 0 0 -2.05149603,1.966996 2.7493237,2.7445478 0 0 0 1.94386823,3.3612567 2.7493237,2.7445478 0 0 0 3.0103768,-1.14791 l 11.3371704,3.032445 a 2.7493237,2.7445478 0 0 0 0.08801,0.560894 2.7493237,2.7445478 0 0 0 2.530386,2.030646 l 3.047047,11.351986 a 2.7493237,2.7445478 0 0 0 -1.150224,3.00509 2.7493237,2.7445478 0 0 0 3.367223,1.94069 2.7493237,2.7445478 0 0 0 1.944063,-3.361372 2.7493237,2.7445478 0 0 0 -2.501282,-2.02837 l -3.052,-11.370434 a 2.7493237,2.7445478 0 0 0 1.126075,-2.988918 2.7493237,2.7445478 0 0 0 -0.188853,-0.501663 l 8.343856,-8.3290563 a 2.7493307,2.7445478 0 0 0 3.182016,-0.5084537 2.7493307,2.7445478 0 0 0 -10e-5,-3.88118024 2.7493307,2.7445478 0 0 0 -3.887936,1.138e-4 2.7493307,2.7445478 0 0 0 -0.509094,3.17628244 l -8.331453,8.317063 a 2.7493237,2.7445478 0 0 0 -1.975656,-0.213795 2.7493237,2.7445478 0 0 0 -1.584398,1.144201 L 5.4925641,10.194195 A 2.7493237,2.7445478 0 0 0 3.4607721,7.6975588 2.7493237,2.7445478 0 0 0 2.1451616,7.6710543 Z" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:45.1957px;font-family:Cantarell;-inkscape-font-specification:'Cantarell Bold';fill:url(#linearGradient1524);fill-opacity:1;stroke-width:2.11853;stroke-linejoin:round"
-       x="65.759422"
-       y="50.076626"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5979px;font-family:Cantarell;-inkscape-font-specification:'Cantarell Bold';fill:url(#linearGradient1524);fill-opacity:1;stroke-width:1.05927;stroke-linejoin:round"
+       x="32.879673"
+       y="25.038284"
        id="text369"
-       transform="scale(1.0008841,0.99911665)"><tspan
+       transform="scale(1.000883,0.99911778)"><tspan
          sodipodi:role="line"
          id="tspan367"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:'Cantarell Bold';fill:url(#linearGradient1524);fill-opacity:1;stroke-width:2.11853"
-         x="65.759422"
-         y="50.076626">Qinetic</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Cantarell;-inkscape-font-specification:'Cantarell Bold';fill:url(#linearGradient1524);fill-opacity:1;stroke-width:1.05927"
+         x="32.879673"
+         y="25.038284">Qinetic</tspan></text>
   </g>
 </svg>

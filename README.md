@@ -1,4 +1,4 @@
-# [![Qinetic](assets/qinetic_logo.png)](https://github.com/vl-mr-freeman/qinetic)
+# [![Qinetic](assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
 
 [![Crates.io](https://img.shields.io/crates/v/qinetic.svg)](https://crates.io/crates/qinetic)
 [![Crates.io](https://img.shields.io/crates/d/qinetic.svg)](https://crates.io/crates/qinetic)
