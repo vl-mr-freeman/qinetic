@@ -1,8 +1,13 @@
 #![warn(missing_docs)]
 
-//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
+//! [![](https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_logo.png)](https://github.com/vl-mr-freeman/qinetic)
 //!
 //! Qinetic-internal is crate for Qinetic, facilitating optional dynamic linking.
+
+#![doc(
+    html_logo_url = "https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_icon.png",
+    html_favicon_url = "https://github.com/vl-mr-freeman/qinetic/blob/master/assets/qinetic_icon.png"
+)]
 
 pub mod prelude {
     //! Provides main functionality.
