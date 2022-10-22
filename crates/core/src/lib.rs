@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct CorePlugin {}
 
 impl Plugin for CorePlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

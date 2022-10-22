@@ -44,4 +44,15 @@ pub trait Mat:
     + Product
     + Sized
 {
+    /// Returns the transpose of `self`.
+    fn transpose(&self) -> Self;
+
+    /// Returns the determinant of `self`.
+    fn determinant(&self) -> f32;
+
+    /// Returns `true` if, and only if, all elements are finite.
+    fn is_finite(self) -> bool;
+
+    /// Returns `true` if any elements are `NaN`.
+    fn is_nan(self) -> bool;
 }

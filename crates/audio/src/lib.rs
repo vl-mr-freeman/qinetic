@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct AudioPlugin {}
 
 impl Plugin for AudioPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

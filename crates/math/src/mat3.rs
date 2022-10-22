@@ -1,4 +1,4 @@
-use crate::{mat::*, mat4::Mat4, vec3::Vec3};
+use crate::{mat::*, mat4::Mat4, vec3::*};
 
 /// A 3x3 column major matrix.
 #[derive(Clone, Copy, Default, PartialEq, PartialOrd)]
@@ -8,7 +8,31 @@ pub struct Mat3 {
     pub z_axis: Vec3,
 }
 
-impl Mat for Mat3 {}
+impl Mat for Mat3 {
+    #[inline]
+    fn transpose(&self) -> Self {
+        Self {
+            x_axis: Vec3::new(self.x_axis.x, self.y_axis.x, self.z_axis.x),
+            y_axis: Vec3::new(self.x_axis.y, self.y_axis.y, self.z_axis.y),
+            z_axis: Vec3::new(self.x_axis.z, self.y_axis.z, self.z_axis.z),
+        }
+    }
+
+    #[inline]
+    fn determinant(&self) -> f32 {
+        self.z_axis.dot(self.x_axis.cross(self.y_axis))
+    }
+
+    #[inline]
+    fn is_finite(self) -> bool {
+        self.x_axis.is_finite() && self.y_axis.is_finite() && self.z_axis.is_finite()
+    }
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.x_axis.is_nan() || self.y_axis.is_nan() || self.z_axis.is_nan()
+    }
+}
 
 impl Mat3 {
     /// All zeroes.

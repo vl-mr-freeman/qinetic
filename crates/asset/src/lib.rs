@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct AssetPlugin {}
 
 impl Plugin for AssetPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

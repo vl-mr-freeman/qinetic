@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct WindowPlugin {}
 
 impl Plugin for WindowPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

@@ -1,4 +1,4 @@
-use crate::{mat::*, mat3::Mat3, mat4::Mat4, vec2::Vec2};
+use crate::{mat::*, mat3::Mat3, mat4::Mat4, vec2::*};
 
 /// A 2x2 column major matrix.
 #[derive(Clone, Copy, Default, PartialEq, PartialOrd)]
@@ -7,7 +7,27 @@ pub struct Mat2 {
     pub y_axis: Vec2,
 }
 
-impl Mat for Mat2 {}
+impl Mat for Mat2 {
+    #[inline]
+    fn transpose(&self) -> Self {
+        todo!()
+    }
+
+    #[inline]
+    fn determinant(&self) -> f32 {
+        todo!()
+    }
+
+    #[inline]
+    fn is_finite(self) -> bool {
+        self.x_axis.is_finite() && self.y_axis.is_finite()
+    }
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.x_axis.is_nan() || self.y_axis.is_nan()
+    }
+}
 
 impl Mat2 {
     /// All zeroes.

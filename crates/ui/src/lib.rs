@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct UiPlugin {}
 
 impl Plugin for UiPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

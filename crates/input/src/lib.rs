@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct InputPlugin {}
 
 impl Plugin for InputPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

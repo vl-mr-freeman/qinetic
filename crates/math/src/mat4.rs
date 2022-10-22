@@ -9,7 +9,30 @@ pub struct Mat4 {
     pub w_axis: Vec4,
 }
 
-impl Mat for Mat4 {}
+impl Mat for Mat4 {
+    #[inline]
+    fn transpose(&self) -> Self {
+        todo!()
+    }
+
+    #[inline]
+    fn determinant(&self) -> f32 {
+        todo!()
+    }
+
+    #[inline]
+    fn is_finite(self) -> bool {
+        self.x_axis.is_finite()
+            && self.y_axis.is_finite()
+            && self.z_axis.is_finite()
+            && self.w_axis.is_finite()
+    }
+
+    #[inline]
+    fn is_nan(self) -> bool {
+        self.x_axis.is_nan() || self.y_axis.is_nan() || self.z_axis.is_nan() || self.w_axis.is_nan()
+    }
+}
 
 impl Mat4 {
     /// All zeroes.

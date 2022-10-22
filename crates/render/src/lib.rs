@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct RenderPlugin {}
 
 impl Plugin for RenderPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

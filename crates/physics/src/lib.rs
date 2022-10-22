@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct PhysicsPlugin {}
 
 impl Plugin for PhysicsPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

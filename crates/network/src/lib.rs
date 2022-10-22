@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct NetworkPlugin {}
 
 impl Plugin for NetworkPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

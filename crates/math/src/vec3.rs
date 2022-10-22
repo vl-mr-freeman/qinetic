@@ -1,4 +1,7 @@
-use crate::{bvec3::BVec3, vec::*, vec4::Vec4};
+#[doc(hidden)]
+pub use crate::vec::*;
+
+use crate::{bvec3::BVec3, vec4::Vec4};
 
 /// A 3-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
@@ -230,6 +233,16 @@ impl Vec3 {
         s[0] = self.x;
         s[1] = self.y;
         s[2] = self.z;
+    }
+
+    /// Computes the cross product of `self` and `other`.
+    #[inline]
+    pub fn cross(self, other: Self) -> Self {
+        Self {
+            x: self.y * other.z - other.y * self.z,
+            y: self.z * other.x - other.z * self.x,
+            z: self.x * other.y - other.x * self.y,
+        }
     }
 
     /// Creates a [`Vec3`] from elements `if_true` or `if_false`, by `mask`.

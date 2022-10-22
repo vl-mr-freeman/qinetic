@@ -15,5 +15,6 @@ use qinetic_app::prelude::*;
 pub struct LogPlugin {}
 
 impl Plugin for LogPlugin {
+    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {}
 }

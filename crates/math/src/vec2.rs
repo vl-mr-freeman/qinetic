@@ -1,4 +1,7 @@
-use crate::{bvec2::BVec2, vec::*, vec3::Vec3, vec4::Vec4};
+#[doc(hidden)]
+pub use crate::vec::*;
+
+use crate::{bvec2::BVec2, vec3::Vec3, vec4::Vec4};
 
 /// A 2-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
