@@ -44,7 +44,7 @@ pub mod prelude {
     };
 }
 
-#[cfg(any(feature = "qinetic_animation", doc))]
+#[cfg(feature = "qinetic_animation")]
 pub mod animation {
     //! Provides animation functionality.
     pub use qinetic_animation::*;
@@ -60,7 +60,7 @@ pub mod asset {
     pub use qinetic_asset::*;
 }
 
-#[cfg(any(feature = "qinetic_audio", doc))]
+#[cfg(feature = "qinetic_audio")]
 pub mod audio {
     //! Provides audio functionality.
     pub use qinetic_audio::*;
@@ -91,25 +91,25 @@ pub mod math {
     pub use qinetic_math::*;
 }
 
-#[cfg(any(feature = "qinetic_network", doc))]
+#[cfg(feature = "qinetic_network")]
 pub mod network {
     //! Provides network functionality.
     pub use qinetic_network::*;
 }
 
-#[cfg(any(feature = "qinetic_physics", doc))]
+#[cfg(feature = "qinetic_physics")]
 pub mod physics {
     //! Provides physics functionality.
     pub use qinetic_physics::*;
 }
 
-#[cfg(any(feature = "qinetic_render", doc))]
+#[cfg(feature = "qinetic_render")]
 pub mod render {
     //! Provides render functionality.
     pub use qinetic_render::*;
 }
 
-#[cfg(any(feature = "qinetic_ui", doc))]
+#[cfg(feature = "qinetic_ui")]
 pub mod ui {
     //! Provides user-interface functionality.
     pub use qinetic_ui::*;
