@@ -34,20 +34,20 @@ impl PluginGroup for DefaultPluginGroup {
         builder.add(qinetic_core::CorePlugin::default());
         builder.add(qinetic_log::LogPlugin::default());
         builder.add(qinetic_asset::AssetPlugin::default());
-        #[cfg(feature = "network")]
+        #[cfg(feature = "qinetic_network")]
         builder.add(qinetic_network::NetworkPlugin::default());
         builder.add(qinetic_ecs::EcsPlugin::default());
-        #[cfg(feature = "animation")]
+        #[cfg(feature = "qinetic_animation")]
         builder.add(qinetic_animation::AnimationPlugin::default());
-        #[cfg(feature = "audio")]
+        #[cfg(feature = "qinetic_audio")]
         builder.add(qinetic_audio::AudioPlugin::default());
-        #[cfg(feature = "physics")]
+        #[cfg(feature = "qinetic_physics")]
         builder.add(qinetic_physics::PhysicsPlugin::default());
         builder.add(qinetic_window::WindowPlugin::default());
         builder.add(qinetic_input::InputPlugin::default());
-        #[cfg(feature = "render")]
+        #[cfg(feature = "qinetic_render")]
         builder.add(qinetic_render::RenderPlugin::default());
-        #[cfg(feature = "ui")]
+        #[cfg(feature = "qinetic_ui")]
         builder.add(qinetic_ui::UiPlugin::default());
     }
 }
