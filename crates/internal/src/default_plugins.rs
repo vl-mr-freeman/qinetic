@@ -1,7 +1,7 @@
 use qinetic_app::plugin::{PluginGroup, PluginGroupBuilder};
 
 /// Minimal plugin group includes:
-/// * [`CorePlugin`]
+/// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
 ///
 /// See also [`DefaultPluginGroup`] for a more complete set of plugins.
 pub struct MinimalPluginGroup;
@@ -13,16 +13,16 @@ impl PluginGroup for MinimalPluginGroup {
 }
 
 /// Default plugin group includes:
-/// * [`CorePlugin`]
-/// * [`LogPlugin`]
-/// * [`AssetPlugin`]
+/// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
+/// * [`LogPlugin`](../qinetic_log/struct.LogPlugin.html)
+/// * [`AssetPlugin`](../qinetic_asset/struct.AssetPlugin.html)
 /// * [`NetworkPlugin`](../qinetic_network/struct.NetworkPlugin.html) - feature = `network`
-/// * [`EcsPlugin`]
+/// * [`EcsPlugin`](../qinetic_ecs/struct.EcsPlugin.html)
 /// * [`AnimationPlugin`](../qinetic_animation/struct.AnimationPlugin.html) - feature = `animation`
 /// * [`AudioPlugin`](../qinetic_audio/struct.AudioPlugin.html) - feature = `audio`
 /// * [`PhysicsPlugin`](../qinetic_physics/struct.PhysicsPlugin.html) - feature = `physics`
-/// * [`WindowPlugin`]
-/// * [`InputPlugin`]
+/// * [`WindowPlugin`](../qinetic_window/struct.WindowPlugin.html)
+/// * [`InputPlugin`](../qinetic_input/struct.InputPlugin.html)
 /// * [`RenderPlugin`](../qinetic_render/struct.RenderPlugin.html) - feature = `render`
 /// * [`UiPlugin`](../qinetic_ui/struct.UiPlugin.html) - feature = `ui`
 ///

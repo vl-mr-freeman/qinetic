@@ -36,11 +36,14 @@ dynamic = ["qinetic_dylib"]
 # Optional Qinetic crates
 animation = ["qinetic_internal/qinetic_animation"]
 audio = ["qinetic_internal/qinetic_audio"]
-network = ["qinetic_internal/qinetic_audio"]
+network = ["qinetic_internal/qinetic_network"]
 physics = ["qinetic_internal/qinetic_physics"]
 render = ["qinetic_internal/qinetic_render"]
 ui = ["qinetic_internal/qinetic_ui"]
 
 [dependencies]
-qinetic_dylib = { path = "crates/dylib", version = "0.*", optional = true}
-qinetic_internal = { path = "crates/internal", version = "0.*" }
+qinetic_dylib = { path = "crates/dylib", version = "0.*", default-features = false, optional = true}
+qinetic_internal = { path = "crates/internal", version = "0.*", default-features = false}
+
+[package.metadata.docs.rs]
+all-features = true

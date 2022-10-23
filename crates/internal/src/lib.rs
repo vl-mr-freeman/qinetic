@@ -11,29 +11,30 @@
 
 pub mod prelude {
     //! Provides main functionality.
-    #[doc(hidden)]
-    #[cfg(feature = "animation")]
-    pub use crate::animation::prelude;
 
     #[doc(hidden)]
-    #[cfg(feature = "audio")]
-    pub use crate::audio::prelude;
+    #[cfg(feature = "qinetic_animation")]
+    pub use crate::animation::prelude::*;
 
     #[doc(hidden)]
-    #[cfg(feature = "network")]
-    pub use crate::network::prelude;
+    #[cfg(feature = "qinetic_audio")]
+    pub use crate::audio::prelude::*;
 
     #[doc(hidden)]
-    #[cfg(feature = "physics")]
-    pub use crate::physics::prelude;
+    #[cfg(feature = "qinetic_network")]
+    pub use crate::network::prelude::*;
 
     #[doc(hidden)]
-    #[cfg(feature = "render")]
-    pub use crate::render::prelude;
+    #[cfg(feature = "qinetic_physics")]
+    pub use crate::physics::prelude::*;
 
     #[doc(hidden)]
-    #[cfg(feature = "ui")]
-    pub use crate::ui::prelude;
+    #[cfg(feature = "qinetic_render")]
+    pub use crate::render::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_ui")]
+    pub use crate::ui::prelude::*;
 
     #[doc(hidden)]
     pub use crate::{
@@ -43,7 +44,7 @@ pub mod prelude {
     };
 }
 
-#[cfg(feature = "animation")]
+#[cfg(any(feature = "qinetic_animation", doc))]
 pub mod animation {
     //! Provides animation functionality.
     pub use qinetic_animation::*;
@@ -59,7 +60,7 @@ pub mod asset {
     pub use qinetic_asset::*;
 }
 
-#[cfg(feature = "audio")]
+#[cfg(any(feature = "qinetic_audio", doc))]
 pub mod audio {
     //! Provides audio functionality.
     pub use qinetic_audio::*;
@@ -90,25 +91,25 @@ pub mod math {
     pub use qinetic_math::*;
 }
 
-#[cfg(feature = "network")]
+#[cfg(any(feature = "qinetic_network", doc))]
 pub mod network {
     //! Provides network functionality.
     pub use qinetic_network::*;
 }
 
-#[cfg(feature = "physics")]
+#[cfg(any(feature = "qinetic_physics", doc))]
 pub mod physics {
     //! Provides physics functionality.
     pub use qinetic_physics::*;
 }
 
-#[cfg(feature = "render")]
+#[cfg(any(feature = "qinetic_render", doc))]
 pub mod render {
     //! Provides render functionality.
     pub use qinetic_render::*;
 }
 
-#[cfg(feature = "ui")]
+#[cfg(any(feature = "qinetic_ui", doc))]
 pub mod ui {
     //! Provides user-interface functionality.
     pub use qinetic_ui::*;
