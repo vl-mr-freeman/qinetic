@@ -1,4 +1,10 @@
-use crate::{mat::*, vec4::*};
+use crate::vec4::*;
+use std::fmt;
+use std::iter::{Product, Sum};
+use std::ops::{
+    Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Rem, RemAssign, Sub,
+    SubAssign,
+};
 
 /// A 4x4 column major matrix.
 #[derive(Clone, Copy, Default, PartialEq, PartialOrd)]
@@ -9,48 +15,23 @@ pub struct Mat4 {
     pub w_axis: Vec4,
 }
 
-impl Mat for Mat4 {
-    #[inline]
-    fn transpose(&self) -> Self {
-        todo!()
-    }
-
-    #[inline]
-    fn determinant(&self) -> f32 {
-        todo!()
-    }
-
-    #[inline]
-    fn is_finite(self) -> bool {
-        self.x_axis.is_finite()
-            && self.y_axis.is_finite()
-            && self.z_axis.is_finite()
-            && self.w_axis.is_finite()
-    }
-
-    #[inline]
-    fn is_nan(self) -> bool {
-        self.x_axis.is_nan() || self.y_axis.is_nan() || self.z_axis.is_nan() || self.w_axis.is_nan()
-    }
-}
-
 impl Mat4 {
-    /// All zeroes.
+    /// All values of [`Mat4`] are zeroes.
     pub const ZERO: Self = Self::splat(0.0);
 
-    /// All ones.
+    /// All values of [`Mat4`] are positive ones.
     pub const ONE: Self = Self::splat(1.0);
 
-    /// All negative ones.
+    /// All values of [`Mat4`] are negative ones.
     pub const NEG_ONE: Self = Self::splat(-1.0);
 
-    /// All NAN.
+    /// All values of [`Mat4`] are NaN.
     pub const NAN: Self = Self::splat(f32::NAN);
 
-    /// All diagonal elements are `1`, and all off-diagonal elements are `0`.
+    /// All diagonal elements of [`Mat4`] are `1`, and all off-diagonal elements are `0`.
     pub const IDENTITY: Self = Self::from_cols(Vec4::X, Vec4::Y, Vec4::Z, Vec4::W);
 
-    /// Creates a [`Mat4`].
+    /// Returns a [`Mat4`] with given values.
     pub const fn new(
         m00: f32,
         m01: f32,
@@ -77,7 +58,7 @@ impl Mat4 {
         }
     }
 
-    /// Creates a [`Mat4`] from 4x[`Vec4`].
+    /// Returns a [`Mat3`] converted from 4x[`Vec4`].
     pub const fn from_cols(x_axis: Vec4, y_axis: Vec4, z_axis: Vec4, w_axis: Vec4) -> Self {
         Self {
             x_axis: x_axis,
@@ -87,7 +68,7 @@ impl Mat4 {
         }
     }
 
-    /// Creates a [`Mat4`] with all elements set to m.
+    /// Returns a [`Mat4`] with all values set to `m`.
     #[inline]
     pub const fn splat(m: f32) -> Self {
         Self {
@@ -98,7 +79,7 @@ impl Mat4 {
         }
     }
 
-    /// Converts a [`Mat4`] from array.
+    /// Returns a [`Mat4`] converted from array.
     #[inline]
     pub const fn from_array(a: [f32; 16]) -> Self {
         Self::new(
@@ -107,7 +88,7 @@ impl Mat4 {
         )
     }
 
-    /// Converts a [`Mat4`] to array.
+    /// Returns array converted from [`Mat4`].
     #[inline]
     pub const fn to_array(&self) -> [f32; 16] {
         [
@@ -130,7 +111,7 @@ impl Mat4 {
         ]
     }
 
-    /// Converts a [`Mat4`] from slice.
+    /// Returns a [`Mat4`] converted from slice.
     #[inline]
     pub const fn from_slice(s: &[f32]) -> Self {
         Self::new(
@@ -139,7 +120,7 @@ impl Mat4 {
         )
     }
 
-    /// Converts a [`Mat4`] to slice.
+    /// Converts [`Mat4`] `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [f32]) {
         s[0] = self.x_axis.x;
@@ -161,6 +142,33 @@ impl Mat4 {
         s[13] = self.w_axis.y;
         s[14] = self.w_axis.z;
         s[15] = self.w_axis.w;
+    }
+
+    /// Returns the transposed [`Mat4`] from `self`.
+    #[inline]
+    pub fn transpose(&self) -> Self {
+        todo!()
+    }
+
+    /// Returns the determinant of `self`.
+    #[inline]
+    pub fn determinant(&self) -> f32 {
+        todo!()
+    }
+
+    /// Returns `true` if all elements of `self` are finite.
+    #[inline]
+    pub fn is_finite(self) -> bool {
+        self.x_axis.is_finite()
+            && self.y_axis.is_finite()
+            && self.z_axis.is_finite()
+            && self.w_axis.is_finite()
+    }
+
+    /// Returns `true` if any elements of `self` are `NaN`.
+    #[inline]
+    pub fn is_nan(self) -> bool {
+        self.x_axis.is_nan() || self.y_axis.is_nan() || self.z_axis.is_nan() || self.w_axis.is_nan()
     }
 }
 

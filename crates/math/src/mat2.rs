@@ -1,4 +1,10 @@
-use crate::{mat::*, mat3::Mat3, mat4::Mat4, vec2::*};
+use crate::{mat3::Mat3, mat4::Mat4, vec2::*};
+use std::fmt;
+use std::iter::{Product, Sum};
+use std::ops::{
+    Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Rem, RemAssign, Sub,
+    SubAssign,
+};
 
 /// A 2x2 column major matrix.
 #[derive(Clone, Copy, Default, PartialEq, PartialOrd)]
@@ -7,45 +13,23 @@ pub struct Mat2 {
     pub y_axis: Vec2,
 }
 
-impl Mat for Mat2 {
-    #[inline]
-    fn transpose(&self) -> Self {
-        todo!()
-    }
-
-    #[inline]
-    fn determinant(&self) -> f32 {
-        todo!()
-    }
-
-    #[inline]
-    fn is_finite(self) -> bool {
-        self.x_axis.is_finite() && self.y_axis.is_finite()
-    }
-
-    #[inline]
-    fn is_nan(self) -> bool {
-        self.x_axis.is_nan() || self.y_axis.is_nan()
-    }
-}
-
 impl Mat2 {
-    /// All zeroes.
+    /// All values of [`Mat2`] are zeroes.
     pub const ZERO: Self = Self::splat(0.0);
 
-    /// All ones.
+    /// All values of [`Mat2`] are positive ones.
     pub const ONE: Self = Self::splat(1.0);
 
-    /// All negative ones.
+    /// All values of [`Mat2`] are negative ones.
     pub const NEG_ONE: Self = Self::splat(-1.0);
 
-    /// All NAN.
+    /// All values of [`Mat2`] are NaN.
     pub const NAN: Self = Self::splat(f32::NAN);
 
-    /// All diagonal elements are `1`, and all off-diagonal elements are `0`.
+    /// All diagonal elements of [`Mat2`] are `1`, and all off-diagonal elements are `0`.
     pub const IDENTITY: Self = Self::from_cols(Vec2::X, Vec2::Y);
 
-    /// Creates a [`Mat2`].
+    /// Returns a [`Mat2`] with given values.
     #[inline(always)]
     pub const fn new(m00: f32, m01: f32, m10: f32, m11: f32) -> Self {
         Self {
@@ -54,7 +38,7 @@ impl Mat2 {
         }
     }
 
-    /// Creates a [`Mat2`] from 2x[`Vec2`].
+    /// Returns a [`Mat2`] converted from 2x[`Vec2`].
     #[inline(always)]
     pub const fn from_cols(x_axis: Vec2, y_axis: Vec2) -> Self {
         Self {
@@ -63,7 +47,7 @@ impl Mat2 {
         }
     }
 
-    /// Creates a [`Mat2`] with all elements set to m.
+    /// Returns a [`Mat2`] with all values set to `m`.
     #[inline(always)]
     pub const fn splat(m: f32) -> Self {
         Self {
@@ -72,25 +56,25 @@ impl Mat2 {
         }
     }
 
-    /// Converts a [`Mat2`] from array.
+    /// Returns a [`Mat2`] converted from array.
     #[inline]
     pub const fn from_array(a: [f32; 4]) -> Self {
         Self::new(a[0], a[1], a[2], a[3])
     }
 
-    /// Converts a [`Mat2`] to array.
+    /// Returns array converted from [`Mat2`].
     #[inline]
     pub const fn to_array(&self) -> [f32; 4] {
         [self.x_axis.x, self.x_axis.y, self.y_axis.x, self.y_axis.y]
     }
 
-    /// Converts a [`Mat2`] from slice.
+    /// Returns a [`Mat2`] converted from slice.
     #[inline]
     pub const fn from_slice(s: &[f32]) -> Self {
         Self::new(s[0], s[1], s[2], s[3])
     }
 
-    /// Converts a [`Mat2`] to slice.
+    /// Converts [`Mat2`] `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [f32]) {
         s[0] = self.x_axis.x;
@@ -98,6 +82,30 @@ impl Mat2 {
 
         s[2] = self.y_axis.x;
         s[3] = self.y_axis.y;
+    }
+
+    /// Returns the transposed [`Mat2`] from `self`.
+    #[inline]
+    pub fn transpose(&self) -> Self {
+        todo!()
+    }
+
+    /// Returns the determinant of `self`.
+    #[inline]
+    pub fn determinant(&self) -> f32 {
+        todo!()
+    }
+
+    /// Returns `true` if all elements of `self` are finite.
+    #[inline]
+    pub fn is_finite(self) -> bool {
+        self.x_axis.is_finite() && self.y_axis.is_finite()
+    }
+
+    /// Returns `true` if any elements of `self` are `NaN`.
+    #[inline]
+    pub fn is_nan(self) -> bool {
+        self.x_axis.is_nan() || self.y_axis.is_nan()
     }
 }
 

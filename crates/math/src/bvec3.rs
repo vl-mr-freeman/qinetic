@@ -1,4 +1,6 @@
-use crate::{bvec::*, bvec4::BVec4};
+use crate::bvec4::BVec4;
+use std::fmt;
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};
 
 /// A 3-dimensional boolean vector.
 #[derive(Clone, Copy, PartialEq, Default)]
@@ -8,65 +10,67 @@ pub struct BVec3 {
     pub z: bool,
 }
 
-impl BVec for BVec3 {
-    fn bitmask(self) -> u32 {
-        (self.x as u32) | (self.y as u32) << 1 | (self.z as u32) << 2
-    }
-
-    #[inline]
-    fn any(self) -> bool {
-        self.x || self.y || self.z
-    }
-
-    #[inline]
-    fn all(self) -> bool {
-        self.x && self.y && self.z
-    }
-}
-
 impl BVec3 {
-    /// All false.
+    /// All values of [`BVec3`] are false.
     pub const FALSE: Self = Self::splat(false);
 
-    /// All true.
+    /// All values of [`BVec3`] are true.
     pub const TRUE: Self = Self::splat(true);
 
-    /// Creates a [`BVec3`].
+    /// Returns a [`BVec3`] with given values.
     #[inline(always)]
     pub const fn new(x: bool, y: bool, z: bool) -> Self {
         Self { x: x, y: y, z: z }
     }
 
-    /// Creates a [`BVec3`] with all elements set to v.
+    /// Returns a [`BVec3`] with all values set to `v`.
     #[inline(always)]
     pub const fn splat(v: bool) -> Self {
         Self { x: v, y: v, z: v }
     }
 
-    /// Converts a [`BVec3`] from array.
+    /// Returns a [`BVec3`] converted from array.
     #[inline]
     pub const fn from_array(a: [bool; 3]) -> Self {
         Self::new(a[0], a[1], a[2])
     }
 
-    /// Converts a [`BVec3`] to array.
+    /// Returns array converted from [`BVec3`].
     #[inline]
     pub const fn to_array(&self) -> [bool; 3] {
         [self.x, self.y, self.z]
     }
 
-    /// Converts a [`BVec3`] from slice.
+    /// Returns a [`BVec3`] converted from slice.
     #[inline]
     pub const fn from_slice(s: &[bool]) -> Self {
         Self::new(s[0], s[1], s[2])
     }
 
-    /// Converts a [`BVec3`] to slice.
+    /// Converts [`BVec3`] `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [bool]) {
         s[0] = self.x;
         s[1] = self.y;
         s[2] = self.z;
+    }
+
+    /// Returns a bitmask with the lowest 3 bits set from the elements of [`BVec3`].
+    #[inline]
+    pub const fn bitmask(self) -> u32 {
+        (self.x as u32) | (self.y as u32) << 1 | (self.z as u32) << 2
+    }
+
+    /// Returns `true` if any values of `self` are true.
+    #[inline]
+    pub const fn any(self) -> bool {
+        self.x || self.y || self.z
+    }
+
+    /// Returns `true` if all values of `self` are true.
+    #[inline]
+    pub const fn all(self) -> bool {
+        self.x && self.y && self.z
     }
 }
 

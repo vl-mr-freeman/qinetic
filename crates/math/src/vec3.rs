@@ -1,7 +1,10 @@
-#[doc(hidden)]
-pub use crate::vec::*;
-
 use crate::{bvec3::BVec3, vec4::Vec4};
+use std::fmt;
+use std::iter::{Product, Sum};
+use std::ops::{
+    Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Rem, RemAssign, Sub,
+    SubAssign,
+};
 
 /// A 3-dimensional vector.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
@@ -11,223 +14,68 @@ pub struct Vec3 {
     pub z: f32,
 }
 
-impl Vec for Vec3 {
-    #[inline]
-    fn abs(self) -> Self {
-        Self {
-            x: self.x.abs(),
-            y: self.y.abs(),
-            z: self.z.abs(),
-        }
-    }
-
-    #[inline]
-    fn signum(self) -> Self {
-        Self {
-            x: self.x.signum(),
-            y: self.y.signum(),
-            z: self.z.signum(),
-        }
-    }
-
-    #[inline]
-    fn min(self, other: Self) -> Self {
-        Self {
-            x: self.x.min(other.x),
-            y: self.y.min(other.y),
-            z: self.z.min(other.z),
-        }
-    }
-
-    #[inline]
-    fn max(self, other: Self) -> Self {
-        Self {
-            x: self.x.max(other.x),
-            y: self.y.max(other.y),
-            z: self.z.max(other.z),
-        }
-    }
-
-    #[inline]
-    fn clamp(self, min: Self, max: Self) -> Self {
-        Self {
-            x: self.x.max(max.x).min(min.x),
-            y: self.y.max(max.y).min(min.y),
-            z: self.z.max(max.z).min(min.z),
-        }
-    }
-
-    #[inline]
-    fn lerp(self, other: Self, s: f32) -> Self {
-        self + ((other - self) * s)
-    }
-
-    #[inline]
-    fn dot(self, other: Self) -> f32 {
-        (self.x * other.x) + (self.y * other.y) + (self.z * other.z)
-    }
-
-    #[inline]
-    fn distance(self, other: Self) -> f32 {
-        (self - other).length()
-    }
-
-    #[inline]
-    fn distance_squared(self, other: Self) -> f32 {
-        (self - other).length_squared()
-    }
-
-    #[inline]
-    fn round(self) -> Self {
-        Self {
-            x: self.x.round(),
-            y: self.y.round(),
-            z: self.z.round(),
-        }
-    }
-
-    #[inline]
-    fn floor(self) -> Self {
-        Self {
-            x: self.x.floor(),
-            y: self.y.floor(),
-            z: self.z.floor(),
-        }
-    }
-
-    #[inline]
-    fn ceil(self) -> Self {
-        Self {
-            x: self.x.ceil(),
-            y: self.y.ceil(),
-            z: self.z.ceil(),
-        }
-    }
-
-    #[inline]
-    fn fract(self) -> Self {
-        self - self.floor()
-    }
-
-    #[inline]
-    fn exp(self) -> Self {
-        Self {
-            x: self.x.exp(),
-            y: self.y.exp(),
-            z: self.z.exp(),
-        }
-    }
-
-    #[inline]
-    fn powf(self, n: f32) -> Self {
-        Self {
-            x: self.x.powf(n),
-            y: self.y.powf(n),
-            z: self.z.powf(n),
-        }
-    }
-
-    #[inline]
-    fn recip(self) -> Self {
-        Self {
-            x: self.x.recip(),
-            y: self.y.recip(),
-            z: self.z.recip(),
-        }
-    }
-
-    #[inline]
-    fn normalize(self) -> Self {
-        let n = self.mul(self.length_recip());
-        assert!(n.is_finite());
-        n
-    }
-
-    #[inline]
-    fn is_normalized(self) -> bool {
-        (self.length_squared() - 1.0).abs() <= 1e-4
-    }
-
-    #[inline]
-    fn is_negative_bitmask(self) -> u32 {
-        (self.x.is_sign_negative() as u32)
-            | (self.y.is_sign_negative() as u32) << 1
-            | (self.z.is_sign_negative() as u32) << 2
-    }
-
-    #[inline]
-    fn is_finite(self) -> bool {
-        self.x.is_finite() && self.y.is_finite() && self.z.is_finite()
-    }
-
-    #[inline]
-    fn is_nan(self) -> bool {
-        self.x.is_nan() || self.y.is_nan() || self.z.is_nan()
-    }
-}
-
 impl Vec3 {
-    /// All zeroes.
+    /// All values of [`Vec3`] are zeroes.
     pub const ZERO: Self = Self::splat(0.0);
 
-    /// All ones.
+    /// All values of [`Vec3`] are positive ones.
     pub const ONE: Self = Self::splat(1.0);
 
-    /// All negative ones.
+    /// All values of [`Vec3`] are negative ones.
     pub const NEG_ONE: Self = Self::splat(-1.0);
 
-    /// All NAN.
+    /// All values of [`Vec3`] are NaN.
     pub const NAN: Self = Self::splat(f32::NAN);
 
-    /// A unit-length vector pointing along the positive X axis.
+    /// A unit-length [`Vec3`] along the positive X axis.
     pub const X: Self = Self::new(1.0, 0.0, 0.0);
 
-    /// A unit-length vector pointing along the positive Y axis.
+    /// A unit-length [`Vec3`] along the positive Y axis.
     pub const Y: Self = Self::new(0.0, 1.0, 0.0);
 
-    /// A unit-length vector pointing along the positive Z axis.
+    /// A unit-length [`Vec3`] along the positive Z axis.
     pub const Z: Self = Self::new(0.0, 0.0, 1.0);
 
-    /// A unit-length vector pointing along the negative X axis.
+    /// A unit-length [`Vec3`] along the negative X axis.
     pub const NEG_X: Self = Self::new(-1.0, 0.0, 0.0);
 
-    /// A unit-length vector pointing along the negative Y axis.
+    /// A unit-length [`Vec3`] along the negative Y axis.
     pub const NEG_Y: Self = Self::new(0.0, -1.0, 0.0);
 
-    /// A unit-length vector pointing along the negative Z axis.
+    /// A unit-length [`Vec3`] along the negative Z axis.
     pub const NEG_Z: Self = Self::new(0.0, 0.0, -1.0);
 
-    /// Creates a [`Vec3`].
+    /// Returns a [`Vec3`] with given values.
     #[inline(always)]
     pub const fn new(x: f32, y: f32, z: f32) -> Self {
         Self { x: x, y: y, z: z }
     }
 
-    /// Creates a [`Vec3`] with all elements set to v.
+    /// Returns a [`Vec3`] with all values set to `v`.
     #[inline(always)]
     pub const fn splat(v: f32) -> Self {
         Self { x: v, y: v, z: v }
     }
 
-    /// Converts a [`Vec3`] from array.
+    /// Returns a [`Vec3`] converted from array.
     #[inline]
     pub const fn from_array(a: [f32; 3]) -> Self {
         Self::new(a[0], a[1], a[2])
     }
 
-    /// Converts [`Vec3`] to array.
+    /// Returns array converted from [`Vec3`].
     #[inline]
     pub const fn to_array(&self) -> [f32; 3] {
         [self.x, self.y, self.z]
     }
 
-    /// Converts a [`Vec3`] from slice.
+    /// Returns a [`Vec3`] converted from slice.
     #[inline]
     pub const fn from_slice(s: &[f32]) -> Self {
         Self::new(s[0], s[1], s[2])
     }
 
-    /// Converts a [`Vec3`] to slice.
+    /// Converts [`Vec3`] `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [f32]) {
         s[0] = self.x;
@@ -235,7 +83,7 @@ impl Vec3 {
         s[2] = self.z;
     }
 
-    /// Computes the cross product of `self` and `other`.
+    /// Returns a [`Vec3`] with cross product of `self` and `other`.
     #[inline]
     pub fn cross(self, other: Self) -> Self {
         Self {
@@ -245,7 +93,7 @@ impl Vec3 {
         }
     }
 
-    /// Creates a [`Vec3`] from elements `if_true` or `if_false`, by `mask`.
+    /// Returns a [`Vec3`] from elements `if_true` or `if_false`, by `mask`.
     #[inline]
     pub fn mask(mask: BVec3, if_true: Self, if_false: Self) -> Self {
         Self {
@@ -313,6 +161,198 @@ impl Vec3 {
             self.y.lt(&other.y),
             self.z.lt(&other.z),
         )
+    }
+
+    /// Returns a [`Vec3`] with absolute values of `self`.
+    #[inline]
+    pub fn abs(self) -> Self {
+        Self {
+            x: self.x.abs(),
+            y: self.y.abs(),
+            z: self.z.abs(),
+        }
+    }
+
+    /// Returns a [`Vec3`] with representing sign values of `self`.
+    #[inline]
+    pub fn signum(self) -> Self {
+        Self {
+            x: self.x.signum(),
+            y: self.y.signum(),
+            z: self.z.signum(),
+        }
+    }
+
+    /// Returns a [`Vec3`] with minimum values of `self` and `other`.
+    #[inline]
+    pub fn min(self, other: Self) -> Self {
+        Self {
+            x: self.x.min(other.x),
+            y: self.y.min(other.y),
+            z: self.z.min(other.z),
+        }
+    }
+
+    /// Returns a [`Vec3`] with maximum values of `self` and `other`.
+    #[inline]
+    pub fn max(self, other: Self) -> Self {
+        Self {
+            x: self.x.max(other.x),
+            y: self.y.max(other.y),
+            z: self.z.max(other.z),
+        }
+    }
+
+    /// Returns a [`Vec3`] with clamp values of `self` between `min` and `max`.
+    #[inline]
+    pub fn clamp(self, min: Self, max: Self) -> Self {
+        Self {
+            x: self.x.max(max.x).min(min.x),
+            y: self.y.max(max.y).min(min.y),
+            z: self.z.max(max.z).min(min.z),
+        }
+    }
+
+    /// Returns a [`Vec3`] with linear interpolation between `self` and `other` based on the value `s`.
+    #[inline]
+    pub fn lerp(self, other: Self, s: f32) -> Self {
+        self + ((other - self) * s)
+    }
+
+    /// Returns a [`Vec3`] with dot product of `self` and `other`.
+    #[inline]
+    pub fn dot(self, other: Self) -> f32 {
+        (self.x * other.x) + (self.y * other.y) + (self.z * other.z)
+    }
+
+    /// Returns length of `self`.
+    #[inline]
+    pub fn length(self) -> f32 {
+        self.dot(self).sqrt()
+    }
+
+    /// Returns squared length of `self`.
+    #[inline]
+    pub fn length_squared(self) -> f32 {
+        self.dot(self)
+    }
+
+    /// Returns `1.0 / length()` of self.
+    #[inline]
+    pub fn length_recip(self) -> f32 {
+        1.0 / self.length()
+    }
+
+    /// Returns a [`Vec3`] with Euclidean distance of `self` and `other`.
+    #[inline]
+    pub fn distance(self, other: Self) -> f32 {
+        (self - other).length()
+    }
+
+    /// Returns a [`Vec3`] with squared Euclidean distance of `self` and `other`.
+    #[inline]
+    pub fn distance_squared(self, other: Self) -> f32 {
+        (self - other).length_squared()
+    }
+
+    /// Returns a [`Vec3`] with the nearest integer to a number for values of `self`.
+    #[inline]
+    pub fn round(self) -> Self {
+        Self {
+            x: self.x.round(),
+            y: self.y.round(),
+            z: self.z.round(),
+        }
+    }
+
+    /// Returns a [`Vec3`] with the largest integer less than or equal to a number for values of `self`.
+    #[inline]
+    pub fn floor(self) -> Self {
+        Self {
+            x: self.x.floor(),
+            y: self.y.floor(),
+            z: self.z.floor(),
+        }
+    }
+
+    /// Returns a [`Vec3`] with containing the smallest integer greater than or equal to a number for values of `self`.
+    #[inline]
+    pub fn ceil(self) -> Self {
+        Self {
+            x: self.x.ceil(),
+            y: self.y.ceil(),
+            z: self.z.ceil(),
+        }
+    }
+
+    /// Returns a [`Vec3`] with fractional values of `self`.
+    #[inline]
+    pub fn fract(self) -> Self {
+        self - self.floor()
+    }
+
+    /// Returns a [`Vec3`] with exponential function for values of `self`.
+    #[inline]
+    pub fn exp(self) -> Self {
+        Self {
+            x: self.x.exp(),
+            y: self.y.exp(),
+            z: self.z.exp(),
+        }
+    }
+
+    /// Returns a [`Vec3`] with raised values of `self` to the power of `n`.
+    #[inline]
+    pub fn powf(self, n: f32) -> Self {
+        Self {
+            x: self.x.powf(n),
+            y: self.y.powf(n),
+            z: self.z.powf(n),
+        }
+    }
+
+    /// Returns a [`Vec3`] with reciprocaled values of `self`
+    #[inline]
+    pub fn recip(self) -> Self {
+        Self {
+            x: self.x.recip(),
+            y: self.y.recip(),
+            z: self.z.recip(),
+        }
+    }
+
+    /// Returns a [`Vec3`] with normalized length of `self`.
+    #[inline]
+    pub fn normalize(self) -> Self {
+        let n = self.mul(self.length_recip());
+        assert!(n.is_finite());
+        n
+    }
+
+    /// Returns `true` if length of `self` is `1.0`.
+    #[inline]
+    pub fn is_normalized(self) -> bool {
+        (self.length_squared() - 1.0).abs() <= 1e-4
+    }
+
+    /// Returns a bitmask with the lowest bits set to the sign bits from the elements of `self`.
+    #[inline]
+    pub fn is_negative_bitmask(self) -> u32 {
+        (self.x.is_sign_negative() as u32)
+            | (self.y.is_sign_negative() as u32) << 1
+            | (self.z.is_sign_negative() as u32) << 2
+    }
+
+    /// Returns `true` if all values of `self` are finite.
+    #[inline]
+    pub fn is_finite(self) -> bool {
+        self.x.is_finite() && self.y.is_finite() && self.z.is_finite()
+    }
+
+    /// Returns `true` if any values of `self` are `NaN`.
+    #[inline]
+    pub fn is_nan(self) -> bool {
+        self.x.is_nan() || self.y.is_nan() || self.z.is_nan()
     }
 }
 

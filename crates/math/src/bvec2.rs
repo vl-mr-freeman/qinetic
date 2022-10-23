@@ -1,4 +1,6 @@
-use crate::{bvec::*, bvec3::BVec3, bvec4::BVec4};
+use crate::{bvec3::BVec3, bvec4::BVec4};
+use std::fmt;
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};
 
 /// A 2-dimensional boolean vector.
 #[derive(Clone, Copy, PartialEq, Default)]
@@ -7,64 +9,66 @@ pub struct BVec2 {
     pub y: bool,
 }
 
-impl BVec for BVec2 {
-    fn bitmask(self) -> u32 {
-        (self.x as u32) | (self.y as u32) << 1
-    }
-
-    #[inline]
-    fn any(self) -> bool {
-        self.x || self.y
-    }
-
-    #[inline]
-    fn all(self) -> bool {
-        self.x && self.y
-    }
-}
-
 impl BVec2 {
-    /// All false.
+    /// All values of [`BVec2`] are false.
     pub const FALSE: Self = Self::splat(false);
 
-    /// All true.
+    /// All values of [`BVec2`] are true.
     pub const TRUE: Self = Self::splat(true);
 
-    /// Creates a [`BVec2`].
+    /// Returns a [`BVec2`] with given values.
     #[inline(always)]
     pub const fn new(x: bool, y: bool) -> Self {
         Self { x: x, y: y }
     }
 
-    /// Creates a [`BVec2`] with all elements set to v.
+    /// Returns a [`BVec2`] with all values set to `v`.
     #[inline(always)]
     pub const fn splat(v: bool) -> Self {
         Self { x: v, y: v }
     }
 
-    /// Converts a [`BVec2`] from array.
+    /// Returns a [`BVec2`] converted from array.
     #[inline]
     pub const fn from_array(a: [bool; 2]) -> Self {
         Self::new(a[0], a[1])
     }
 
-    /// Converts a [`BVec2`] to array.
+    /// Returns array converted from [`BVec2`].
     #[inline]
     pub const fn to_array(&self) -> [bool; 2] {
         [self.x, self.y]
     }
 
-    /// Converts a [`BVec2`] from slice.
+    /// Returns a [`BVec2`] converted from slice.
     #[inline]
     pub const fn from_slice(s: &[bool]) -> Self {
         Self::new(s[0], s[1])
     }
 
-    /// Converts a [`BVec2`] to slice.
+    /// Converts [`BVec2`] `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [bool]) {
         s[0] = self.x;
         s[1] = self.y;
+    }
+
+    /// Returns a bitmask with the lowest 2 bits set from the elements of [`BVec2`].
+    #[inline]
+    pub fn bitmask(self) -> u32 {
+        (self.x as u32) | (self.y as u32) << 1
+    }
+
+    /// Returns `true` if any values of `self` are true.
+    #[inline]
+    pub fn any(self) -> bool {
+        self.x || self.y
+    }
+
+    /// Returns `true` if all values of `self` are true.
+    #[inline]
+    pub fn all(self) -> bool {
+        self.x && self.y
     }
 }
 

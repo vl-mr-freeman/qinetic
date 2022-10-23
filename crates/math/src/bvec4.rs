@@ -1,6 +1,7 @@
-use crate::bvec::*;
+use std::fmt;
+use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};
 
-/// A 3-dimensional boolean vector.
+/// A 4-dimensional boolean vector.
 #[derive(Clone, Copy, PartialEq, Default)]
 pub struct BVec4 {
     pub x: bool,
@@ -9,30 +10,14 @@ pub struct BVec4 {
     pub w: bool,
 }
 
-impl BVec for BVec4 {
-    fn bitmask(self) -> u32 {
-        (self.x as u32) | (self.y as u32) << 1 | (self.z as u32) << 2 | (self.w as u32) << 3
-    }
-
-    #[inline]
-    fn any(self) -> bool {
-        self.x || self.y || self.z || self.w
-    }
-
-    #[inline]
-    fn all(self) -> bool {
-        self.x && self.y && self.z && self.w
-    }
-}
-
 impl BVec4 {
-    /// All false.
+    /// All values of [`BVec4`] are false.
     pub const FALSE: Self = Self::splat(false);
 
     /// All true.
     pub const TRUE: Self = Self::splat(true);
 
-    /// Creates a [`BVec4`].
+    /// Returns a [`BVec4`] with given values.
     #[inline(always)]
     pub const fn new(x: bool, y: bool, z: bool, w: bool) -> Self {
         Self {
@@ -43,7 +28,7 @@ impl BVec4 {
         }
     }
 
-    /// Creates a [`BVec4`] with all elements set to v.
+    /// Returns a [`BVec4`] with all values set to `v`.
     #[inline(always)]
     pub const fn splat(v: bool) -> Self {
         Self {
@@ -54,31 +39,49 @@ impl BVec4 {
         }
     }
 
-    /// Converts a [`BVec4`] from array.
+    /// Returns a [`BVec4`] converted from array.
     #[inline]
     pub const fn from_array(a: [bool; 4]) -> Self {
         Self::new(a[0], a[1], a[2], a[3])
     }
 
-    /// Converts a [`BVec4`] to array.
+    /// Returns array converted from [`BVec4`].
     #[inline]
     pub const fn to_array(&self) -> [bool; 4] {
         [self.x, self.y, self.z, self.w]
     }
 
-    /// Converts a [`BVec4`] from slice.
+    /// Returns a [`BVec4`] converted from slice.
     #[inline]
     pub const fn from_slice(s: &[bool]) -> Self {
         Self::new(s[0], s[1], s[2], s[3])
     }
 
-    /// Converts a [`BVec4`] to slice.
+    /// Converts [`BVec4`] `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [bool]) {
         s[0] = self.x;
         s[1] = self.y;
         s[2] = self.z;
         s[3] = self.w;
+    }
+
+    /// Returns a bitmask with the lowest 3 bits set from the elements of [`BVec4`].
+    #[inline]
+    pub const fn bitmask(self) -> u32 {
+        (self.x as u32) | (self.y as u32) << 1 | (self.z as u32) << 2 | (self.w as u32) << 3
+    }
+
+    /// Returns `true` if any values of `self` are true.
+    #[inline]
+    pub const fn any(self) -> bool {
+        self.x || self.y || self.z || self.w
+    }
+
+    /// Returns `true` if all values of `self` are true.
+    #[inline]
+    pub const fn all(self) -> bool {
+        self.x && self.y && self.z && self.w
     }
 }
 

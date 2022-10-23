@@ -1,4 +1,10 @@
-use crate::{mat::*, mat4::Mat4, vec3::*};
+use crate::{mat4::Mat4, vec3::*};
+use std::fmt;
+use std::iter::{Product, Sum};
+use std::ops::{
+    Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Neg, Rem, RemAssign, Sub,
+    SubAssign,
+};
 
 /// A 3x3 column major matrix.
 #[derive(Clone, Copy, Default, PartialEq, PartialOrd)]
@@ -8,49 +14,23 @@ pub struct Mat3 {
     pub z_axis: Vec3,
 }
 
-impl Mat for Mat3 {
-    #[inline]
-    fn transpose(&self) -> Self {
-        Self {
-            x_axis: Vec3::new(self.x_axis.x, self.y_axis.x, self.z_axis.x),
-            y_axis: Vec3::new(self.x_axis.y, self.y_axis.y, self.z_axis.y),
-            z_axis: Vec3::new(self.x_axis.z, self.y_axis.z, self.z_axis.z),
-        }
-    }
-
-    #[inline]
-    fn determinant(&self) -> f32 {
-        self.z_axis.dot(self.x_axis.cross(self.y_axis))
-    }
-
-    #[inline]
-    fn is_finite(self) -> bool {
-        self.x_axis.is_finite() && self.y_axis.is_finite() && self.z_axis.is_finite()
-    }
-
-    #[inline]
-    fn is_nan(self) -> bool {
-        self.x_axis.is_nan() || self.y_axis.is_nan() || self.z_axis.is_nan()
-    }
-}
-
 impl Mat3 {
-    /// All zeroes.
+    /// All values of [`Mat3`] are zeroes.
     pub const ZERO: Self = Self::splat(0.0);
 
-    /// All ones.
+    /// All values of [`Mat3`] are positive ones.
     pub const ONE: Self = Self::splat(1.0);
 
-    /// All negative ones.
+    /// All values of [`Mat3`] are negative ones.
     pub const NEG_ONE: Self = Self::splat(-1.0);
 
-    /// All NAN.
+    /// All values of [`Mat3`] are NaN.
     pub const NAN: Self = Self::splat(f32::NAN);
 
-    /// All diagonal elements are `1`, and all off-diagonal elements are `0`.
+    /// All diagonal elements of [`Mat3`] are `1`, and all off-diagonal elements are `0`.
     pub const IDENTITY: Self = Self::from_cols(Vec3::X, Vec3::Y, Vec3::Z);
 
-    /// Creates a [`Mat3`].
+    /// Returns a [`Mat3`] with given values.
     #[inline(always)]
     pub const fn new(
         m00: f32,
@@ -70,7 +50,7 @@ impl Mat3 {
         }
     }
 
-    /// Creates a [`Mat3`] from 3x[`Vec3`].
+    /// Returns a [`Mat3`] converted from 3x[`Vec3`].
     #[inline(always)]
     pub const fn from_cols(x_axis: Vec3, y_axis: Vec3, z_axis: Vec3) -> Self {
         Self {
@@ -80,7 +60,7 @@ impl Mat3 {
         }
     }
 
-    /// Creates a [`Mat3`] with all elements set to m.
+    /// Returns a [`Mat3`] with all values set to `m`.
     #[inline(always)]
     pub const fn splat(m: f32) -> Self {
         Self {
@@ -90,13 +70,13 @@ impl Mat3 {
         }
     }
 
-    /// Converts a [`Mat3`] from array.
+    /// Returns a [`Mat3`] converted from array.
     #[inline]
     pub const fn from_array(a: [f32; 9]) -> Self {
         Self::new(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8])
     }
 
-    /// Converts a [`Mat3`] to array.
+    /// Returns array converted from [`Mat3`].
     #[inline]
     pub const fn to_array(&self) -> [f32; 9] {
         [
@@ -112,13 +92,13 @@ impl Mat3 {
         ]
     }
 
-    /// Converts a [`Mat3`] from slice.
+    /// Returns a [`Mat3`] converted from slice.
     #[inline]
     pub const fn from_slice(s: &[f32]) -> Self {
         Self::new(s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8])
     }
 
-    /// Converts a [`Mat3`] to slice.
+    /// Converts [`Mat3`] `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [f32]) {
         s[0] = self.x_axis.x;
@@ -132,6 +112,34 @@ impl Mat3 {
         s[6] = self.z_axis.x;
         s[7] = self.z_axis.y;
         s[8] = self.z_axis.z;
+    }
+
+    /// Returns the transposed [`Mat3`] from `self`.
+    #[inline]
+    pub fn transpose(&self) -> Self {
+        Self {
+            x_axis: Vec3::new(self.x_axis.x, self.y_axis.x, self.z_axis.x),
+            y_axis: Vec3::new(self.x_axis.y, self.y_axis.y, self.z_axis.y),
+            z_axis: Vec3::new(self.x_axis.z, self.y_axis.z, self.z_axis.z),
+        }
+    }
+
+    /// Returns the determinant of `self`.
+    #[inline]
+    pub fn determinant(&self) -> f32 {
+        self.z_axis.dot(self.x_axis.cross(self.y_axis))
+    }
+
+    /// Returns `true` if all elements of `self` are finite.
+    #[inline]
+    pub fn is_finite(self) -> bool {
+        self.x_axis.is_finite() && self.y_axis.is_finite() && self.z_axis.is_finite()
+    }
+
+    /// Returns `true` if any elements of `self` are `NaN`.
+    #[inline]
+    pub fn is_nan(self) -> bool {
+        self.x_axis.is_nan() || self.y_axis.is_nan() || self.z_axis.is_nan()
     }
 }
 
