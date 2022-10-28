@@ -1,6 +1,4 @@
-//! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
-//!
-//! Qinetic-dylib is crate for Qinetic, force to be dynamically linked.
+//! Force to be dynamically linked for Qinetic.
 //!
 //! # Enabling dynamic linking.
 //!

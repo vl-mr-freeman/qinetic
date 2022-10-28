@@ -1,8 +1,6 @@
 #![warn(missing_docs)]
 
-//! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
-//!
-//! Qinetic-internal is crate for Qinetic, facilitating optional dynamic linking.
+//! Facilitating optional dynamic linking for Qinetic.
 
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg",
@@ -45,80 +43,52 @@ pub mod prelude {
 }
 
 #[cfg(feature = "qinetic_animation")]
-pub mod animation {
-    //! Provides animation functionality.
-    pub use qinetic_animation::*;
-}
+#[doc(inline)]
+pub use qinetic_animation as animation;
 
-pub mod app {
-    //! Provides application functionality.
-    pub use qinetic_app::*;
-}
+#[doc(inline)]
+pub use qinetic_app as app;
 
-pub mod asset {
-    //! Provides asset functionality.
-    pub use qinetic_asset::*;
-}
+#[doc(inline)]
+pub use qinetic_asset as asset;
 
 #[cfg(feature = "qinetic_audio")]
-pub mod audio {
-    //! Provides audio functionality.
-    pub use qinetic_audio::*;
-}
+#[doc(inline)]
+pub use qinetic_audio as audio;
 
-pub mod core {
-    //! Provides core functionality.
-    pub use qinetic_core::*;
-}
+#[doc(inline)]
+pub use qinetic_core as core;
 
-pub mod ecs {
-    //! Provides entity-component-system functionality.
-    pub use qinetic_ecs::*;
-}
+#[doc(inline)]
+pub use qinetic_ecs as ecs;
 
-pub mod input {
-    //! Provides input functionality.
-    pub use qinetic_input::*;
-}
+#[doc(inline)]
+pub use qinetic_input as input;
 
-pub mod log {
-    //! Provides log functionality.
-    pub use qinetic_log::*;
-}
+#[doc(inline)]
+pub use qinetic_log as log;
 
-pub mod math {
-    //! Provides math functionality.
-    pub use qinetic_math::*;
-}
+#[doc(inline)]
+pub use qinetic_math as math;
 
 #[cfg(feature = "qinetic_network")]
-pub mod network {
-    //! Provides network functionality.
-    pub use qinetic_network::*;
-}
+#[doc(inline)]
+pub use qinetic_network as network;
 
 #[cfg(feature = "qinetic_physics")]
-pub mod physics {
-    //! Provides physics functionality.
-    pub use qinetic_physics::*;
-}
+#[doc(inline)]
+pub use qinetic_physics as physics;
 
 #[cfg(feature = "qinetic_render")]
-pub mod render {
-    //! Provides render functionality.
-    pub use qinetic_render::*;
-}
+#[doc(inline)]
+pub use qinetic_render as render;
 
 #[cfg(feature = "qinetic_ui")]
-pub mod ui {
-    //! Provides user-interface functionality.
-    pub use qinetic_ui::*;
-}
+#[doc(inline)]
+pub use qinetic_ui as ui;
 
-pub mod window {
-    //! Provides window functionality.
-    pub use qinetic_window::*;
-}
+#[doc(inline)]
+pub use qinetic_window as window;
 
 mod default_plugins;
 pub use default_plugins::*;

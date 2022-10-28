@@ -1,6 +1,6 @@
 //! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
 //!
-//! Qinetic is free, cross-platform, open-source game engine, designed to be fast, simple and modular.
+//! Free, cross-platform, open-source game engine, designed to be fast, simple and modular.
 //!
 //! ## Example
 //!  Here is a simple application:

@@ -1,6 +1,4 @@
-//! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
-//!
-//! Qinetic-ecs is crate for Qinetic, containing entity-component-system functionality.
+//! Entity-component-system functionality for Qinetic.
 
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg",
