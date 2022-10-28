@@ -13,25 +13,21 @@ pub mod prelude {
 
 pub mod vector {
     //! Provides vector.
-    #[doc(hidden)]
     pub use crate::{vec2::*, vec3::*, vec4::*};
 }
 
 pub mod bvector {
     //! Provides boolean vector.
-    #[doc(hidden)]
     pub use crate::{bvec2::*, bvec3::*, bvec4::*};
 }
 
 pub mod matrix {
     //! Provides matrix.
-    #[doc(hidden)]
     pub use crate::{mat2::*, mat3::*, mat4::*};
 }
 
 pub mod quaternion {
     //! Provides quaternion.
-    #[doc(hidden)]
     pub use crate::quat::*;
 }
 

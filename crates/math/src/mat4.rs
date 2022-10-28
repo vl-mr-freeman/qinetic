@@ -58,7 +58,7 @@ impl Mat4 {
         }
     }
 
-    /// Returns a [`Mat3`] converted from 4x[`Vec4`].
+    /// Returns a [`Mat4`] converted from 4x[`Vec4`].
     pub const fn from_cols(x_axis: Vec4, y_axis: Vec4, z_axis: Vec4, w_axis: Vec4) -> Self {
         Self {
             x_axis: x_axis,

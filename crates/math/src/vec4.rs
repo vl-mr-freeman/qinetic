@@ -178,7 +178,7 @@ impl Vec4 {
         )
     }
 
-    /// Returns a [`Vec3`] with absolute values of `self`.
+    /// Returns a [`Vec4`] with absolute values of `self`.
     #[inline]
     pub fn abs(self) -> Self {
         Self {
@@ -189,7 +189,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with representing sign values of `self`.
+    /// Returns a [`Vec4`] with representing sign values of `self`.
     #[inline]
     pub fn signum(self) -> Self {
         Self {
@@ -200,7 +200,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with minimum values of `self` and `other`.
+    /// Returns a [`Vec4`] with minimum values of `self` and `other`.
     #[inline]
     pub fn min(self, other: Self) -> Self {
         Self {
@@ -211,7 +211,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with maximum values of `self` and `other`.
+    /// Returns a [`Vec4`] with maximum values of `self` and `other`.
     #[inline]
     pub fn max(self, other: Self) -> Self {
         Self {
@@ -222,7 +222,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with clamp values of `self` between `min` and `max`.
+    /// Returns a [`Vec4`] with clamp values of `self` between `min` and `max`.
     #[inline]
     pub fn clamp(self, min: Self, max: Self) -> Self {
         Self {
@@ -233,13 +233,13 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with linear interpolation between `self` and `other` based on the value `s`.
+    /// Returns a [`Vec4`] with linear interpolation between `self` and `other` based on the value `s`.
     #[inline]
     pub fn lerp(self, other: Self, s: f32) -> Self {
         self + ((other - self) * s)
     }
 
-    /// Returns a [`Vec3`] with dot product of `self` and `other`.
+    /// Returns a [`Vec4`] with dot product of `self` and `other`.
     #[inline]
     pub fn dot(self, other: Self) -> f32 {
         (self.x * other.x) + (self.y * other.y) + (self.z * other.z) + (self.w * other.w)
@@ -263,19 +263,19 @@ impl Vec4 {
         1.0 / self.length()
     }
 
-    /// Returns a [`Vec3`] with Euclidean distance of `self` and `other`.
+    /// Returns a [`Vec4`] with Euclidean distance of `self` and `other`.
     #[inline]
     pub fn distance(self, other: Self) -> f32 {
         (self - other).length()
     }
 
-    /// Returns a [`Vec3`] with squared Euclidean distance of `self` and `other`.
+    /// Returns a [`Vec4`] with squared Euclidean distance of `self` and `other`.
     #[inline]
     pub fn distance_squared(self, other: Self) -> f32 {
         (self - other).length_squared()
     }
 
-    /// Returns a [`Vec3`] with the nearest integer to a number for values of `self`.
+    /// Returns a [`Vec4`] with the nearest integer to a number for values of `self`.
     #[inline]
     pub fn round(self) -> Self {
         Self {
@@ -286,7 +286,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with the largest integer less than or equal to a number for values of `self`.
+    /// Returns a [`Vec4`] with the largest integer less than or equal to a number for values of `self`.
     #[inline]
     pub fn floor(self) -> Self {
         Self {
@@ -297,7 +297,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with containing the smallest integer greater than or equal to a number for values of `self`.
+    /// Returns a [`Vec4`] with containing the smallest integer greater than or equal to a number for values of `self`.
     #[inline]
     pub fn ceil(self) -> Self {
         Self {
@@ -308,13 +308,13 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with fractional values of `self`.
+    /// Returns a [`Vec4`] with fractional values of `self`.
     #[inline]
     pub fn fract(self) -> Self {
         self - self.floor()
     }
 
-    /// Returns a [`Vec3`] with exponential function for values of `self`.
+    /// Returns a [`Vec4`] with exponential function for values of `self`.
     #[inline]
     pub fn exp(self) -> Self {
         Self {
@@ -325,7 +325,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with raised values of `self` to the power of `n`.
+    /// Returns a [`Vec4`] with raised values of `self` to the power of `n`.
     #[inline]
     pub fn powf(self, n: f32) -> Self {
         Self {
@@ -336,7 +336,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with reciprocaled values of `self`
+    /// Returns a [`Vec4`] with reciprocaled values of `self`
     #[inline]
     pub fn recip(self) -> Self {
         Self {
@@ -347,7 +347,7 @@ impl Vec4 {
         }
     }
 
-    /// Returns a [`Vec3`] with normalized length of `self`.
+    /// Returns a [`Vec4`] with normalized length of `self`.
     #[inline]
     pub fn normalize(self) -> Self {
         let n = self.mul(self.length_recip());
