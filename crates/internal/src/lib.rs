@@ -43,51 +43,24 @@ pub mod prelude {
 }
 
 #[cfg(feature = "qinetic_animation")]
-#[doc(inline)]
 pub use qinetic_animation as animation;
-
-#[doc(inline)]
 pub use qinetic_app as app;
-
-#[doc(inline)]
 pub use qinetic_asset as asset;
-
 #[cfg(feature = "qinetic_audio")]
-#[doc(inline)]
 pub use qinetic_audio as audio;
-
-#[doc(inline)]
 pub use qinetic_core as core;
-
-#[doc(inline)]
 pub use qinetic_ecs as ecs;
-
-#[doc(inline)]
 pub use qinetic_input as input;
-
-#[doc(inline)]
 pub use qinetic_log as log;
-
-#[doc(inline)]
 pub use qinetic_math as math;
-
 #[cfg(feature = "qinetic_network")]
-#[doc(inline)]
 pub use qinetic_network as network;
-
 #[cfg(feature = "qinetic_physics")]
-#[doc(inline)]
 pub use qinetic_physics as physics;
-
 #[cfg(feature = "qinetic_render")]
-#[doc(inline)]
 pub use qinetic_render as render;
-
 #[cfg(feature = "qinetic_ui")]
-#[doc(inline)]
 pub use qinetic_ui as ui;
-
-#[doc(inline)]
 pub use qinetic_window as window;
 
 mod default_plugins;
