@@ -222,6 +222,18 @@ impl Vec4 {
         }
     }
 
+    /// Returns the horizontal minimum of `self`.
+    #[inline]
+    pub fn min_element(self) -> f32 {
+        self.x.min(self.y.min(self.z.min(self.w)))
+    }
+
+    /// Returns the horizontal maximum of `self`.
+    #[inline]
+    pub fn max_element(self) -> f32 {
+        self.x.max(self.y.max(self.z.max(self.w)))
+    }
+
     /// Returns a [`Vec4`] with clamp values of `self` between `min` and `max`.
     #[inline]
     pub fn clamp(self, min: Self, max: Self) -> Self {
@@ -230,6 +242,42 @@ impl Vec4 {
             y: self.y.max(max.y).min(min.y),
             z: self.z.max(max.z).min(min.z),
             w: self.w.max(max.w).min(min.w),
+        }
+    }
+
+    /// Returns a [`Vec4`] with a length no less than `min` and no more than `max`.
+    ///
+    /// `max` must be greater that `min`.
+    #[inline]
+    pub fn clamp_length(self, min: f32, max: f32) -> Self {
+        assert!(min <= max);
+        let length_sq = self.length_squared();
+        if length_sq < min * min {
+            self * (length_sq.sqrt().recip() * min)
+        } else if length_sq > max * max {
+            self * (length_sq.sqrt().recip() * max)
+        } else {
+            self
+        }
+    }
+
+    /// Returns a [`Vec4`] with a length no more than `max`
+    pub fn clamp_length_max(self, max: f32) -> Self {
+        let length_sq = self.length_squared();
+        if length_sq > max * max {
+            self * (length_sq.sqrt().recip() * max)
+        } else {
+            self
+        }
+    }
+
+    /// Returns a [`Vec4`] with a length no less than `min`
+    pub fn clamp_length_min(self, min: f32) -> Self {
+        let length_sq = self.length_squared();
+        if length_sq < min * min {
+            self * (length_sq.sqrt().recip() * min)
+        } else {
+            self
         }
     }
 
@@ -257,10 +305,16 @@ impl Vec4 {
         self.dot(self)
     }
 
-    /// Returns `1.0 / length()` of self.
+    /// Returns reciprocal of `length`  of `self`.
     #[inline]
     pub fn length_recip(self) -> f32 {
-        1.0 / self.length()
+        self.length().recip()
+    }
+
+    /// Returns reciprocal of `length_squared`  of `self`.
+    #[inline]
+    pub fn length_squared_recip(self) -> f32 {
+        self.length_squared().recip()
     }
 
     /// Returns a [`Vec4`] with Euclidean distance of `self` and `other`.
@@ -353,6 +407,41 @@ impl Vec4 {
         let n = self.mul(self.length_recip());
         assert!(n.is_finite());
         n
+    }
+
+    /// Returns a [`Vec4`] with projection of `self` onto `other`.
+    ///
+    /// `other` must be non-zero length.
+    #[inline]
+    pub fn project_onto(self, other: Self) -> Self {
+        let other_length_squared_recip = other.length_squared_recip();
+        assert!(other_length_squared_recip.is_finite());
+        other * self.dot(other) * other_length_squared_recip
+    }
+
+    /// Returns a [`Vec4`] with projection of `self` onto `other`.
+    ///
+    /// `other` must be normalized.
+    #[inline]
+    pub fn project_onto_normalized(self, other: Self) -> Self {
+        assert!(other.is_normalized());
+        other * self.dot(other)
+    }
+
+    /// Returns a [`Vec4`] with rejection of `self` from `other`.
+    ///
+    /// `other` must be non-zero length.
+    #[inline]
+    pub fn reject_from(self, other: Self) -> Self {
+        self - self.project_onto(other)
+    }
+
+    /// Returns a [`Vec4`] with rejection of `self` from `other`.
+    ///
+    /// `other` must be normalized.
+    #[inline]
+    pub fn reject_from_normalized(self, other: Self) -> Self {
+        self - self.project_onto_normalized(other)
     }
 
     /// Returns `true` if length of `self` is `1.0`.
