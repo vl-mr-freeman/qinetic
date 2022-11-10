@@ -189,6 +189,12 @@ impl Vec4 {
         }
     }
 
+    /// Returns true if the absolute difference of all elements between `self` and `other` <= `max_abs_diff`.
+    #[inline]
+    pub fn abs_diff_eq(self, rhs: Self, max_abs_diff: f32) -> bool {
+        self.sub(rhs).abs().cmple(Self::splat(max_abs_diff)).all()
+    }
+
     /// Returns a [`Vec4`] with representing sign values of `self`.
     #[inline]
     pub fn signum(self) -> Self {

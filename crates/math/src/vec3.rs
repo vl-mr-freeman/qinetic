@@ -173,6 +173,12 @@ impl Vec3 {
         }
     }
 
+    /// Returns true if the absolute difference of all elements between `self` and `other` <= `max_abs_diff`.
+    #[inline]
+    pub fn abs_diff_eq(self, rhs: Self, max_abs_diff: f32) -> bool {
+        self.sub(rhs).abs().cmple(Self::splat(max_abs_diff)).all()
+    }
+
     /// Returns a [`Vec3`] with representing sign values of `self`.
     #[inline]
     pub fn signum(self) -> Self {
@@ -241,7 +247,7 @@ impl Vec3 {
         }
     }
 
-    /// Returns a [`Vec4`] with a length no more than `max`
+    /// Returns a [`Vec3`] with a length no more than `max`
     pub fn clamp_length_max(self, max: f32) -> Self {
         let length_sq = self.length_squared();
         if length_sq > max * max {
@@ -251,7 +257,7 @@ impl Vec3 {
         }
     }
 
-    /// Returns a [`Vec4`] with a length no less than `min`
+    /// Returns a [`Vec3`] with a length no less than `min`
     pub fn clamp_length_min(self, min: f32) -> Self {
         let length_sq = self.length_squared();
         if length_sq < min * min {
