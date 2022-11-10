@@ -1,4 +1,4 @@
-use crate::vec4::Vec4;
+use crate::{mat3::Mat3, mat4::Mat4, vec3::Vec3, vec4::Vec4};
 use std::fmt;
 use std::iter::{Product, Sum};
 use std::ops::{Add, Div, Mul, MulAssign, Neg, Sub};
@@ -26,7 +26,7 @@ impl Quat {
     pub const NAN: Self = Self::from_array([f32::NAN; 4]);
 
     /// The `z` of [`Quat`] is `1`, and others are `0`.
-    pub const IDENTIYY: Self = Self::from_xyzw(0.0, 0.0, 0.0, 1.0);
+    pub const IDENTITY: Self = Self::from_xyzw(0.0, 0.0, 0.0, 1.0);
 
     /// Returns a [`Quat`] with given values.
     #[inline(always)]
@@ -91,12 +91,206 @@ impl Quat {
     pub const fn to_vec4(&self) -> Vec4 {
         Vec4::new(self.x, self.y, self.z, self.w)
     }
+
+    /// Returns a [`Quat`] for a normalized rotation `axis` and `angle` (in radians).
+    ///
+    /// `axis` must be normalized.
+    #[inline]
+    pub fn from_axis_angle(axis: Vec3, angle: f32) -> Self {
+        assert!(axis.is_normalized());
+        let (s, c) = (angle * 0.5).sin_cos();
+        let v = axis * s;
+        Self::from_xyzw(v.x, v.y, v.z, c)
+    }
+
+    /// Returns a [`Quat`] that rotates `v.length()` radians around `v.normalize()`.
+    #[inline]
+    pub fn from_scaled_axis(v: Vec3) -> Self {
+        let length = v.length();
+        if length == 0.0 {
+            Self::IDENTITY
+        } else {
+            Self::from_axis_angle(v / length, length)
+        }
+    }
+
+    /// Returns a [`Quat`] from the columns of a 3x3 rotation matrix.
+    #[inline]
+    pub(crate) fn from_rotation_axes(x_axis: Vec3, y_axis: Vec3, z_axis: Vec3) -> Self {
+        let (m00, m01, m02) = x_axis.into();
+        let (m10, m11, m12) = y_axis.into();
+        let (m20, m21, m22) = z_axis.into();
+        if m22 <= 0.0 {
+            // x^2 + y^2 >= z^2 + w^2
+            let dif10 = m11 - m00;
+            let omm22 = 1.0 - m22;
+            if dif10 <= 0.0 {
+                // x^2 >= y^2
+                let four_xsq = omm22 - dif10;
+                let inv4x = 0.5 / four_xsq.sqrt();
+                Self::from_xyzw(
+                    four_xsq * inv4x,
+                    (m01 + m10) * inv4x,
+                    (m02 + m20) * inv4x,
+                    (m12 - m21) * inv4x,
+                )
+            } else {
+                // y^2 >= x^2
+                let four_ysq = omm22 + dif10;
+                let inv4y = 0.5 / four_ysq.sqrt();
+                Self::from_xyzw(
+                    (m01 + m10) * inv4y,
+                    four_ysq * inv4y,
+                    (m12 + m21) * inv4y,
+                    (m20 - m02) * inv4y,
+                )
+            }
+        } else {
+            // z^2 + w^2 >= x^2 + y^2
+            let sum10 = m11 + m00;
+            let opm22 = 1.0 + m22;
+            if sum10 <= 0.0 {
+                // z^2 >= w^2
+                let four_zsq = opm22 - sum10;
+                let inv4z = 0.5 / four_zsq.sqrt();
+                Self::from_xyzw(
+                    (m02 + m20) * inv4z,
+                    (m12 + m21) * inv4z,
+                    four_zsq * inv4z,
+                    (m01 - m10) * inv4z,
+                )
+            } else {
+                // w^2 >= z^2
+                let four_wsq = opm22 + sum10;
+                let inv4w = 0.5 / four_wsq.sqrt();
+                Self::from_xyzw(
+                    (m12 - m21) * inv4w,
+                    (m20 - m02) * inv4w,
+                    (m01 - m10) * inv4w,
+                    four_wsq * inv4w,
+                )
+            }
+        }
+    }
+
+    /// Returns a [`Quat`] from the `angle` (in radians) around the x axis.
+    #[inline]
+    pub fn from_rotation_x(angle: f32) -> Self {
+        let (s, c) = (angle * 0.5).sin_cos();
+        Self::from_xyzw(s, 0.0, 0.0, c)
+    }
+
+    /// Returns a [`Quat`] from the `angle` (in radians) around the y axis.
+    #[inline]
+    pub fn from_rotation_y(angle: f32) -> Self {
+        let (s, c) = (angle * 0.5).sin_cos();
+        Self::from_xyzw(0.0, s, 0.0, c)
+    }
+
+    /// Returns a [`Quat`] from the `angle` (in radians) around the z axis.
+    #[inline]
+    pub fn from_rotation_z(angle: f32) -> Self {
+        let (s, c) = (angle * 0.5).sin_cos();
+        Self::from_xyzw(0.0, 0.0, s, c)
+    }
+
+    /// Returns a [`Quat`] from a [`Mat3`].
+    #[inline]
+    pub fn from_mat3(mat: &Mat3) -> Self {
+        Self::from_rotation_axes(mat.x_axis, mat.y_axis, mat.z_axis)
+    }
+
+    /// Returns a [`Quat`] from a [`Mat4`].
+    #[inline]
+    pub fn from_mat4(mat: &Mat4) -> Self {
+        Self::from_rotation_axes(mat.x_axis.into(), mat.y_axis.into(), mat.z_axis.into())
+    }
+
+    /// Returns a [`Quat`] with linear interpolation between `self` and `other` based on the value `s`.
+    #[inline]
+    pub fn lerp(self, other: Self, s: f32) -> Self {
+        assert!(self.is_normalized());
+        assert!(other.is_normalized());
+
+        let start = self;
+        let dot = start.dot(other);
+        let bias = if dot >= 0.0 { 1.0 } else { -1.0 };
+        let interpolated = start.add(other.mul(bias).sub(start).mul(s));
+        interpolated.normalize()
+    }
+
+    /// Returns a [`Quat`] inverse of `self`
+    #[inline]
+    pub fn inverse(self) -> Self {
+        Self {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
+            w: self.w,
+        }
+    }
+
+    /// Returns a [`Quat`] with dot product of `self` and `other`.
+    #[inline]
+    pub fn dot(self, other: Self) -> f32 {
+        (self.x * other.x) + (self.y * other.y) + (self.z * other.z) + (self.w * other.w)
+    }
+
+    /// Returns length of `self`.
+    #[inline]
+    pub fn length(self) -> f32 {
+        self.dot(self).sqrt()
+    }
+
+    /// Returns squared length of `self`.
+    #[inline]
+    pub fn length_squared(self) -> f32 {
+        self.dot(self)
+    }
+
+    /// Returns reciprocal of `length`  of `self`.
+    #[inline]
+    pub fn length_recip(self) -> f32 {
+        self.length().recip()
+    }
+
+    /// Returns reciprocal of `length_squared`  of `self`.
+    #[inline]
+    pub fn length_squared_recip(self) -> f32 {
+        self.length_squared().recip()
+    }
+
+    /// Returns a [`Quat`] with normalized length of `self`.
+    #[inline]
+    pub fn normalize(self) -> Self {
+        let n = self.mul(self.length_recip());
+        assert!(n.is_finite());
+        n
+    }
+
+    /// Returns `true` if length of `self` is `1.0`.
+    #[inline]
+    pub fn is_normalized(self) -> bool {
+        (self.length_squared() - 1.0).abs() <= 1e-4
+    }
+
+    /// Returns `true` if all values of `self` are finite.
+    #[inline]
+    pub fn is_finite(self) -> bool {
+        self.x.is_finite() && self.y.is_finite() && self.z.is_finite() && self.w.is_finite()
+    }
+
+    /// Returns `true` if any values of `self` are `NaN`.
+    #[inline]
+    pub fn is_nan(self) -> bool {
+        self.x.is_nan() || self.y.is_nan() || self.z.is_nan() || self.w.is_nan()
+    }
 }
 
 impl Default for Quat {
     #[inline(always)]
     fn default() -> Self {
-        Self::IDENTIYY
+        Self::IDENTITY
     }
 }
 
