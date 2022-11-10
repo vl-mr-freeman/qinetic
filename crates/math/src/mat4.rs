@@ -1,4 +1,4 @@
-use crate::vec4::*;
+use crate::{quat::*, vec3::*, vec4::*};
 use std::fmt;
 use std::iter::{Product, Sum};
 use std::ops::{
@@ -71,12 +71,12 @@ impl Mat4 {
     /// Returns a [`Mat4`] with all values set to `m`.
     #[inline]
     pub const fn splat(m: f32) -> Self {
-        Self {
-            x_axis: Vec4::splat(m),
-            y_axis: Vec4::splat(m),
-            z_axis: Vec4::splat(m),
-            w_axis: Vec4::splat(m),
-        }
+        Self::from_cols(
+            Vec4::splat(m),
+            Vec4::splat(m),
+            Vec4::splat(m),
+            Vec4::splat(m),
+        )
     }
 
     /// Returns a [`Mat4`] converted from array.
@@ -144,16 +144,530 @@ impl Mat4 {
         s[15] = self.w_axis.w;
     }
 
-    /// Returns the transposed [`Mat4`] from `self`.
+    /// Returns a [`Mat4`] with its diagonal set to `diagonal` and all other entries set to 0.
+    #[inline]
+    pub fn from_diagonal(diagonal: Vec4) -> Self {
+        Self::new(
+            diagonal.x, 0.0, 0.0, 0.0, 0.0, diagonal.y, 0.0, 0.0, 0.0, 0.0, diagonal.z, 0.0, 0.0,
+            0.0, 0.0, diagonal.w,
+        )
+    }
+
+    /// Returns a [`Mat4`] with the `rotation`.
+    #[inline]
+    pub fn from_quat(rotation: Quat) -> Self {
+        let (x_axis, y_axis, z_axis) = Self::quat_to_axes(rotation);
+        Self::from_cols(x_axis, y_axis, z_axis, Vec4::W)
+    }
+
+    /// Returns a [`Mat4`] from `angle` (in radians) around the x axis.
+    #[inline]
+    pub fn from_rotation_x(angle: f32) -> Self {
+        let (sina, cosa) = angle.sin_cos();
+        Self::from_cols(
+            Vec4::X,
+            Vec4::new(0.0, cosa, sina, 0.0),
+            Vec4::new(0.0, -sina, cosa, 0.0),
+            Vec4::W,
+        )
+    }
+
+    /// Returns a [`Mat4`] from `angle` (in radians) around the y axis.
+    #[inline]
+    pub fn from_rotation_y(angle: f32) -> Self {
+        let (sina, cosa) = angle.sin_cos();
+        Self::from_cols(
+            Vec4::new(cosa, 0.0, -sina, 0.0),
+            Vec4::Y,
+            Vec4::new(sina, 0.0, cosa, 0.0),
+            Vec4::W,
+        )
+    }
+
+    /// Returns a [`Mat4`] from `angle` (in radians) around the z axis.
+    #[inline]
+    pub fn from_rotation_z(angle: f32) -> Self {
+        let (sina, cosa) = angle.sin_cos();
+        Self::from_cols(
+            Vec4::new(cosa, sina, 0.0, 0.0),
+            Vec4::new(-sina, cosa, 0.0, 0.0),
+            Vec4::Z,
+            Vec4::W,
+        )
+    }
+
+    /// Returns a [`Mat4`] with the `translation`.
+    #[inline]
+    pub fn from_translation(translation: Vec3) -> Self {
+        Self::from_cols(
+            Vec4::X,
+            Vec4::Y,
+            Vec4::Z,
+            Vec4::new(translation.x, translation.y, translation.z, 1.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with the `scale`, `rotation` and `translation`.
+    #[inline]
+    pub fn from_scale_rotation_translation(scale: Vec3, rotation: Quat, translation: Vec3) -> Self {
+        let (x_axis, y_axis, z_axis) = Self::quat_to_axes(rotation);
+        Self::from_cols(
+            x_axis.mul(scale.x),
+            y_axis.mul(scale.y),
+            z_axis.mul(scale.z),
+            Vec4::new(translation.x, translation.y, translation.z, 1.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with the `rotation` and `translation`.
+    #[inline]
+    pub fn from_rotation_translation(rotation: Quat, translation: Vec3) -> Self {
+        let (x_axis, y_axis, z_axis) = Self::quat_to_axes(rotation);
+        Self::from_cols(
+            x_axis,
+            y_axis,
+            z_axis,
+            Vec4::new(translation.x, translation.y, translation.z, 1.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with rotation around a normalized rotation `axis` of `angle` (in radians).
+    ///
+    /// `axis` must be normalized
+    #[inline]
+    pub fn from_axis_angle(axis: Vec3, angle: f32) -> Self {
+        assert!(axis.is_normalized());
+
+        let (sin, cos) = angle.sin_cos();
+        let axis_sin = axis.mul(sin);
+        let axis_sq = axis.mul(axis);
+        let omc = 1.0 - cos;
+        let xyomc = axis.x * axis.y * omc;
+        let xzomc = axis.x * axis.z * omc;
+        let yzomc = axis.y * axis.z * omc;
+        Self::from_cols(
+            Vec4::new(
+                axis_sq.x * omc + cos,
+                xyomc + axis_sin.z,
+                xzomc - axis_sin.y,
+                0.0,
+            ),
+            Vec4::new(
+                xyomc - axis_sin.z,
+                axis_sq.y * omc + cos,
+                yzomc + axis_sin.x,
+                0.0,
+            ),
+            Vec4::new(
+                xzomc + axis_sin.y,
+                yzomc - axis_sin.x,
+                axis_sq.z * omc + cos,
+                0.0,
+            ),
+            Vec4::W,
+        )
+    }
+
+    /// Returns a [`Mat4`] with non-uniform `scale`.
+    #[inline]
+    pub fn from_scale(scale: Vec3) -> Self {
+        assert!(scale.cmpne(Vec3::ZERO).any());
+
+        Self::from_cols(
+            Vec4::new(scale.x, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, scale.y, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, scale.z, 0.0),
+            Vec4::W,
+        )
+    }
+
+    /// Returns a [`Vec4`] with `self` column for the `index`.
+    #[inline]
+    pub fn col(&self, index: usize) -> Vec4 {
+        match index {
+            0 => self.x_axis,
+            1 => self.y_axis,
+            2 => self.z_axis,
+            3 => self.w_axis,
+            _ => panic!("index out of bounds"),
+        }
+    }
+
+    /// Returns a [`Vec4`] with `self` row for the `index`.
+    #[inline]
+    pub fn row(&self, index: usize) -> Vec4 {
+        match index {
+            0 => Vec4::new(self.x_axis.x, self.y_axis.x, self.z_axis.x, self.w_axis.x),
+            1 => Vec4::new(self.x_axis.y, self.y_axis.y, self.z_axis.y, self.w_axis.y),
+            2 => Vec4::new(self.x_axis.z, self.y_axis.z, self.z_axis.z, self.w_axis.z),
+            3 => Vec4::new(self.x_axis.w, self.y_axis.w, self.z_axis.w, self.w_axis.w),
+            _ => panic!("index out of bounds"),
+        }
+    }
+
+    /// Returns a [`Mat4`] with left-handed view using camera position, an up direction, and a facing direction.
+    ///
+    /// For a view coordinate system with `+X=right`, `+Y=up` and `+Z=forward`.
+    #[inline]
+    pub fn look_to_lh(eye: Vec3, dir: Vec3, up: Vec3) -> Self {
+        Self::look_to_rh(eye, -dir, up)
+    }
+
+    /// Returns a [`Mat4`] with right-handed view using camera position, an up direction, and a facing direction.
+    ///
+    /// For a view coordinate system with `+X=right`, `+Y=up` and `+Z=back`.
+    #[inline]
+    pub fn look_to_rh(eye: Vec3, dir: Vec3, up: Vec3) -> Self {
+        let f = dir.normalize();
+        let s = f.cross(up).normalize();
+        let u = s.cross(f);
+
+        Self::from_cols(
+            Vec4::new(s.x, u.x, -f.x, 0.0),
+            Vec4::new(s.y, u.y, -f.y, 0.0),
+            Vec4::new(s.z, u.z, -f.z, 0.0),
+            Vec4::new(-eye.dot(s), -eye.dot(u), eye.dot(f), 1.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with left-handed view matrix using a camera position, an up direction, and a focal point.
+    /// For a view coordinate system with `+X=right`, `+Y=up` and `+Z=forward`.
+    ///
+    /// `up` must be normalized.
+    #[inline]
+    pub fn look_at_lh(eye: Vec3, center: Vec3, up: Vec3) -> Self {
+        assert!(up.is_normalized());
+        Self::look_to_lh(eye, center.sub(eye), up)
+    }
+
+    /// Returns a [`Mat4`] with right-handed view matrix using a camera position, an up direction, and a focal point.
+    /// For a view coordinate system with `+X=right`, `+Y=up` and `+Z=back`.
+    ///
+    /// `up` must be normalized.
+    #[inline]
+    pub fn look_at_rh(eye: Vec3, center: Vec3, up: Vec3) -> Self {
+        assert!(up.is_normalized());
+        Self::look_to_rh(eye, center.sub(eye), up)
+    }
+
+    /// Returns a [`Mat4`] iwth left-handed perspective projection with `[0,1]` depth range.
+    ///
+    /// `z_near` must be greater that 0.
+    /// `z_far` must be greater that 0.
+    #[inline]
+    pub fn perspective_lh(fov_y_radians: f32, aspect_ratio: f32, z_near: f32, z_far: f32) -> Self {
+        assert!(z_near > 0.0 && z_far > 0.0);
+        let (sin_fov, cos_fov) = (0.5 * fov_y_radians).sin_cos();
+        let h = cos_fov / sin_fov;
+        let w = h / aspect_ratio;
+        let r = z_far / (z_far - z_near);
+        Self::from_cols(
+            Vec4::new(w, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, h, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, r, 1.0),
+            Vec4::new(0.0, 0.0, -r * z_near, 0.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with right-handed perspective projection with `[0,1]` depth range.
+    ///
+    /// `z_near` must be greater that 0.
+    /// `z_far` must be greater that 0.
+    #[inline]
+    pub fn perspective_rh(fov_y_radians: f32, aspect_ratio: f32, z_near: f32, z_far: f32) -> Self {
+        assert!(z_near > 0.0 && z_far > 0.0);
+        let (sin_fov, cos_fov) = (0.5 * fov_y_radians).sin_cos();
+        let h = cos_fov / sin_fov;
+        let w = h / aspect_ratio;
+        let r = z_far / (z_near - z_far);
+        Self::from_cols(
+            Vec4::new(w, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, h, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, r, -1.0),
+            Vec4::new(0.0, 0.0, r * z_near, 0.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with an infinite left-handed perspective projection with `[0,1]` depth range.
+    ///
+    /// `z_near` must be greater that 0.
+    #[inline]
+    pub fn perspective_infinite_lh(fov_y_radians: f32, aspect_ratio: f32, z_near: f32) -> Self {
+        assert!(z_near > 0.0);
+        let (sin_fov, cos_fov) = (0.5 * fov_y_radians).sin_cos();
+        let h = cos_fov / sin_fov;
+        let w = h / aspect_ratio;
+        Self::from_cols(
+            Vec4::new(w, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, h, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, 1.0, 1.0),
+            Vec4::new(0.0, 0.0, -z_near, 0.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with an infinite left-handed perspective projection with `[0,1]` depth range.
+    ///
+    /// `z_near` must be greater that 0.
+    #[inline]
+    pub fn perspective_infinite_reverse_lh(
+        fov_y_radians: f32,
+        aspect_ratio: f32,
+        z_near: f32,
+    ) -> Self {
+        assert!(z_near > 0.0);
+        let (sin_fov, cos_fov) = (0.5 * fov_y_radians).sin_cos();
+        let h = cos_fov / sin_fov;
+        let w = h / aspect_ratio;
+        Self::from_cols(
+            Vec4::new(w, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, h, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, 0.0, 1.0),
+            Vec4::new(0.0, 0.0, z_near, 0.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with an infinite right-handed perspective projection with `[0,1]` depth range.
+    ///
+    /// `z_near` must be greater that 0.
+    #[inline]
+    pub fn perspective_infinite_rh(fov_y_radians: f32, aspect_ratio: f32, z_near: f32) -> Self {
+        assert!(z_near > 0.0);
+        let f = 1.0 / (0.5 * fov_y_radians).tan();
+        Self::from_cols(
+            Vec4::new(f / aspect_ratio, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, f, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, -1.0, -1.0),
+            Vec4::new(0.0, 0.0, -z_near, 0.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with an infinite reverse right-handed perspective projection with `[0,1]` depth range.
+    ///
+    /// `z_near` must be greater that 0.
+    #[inline]
+    pub fn perspective_infinite_reverse_rh(
+        fov_y_radians: f32,
+        aspect_ratio: f32,
+        z_near: f32,
+    ) -> Self {
+        assert!(z_near > 0.0);
+        let f = 1.0 / (0.5 * fov_y_radians).tan();
+        Self::from_cols(
+            Vec4::new(f / aspect_ratio, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, f, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, 0.0, -1.0),
+            Vec4::new(0.0, 0.0, z_near, 0.0),
+        )
+    }
+
+    /// Returns a [`Mat4`] with left-handed orthographic projection with `[0,1]` depth range.
+    #[inline]
+    pub fn orthographic_lh(
+        left: f32,
+        right: f32,
+        bottom: f32,
+        top: f32,
+        near: f32,
+        far: f32,
+    ) -> Self {
+        let rcp_width = 1.0 / (right - left);
+        let rcp_height = 1.0 / (top - bottom);
+        let r = 1.0 / (far - near);
+        Self::from_cols(
+            Vec4::new(rcp_width + rcp_width, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, rcp_height + rcp_height, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, r, 0.0),
+            Vec4::new(
+                -(left + right) * rcp_width,
+                -(top + bottom) * rcp_height,
+                -r * near,
+                1.0,
+            ),
+        )
+    }
+
+    /// Returns a [`Mat4`] with right-handed orthographic projection with `[0,1]` depth range.
+    #[inline]
+    pub fn orthographic_rh(
+        left: f32,
+        right: f32,
+        bottom: f32,
+        top: f32,
+        near: f32,
+        far: f32,
+    ) -> Self {
+        let rcp_width = 1.0 / (right - left);
+        let rcp_height = 1.0 / (top - bottom);
+        let r = 1.0 / (near - far);
+        Self::from_cols(
+            Vec4::new(rcp_width + rcp_width, 0.0, 0.0, 0.0),
+            Vec4::new(0.0, rcp_height + rcp_height, 0.0, 0.0),
+            Vec4::new(0.0, 0.0, r, 0.0),
+            Vec4::new(
+                -(left + right) * rcp_width,
+                -(top + bottom) * rcp_height,
+                r * near,
+                1.0,
+            ),
+        )
+    }
+
+    /// Transforms the given 3D vector as a point, applying perspective correction.
+    ///
+    /// This is the equivalent of multiplying the 3D vector as a 4D vector where `w` is `1.0`.
+    /// The perspective divide is performed meaning the resulting 3D vector is divided by `w`.
+    ///
+    /// This method assumes that `self` contains a projective transform.
+    #[inline]
+    pub fn project_point3(&self, rhs: Vec3) -> Vec3 {
+        let mut res = self.x_axis.mul(rhs.x);
+        res = self.y_axis.mul(rhs.y).add(res);
+        res = self.z_axis.mul(rhs.z).add(res);
+        res = self.w_axis.add(res);
+        res = res.mul(res.recip());
+        res.into()
+    }
+
+    /// Transforms the given 3D vector as a point.
+    ///
+    /// This is the equivalent of multiplying the 3D vector as a 4D vector where `w` is `1.0`.
+    ///
+    /// This method assumes that `self` contains a valid affine transform. It does not perform
+    /// a persective divide, if `self` contains a perspective transform, or if you are unsure,
+    /// the [`Self::project_point3()`] method should be used instead.
+    ///
+    /// 3d row of `self` must be (0, 0, 0, 1).
+    #[inline]
+    pub fn transform_point3(&self, rhs: Vec3) -> Vec3 {
+        assert!(self.row(3).abs_diff_eq(Vec4::W, 1e-6));
+        let mut res = self.x_axis.mul(rhs.x);
+        res = self.y_axis.mul(rhs.y).add(res);
+        res = self.z_axis.mul(rhs.z).add(res);
+        res = self.w_axis.add(res);
+        res.into()
+    }
+
+    /// Transforms the give 3D vector as a direction.
+    ///
+    /// This is the equivalent of multiplying the 3D vector as a 4D vector where `w` is `0.0`.
+    ///
+    /// This method assumes that `self` contains a valid affine transform.
+    ///
+    /// 3d row of `self` must be (0, 0, 0, 1).
+    #[inline]
+    pub fn transform_vector3(&self, rhs: Vec3) -> Vec3 {
+        assert!(self.row(3).abs_diff_eq(Vec4::W, 1e-6));
+        let mut res = self.x_axis.mul(rhs.x);
+        res = self.y_axis.mul(rhs.y).add(res);
+        res = self.z_axis.mul(rhs.z).add(res);
+        res.into()
+    }
+
+    /// Returns a [`Mat4`] with transpose from `self`.
     #[inline]
     pub fn transpose(&self) -> Self {
-        todo!()
+        Self::from_cols(
+            Vec4::new(self.x_axis.x, self.y_axis.x, self.z_axis.x, self.w_axis.x),
+            Vec4::new(self.x_axis.y, self.y_axis.y, self.z_axis.y, self.w_axis.y),
+            Vec4::new(self.x_axis.z, self.y_axis.z, self.z_axis.z, self.w_axis.z),
+            Vec4::new(self.x_axis.w, self.y_axis.w, self.z_axis.w, self.w_axis.w),
+        )
     }
 
     /// Returns the determinant of `self`.
     #[inline]
     pub fn determinant(&self) -> f32 {
-        todo!()
+        let (m00, m01, m02, m03) = self.x_axis.into();
+        let (m10, m11, m12, m13) = self.y_axis.into();
+        let (m20, m21, m22, m23) = self.z_axis.into();
+        let (m30, m31, m32, m33) = self.w_axis.into();
+
+        let a2323 = m22 * m33 - m23 * m32;
+        let a1323 = m21 * m33 - m23 * m31;
+        let a1223 = m21 * m32 - m22 * m31;
+        let a0323 = m20 * m33 - m23 * m30;
+        let a0223 = m20 * m32 - m22 * m30;
+        let a0123 = m20 * m31 - m21 * m30;
+
+        m00 * (m11 * a2323 - m12 * a1323 + m13 * a1223)
+            - m01 * (m10 * a2323 - m12 * a0323 + m13 * a0223)
+            + m02 * (m10 * a1323 - m11 * a0323 + m13 * a0123)
+            - m03 * (m10 * a1223 - m11 * a0223 + m12 * a0123)
+    }
+
+    /// Returns a [`Mat4`] with inverse of `self`.
+    #[inline]
+    pub fn inverse(&self) -> Self {
+        let (m00, m01, m02, m03) = self.x_axis.into();
+        let (m10, m11, m12, m13) = self.y_axis.into();
+        let (m20, m21, m22, m23) = self.z_axis.into();
+        let (m30, m31, m32, m33) = self.w_axis.into();
+
+        let coef00 = m22 * m33 - m32 * m23;
+        let coef02 = m12 * m33 - m32 * m13;
+        let coef03 = m12 * m23 - m22 * m13;
+
+        let coef04 = m21 * m33 - m31 * m23;
+        let coef06 = m11 * m33 - m31 * m13;
+        let coef07 = m11 * m23 - m21 * m13;
+
+        let coef08 = m21 * m32 - m31 * m22;
+        let coef10 = m11 * m32 - m31 * m12;
+        let coef11 = m11 * m22 - m21 * m12;
+
+        let coef12 = m20 * m33 - m30 * m23;
+        let coef14 = m10 * m33 - m30 * m13;
+        let coef15 = m10 * m23 - m20 * m13;
+
+        let coef16 = m20 * m32 - m30 * m22;
+        let coef18 = m10 * m32 - m30 * m12;
+        let coef19 = m10 * m22 - m20 * m12;
+
+        let coef20 = m20 * m31 - m30 * m21;
+        let coef22 = m10 * m31 - m30 * m11;
+        let coef23 = m10 * m21 - m20 * m11;
+
+        let fac0 = Vec4::new(coef00, coef00, coef02, coef03);
+        let fac1 = Vec4::new(coef04, coef04, coef06, coef07);
+        let fac2 = Vec4::new(coef08, coef08, coef10, coef11);
+        let fac3 = Vec4::new(coef12, coef12, coef14, coef15);
+        let fac4 = Vec4::new(coef16, coef16, coef18, coef19);
+        let fac5 = Vec4::new(coef20, coef20, coef22, coef23);
+
+        let vec0 = Vec4::new(m10, m00, m00, m00);
+        let vec1 = Vec4::new(m11, m01, m01, m01);
+        let vec2 = Vec4::new(m12, m02, m02, m02);
+        let vec3 = Vec4::new(m13, m03, m03, m03);
+
+        let inv0 = vec1.mul(fac0).sub(vec2.mul(fac1)).add(vec3.mul(fac2));
+        let inv1 = vec0.mul(fac0).sub(vec2.mul(fac3)).add(vec3.mul(fac4));
+        let inv2 = vec0.mul(fac1).sub(vec1.mul(fac3)).add(vec3.mul(fac5));
+        let inv3 = vec0.mul(fac2).sub(vec1.mul(fac4)).add(vec2.mul(fac5));
+
+        let sign_a = Vec4::new(1.0, -1.0, 1.0, -1.0);
+        let sign_b = Vec4::new(-1.0, 1.0, -1.0, 1.0);
+
+        let inverse = Self::from_cols(
+            inv0.mul(sign_a),
+            inv1.mul(sign_b),
+            inv2.mul(sign_a),
+            inv3.mul(sign_b),
+        );
+
+        let col0 = Vec4::new(
+            inverse.x_axis.x,
+            inverse.y_axis.x,
+            inverse.z_axis.x,
+            inverse.w_axis.x,
+        );
+
+        let dot0 = self.x_axis.mul(col0);
+        let dot1 = dot0.x + dot0.y + dot0.z + dot0.w;
+
+        assert!(dot1 != 0.0);
+
+        let rcp_det = dot1.recip();
+        inverse.mul(rcp_det)
     }
 
     /// Returns `true` if all elements of `self` are finite.
@@ -169,6 +683,30 @@ impl Mat4 {
     #[inline]
     pub fn is_nan(self) -> bool {
         self.x_axis.is_nan() || self.y_axis.is_nan() || self.z_axis.is_nan() || self.w_axis.is_nan()
+    }
+
+    #[inline]
+    fn quat_to_axes(rotation: Quat) -> (Vec4, Vec4, Vec4) {
+        assert!(rotation.is_normalized());
+
+        let (x, y, z, w) = rotation.into();
+        let x2 = x + x;
+        let y2 = y + y;
+        let z2 = z + z;
+        let xx = x * x2;
+        let xy = x * y2;
+        let xz = x * z2;
+        let yy = y * y2;
+        let yz = y * z2;
+        let zz = z * z2;
+        let wx = w * x2;
+        let wy = w * y2;
+        let wz = w * z2;
+
+        let x_axis = Vec4::new(1.0 - (yy + zz), xy + wz, xz - wy, 0.0);
+        let y_axis = Vec4::new(xy - wz, 1.0 - (xx + zz), yz + wx, 0.0);
+        let z_axis = Vec4::new(xz + wy, yz - wx, 1.0 - (xx + yy), 0.0);
+        (x_axis, y_axis, z_axis)
     }
 }
 

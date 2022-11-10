@@ -50,10 +50,7 @@ impl Mat2 {
     /// Returns a [`Mat2`] with all values set to `m`.
     #[inline(always)]
     pub const fn splat(m: f32) -> Self {
-        Self {
-            x_axis: Vec2::splat(m),
-            y_axis: Vec2::splat(m),
-        }
+        Self::from_cols(Vec2::splat(m), Vec2::splat(m))
     }
 
     /// Returns a [`Mat2`] converted from array.
@@ -74,7 +71,7 @@ impl Mat2 {
         Self::new(s[0], s[1], s[2], s[3])
     }
 
-    /// Converts [`Mat2`] `self` to slice.
+    /// Converts `self` to slice.
     #[inline]
     pub fn to_slice(self, s: &mut [f32]) {
         s[0] = self.x_axis.x;
@@ -84,16 +81,81 @@ impl Mat2 {
         s[3] = self.y_axis.y;
     }
 
-    /// Returns the transposed [`Mat2`] from `self`.
+    /// Returns a [`Mat2`] with its diagonal set to `diagonal` and all other entries set to 0.
+    #[inline]
+    pub fn from_diagonal(diagonal: Vec2) -> Self {
+        Self::new(diagonal.x, 0.0, 0.0, diagonal.y)
+    }
+
+    /// Returns a [`Mat2`] with the combining non-uniform `scale` and rotation of `angle` (in radians).
+    #[inline]
+    pub fn from_scale_angle(scale: Vec2, angle: f32) -> Self {
+        let (sin, cos) = angle.sin_cos();
+        Self::new(
+            cos * scale.x,
+            sin * scale.x,
+            -sin * scale.y,
+            cos * scale.y * scale.y,
+        )
+    }
+
+    /// Returns a [`Mat2`] with a rotation of `angle` (in radians).
+    #[inline]
+    pub fn from_angle(angle: f32) -> Self {
+        let (sin, cos) = angle.sin_cos();
+        Self::new(cos, sin, -sin, cos)
+    }
+
+    /// Returns a [`Vec2`] with `self` column for the given `index`.
+    #[inline]
+    pub fn col(&self, i: usize) -> Vec2 {
+        match i {
+            0 => self.x_axis,
+            1 => self.y_axis,
+            _ => panic!("index out of bounds"),
+        }
+    }
+
+    /// Returns a [`Vec2`] with `self` row for the given `index`.
+    #[inline]
+    pub fn row(&self, i: usize) -> Vec2 {
+        match i {
+            0 => Vec2::new(self.x_axis.x, self.y_axis.x),
+            1 => Vec2::new(self.x_axis.y, self.y_axis.y),
+            _ => panic!("index out of bounds"),
+        }
+    }
+
+    /// Returns a [`Mat2`] with transpose from `self`.
     #[inline]
     pub fn transpose(&self) -> Self {
-        todo!()
+        Self::from_cols(
+            Vec2::new(self.x_axis.x, self.y_axis.x),
+            Vec2::new(self.x_axis.y, self.y_axis.y),
+        )
     }
 
     /// Returns the determinant of `self`.
     #[inline]
     pub fn determinant(&self) -> f32 {
-        todo!()
+        self.x_axis.x * self.y_axis.y - self.x_axis.y * self.y_axis.x
+    }
+
+    /// Returns a [`Mat2`] with inverse of `self`.
+    #[inline]
+    pub fn inverse(&self) -> Self {
+        let recip_det = {
+            let det = self.determinant();
+            assert!(det != 0.0);
+            det.recip()
+        };
+
+        Self::new(
+            self.x_axis.y * recip_det,
+            self.x_axis.y * -recip_det,
+            self.y_axis.x * -recip_det,
+            self.x_axis.x * recip_det,
+        )
     }
 
     /// Returns `true` if all elements of `self` are finite.

@@ -1,4 +1,4 @@
-use crate::{mat4::Mat4, vec3::*};
+use crate::{mat4::Mat4, quat::Quat, vec2::*, vec3::*};
 use std::fmt;
 use std::iter::{Product, Sum};
 use std::ops::{
@@ -63,11 +63,7 @@ impl Mat3 {
     /// Returns a [`Mat3`] with all values set to `m`.
     #[inline(always)]
     pub const fn splat(m: f32) -> Self {
-        Self {
-            x_axis: Vec3::splat(m),
-            y_axis: Vec3::splat(m),
-            z_axis: Vec3::splat(m),
-        }
+        Self::from_cols(Vec3::splat(m), Vec3::splat(m), Vec3::splat(m))
     }
 
     /// Returns a [`Mat3`] converted from array.
@@ -114,20 +110,150 @@ impl Mat3 {
         s[8] = self.z_axis.z;
     }
 
-    /// Returns the transposed [`Mat3`] from `self`.
+    /// Returns a [`Mat3`] with its diagonal set to `diagonal` and all other entries set to 0.
+    #[inline]
+    pub fn from_diagonal(diagonal: Vec3) -> Self {
+        Self::new(
+            diagonal.x, 0.0, 0.0, 0.0, diagonal.y, 0.0, 0.0, 0.0, diagonal.z,
+        )
+    }
+
+    /// Returns a [`Mat3`] from `rotation`
+    ///
+    /// `rotation` must be normalized.
+    #[inline]
+    pub fn from_quat(rotation: Quat) -> Self {
+        assert!(rotation.is_normalized());
+
+        let x2 = rotation.x + rotation.x;
+        let y2 = rotation.y + rotation.y;
+        let z2 = rotation.z + rotation.z;
+        let xx = rotation.x * x2;
+        let xy = rotation.x * y2;
+        let xz = rotation.x * z2;
+        let yy = rotation.y * y2;
+        let yz = rotation.y * z2;
+        let zz = rotation.z * z2;
+        let wx = rotation.w * x2;
+        let wy = rotation.w * y2;
+        let wz = rotation.w * z2;
+
+        Self::from_cols(
+            Vec3::new(1.0 - (yy + zz), xy + wz, xz - wy),
+            Vec3::new(xy - wz, 1.0 - (xx + zz), yz + wx),
+            Vec3::new(xz + wy, yz - wx, 1.0 - (xx + yy)),
+        )
+    }
+
+    /// Returns a [`Mat3`] from `angle` (in radians) around the x axis.
+    #[inline]
+    pub fn from_rotation_x(angle: f32) -> Self {
+        let (sin, cos) = angle.sin_cos();
+        Self::from_cols(Vec3::X, Vec3::new(0.0, cos, sin), Vec3::new(0.0, -sin, cos))
+    }
+
+    /// Returns a [`Mat3`] from `angle` (in radians) around the y axis.
+    #[inline]
+    pub fn from_rotation_y(angle: f32) -> Self {
+        let (sin, cos) = angle.sin_cos();
+        Self::from_cols(Vec3::new(cos, 0.0, -sin), Vec3::Y, Vec3::new(sin, 0.0, cos))
+    }
+
+    /// Returns a [`Mat3`] from `angle` (in radians) around the z axis.
+    #[inline]
+    pub fn from_rotation_z(angle: f32) -> Self {
+        let (sin, cos) = angle.sin_cos();
+        Self::from_cols(Vec3::new(cos, sin, 0.0), Vec3::new(-sin, cos, 0.0), Vec3::Z)
+    }
+
+    /// Returns a [`Mat3`] an affine transformation from the `translation`.
+    #[inline]
+    pub fn from_translation(translation: Vec2) -> Self {
+        Self::from_cols(
+            Vec3::X,
+            Vec3::Y,
+            Vec3::new(translation.x, translation.y, 1.0),
+        )
+    }
+
+    /// Returns a [`Mat3`] an affine transformation from the rotation `angle` (in radians).
+    #[inline]
+    pub fn from_angle(angle: f32) -> Self {
+        let (sin, cos) = angle.sin_cos();
+        Self::from_cols(Vec3::new(cos, sin, 0.0), Vec3::new(-sin, cos, 0.0), Vec3::Z)
+    }
+
+    /// Returns a [`Mat3`] an affine transformation from the `scale`, rotation `angle` (in radians) and `translation`.
+    #[inline]
+    pub fn from_scale_angle_translation(scale: Vec2, angle: f32, translation: Vec2) -> Self {
+        let (sin, cos) = angle.sin_cos();
+        Self::from_cols(
+            Vec3::new(cos * scale.x, sin * scale.x, 0.0),
+            Vec3::new(-sin * scale.y, cos * scale.y, 0.0),
+            Vec3::new(translation.x, translation.y, 1.0),
+        )
+    }
+
+    /// Returns a [`Mat3`] with non-uniform `scale`.
+    #[inline]
+    pub fn from_scale(scale: Vec2) -> Self {
+        assert!(scale.cmpne(Vec2::ZERO).any());
+
+        Self::from_cols(
+            Vec3::new(scale.x, 0.0, 0.0),
+            Vec3::new(0.0, scale.y, 0.0),
+            Vec3::Z,
+        )
+    }
+
+    /// Returns a [`Vec3`] with `self` column for the `index`.
+    #[inline]
+    pub fn col(&self, i: usize) -> Vec3 {
+        match i {
+            0 => self.x_axis,
+            1 => self.y_axis,
+            2 => self.z_axis,
+            _ => panic!("index out of bounds"),
+        }
+    }
+
+    /// Returns a [`Vec3`] with `self` row for the `index`.
+    #[inline]
+    pub fn row(&self, index: usize) -> Vec3 {
+        match index {
+            0 => Vec3::new(self.x_axis.x, self.y_axis.x, self.z_axis.x),
+            1 => Vec3::new(self.x_axis.y, self.y_axis.y, self.z_axis.y),
+            2 => Vec3::new(self.x_axis.z, self.y_axis.z, self.z_axis.z),
+            _ => panic!("index out of bounds"),
+        }
+    }
+
+    /// Returns a [`Mat3`] with transpose from `self`.
     #[inline]
     pub fn transpose(&self) -> Self {
-        Self {
-            x_axis: Vec3::new(self.x_axis.x, self.y_axis.x, self.z_axis.x),
-            y_axis: Vec3::new(self.x_axis.y, self.y_axis.y, self.z_axis.y),
-            z_axis: Vec3::new(self.x_axis.z, self.y_axis.z, self.z_axis.z),
-        }
+        Self::from_cols(
+            Vec3::new(self.x_axis.x, self.y_axis.x, self.z_axis.x),
+            Vec3::new(self.x_axis.y, self.y_axis.y, self.z_axis.y),
+            Vec3::new(self.x_axis.z, self.y_axis.z, self.z_axis.z),
+        )
     }
 
     /// Returns the determinant of `self`.
     #[inline]
     pub fn determinant(&self) -> f32 {
         self.z_axis.dot(self.x_axis.cross(self.y_axis))
+    }
+
+    /// Returns a [`Mat3`] with inverse of `self`.
+    #[inline]
+    pub fn inverse(&self) -> Self {
+        let tmp0 = self.y_axis.cross(self.z_axis);
+        let tmp1 = self.z_axis.cross(self.x_axis);
+        let tmp2 = self.x_axis.cross(self.y_axis);
+        let det = self.z_axis.dot(tmp2);
+        assert!(det != 0.0);
+        let vec_det = Vec3::splat(det.recip());
+        Self::from_cols(tmp0.mul(vec_det), tmp1.mul(vec_det), tmp2.mul(vec_det)).transpose()
     }
 
     /// Returns `true` if all elements of `self` are finite.
