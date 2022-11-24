@@ -8,16 +8,20 @@
 pub mod prelude {
     //! Provides main entity-component-system functionality.
     #[doc(hidden)]
-    pub use crate::EcsPlugin;
+    pub use crate::{component::*, entity::*, system::*, world::*};
+
+    #[doc(hidden)]
+    pub use qinetic_ecs_macros::*;
 }
 
-use qinetic_app::prelude::*;
+/// Provides ecs world.
+pub mod world;
 
-/// Adds entity-component-system functionality to [`App`]
-#[derive(Default)]
-pub struct EcsPlugin {}
+/// Provides ecs entity.
+pub mod entity;
 
-impl Plugin for EcsPlugin {
-    #[allow(unused_variables)]
-    fn build(&self, app: &mut App) {}
-}
+/// Provides ecs componenen.
+pub mod component;
+
+/// Provides ecs system.
+pub mod system;
