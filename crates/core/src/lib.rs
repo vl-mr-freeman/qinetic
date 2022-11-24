@@ -8,16 +8,21 @@
 pub mod prelude {
     //! Provides main core functionality.
     #[doc(hidden)]
-    pub use crate::CorePlugin;
+    pub use crate::{color3::*, color4::*, CorePlugin};
 }
+
+/// Provides color(r,g,b) facilitate creating.
+pub mod color3;
+
+/// Provides color(r,g,b,a) facilitate creating.
+pub mod color4;
 
 use qinetic_app::prelude::*;
 
 /// Adds core functionality to [`App`].
 #[derive(Default)]
-pub struct CorePlugin {}
+pub struct CorePlugin;
 
 impl Plugin for CorePlugin {
-    #[allow(unused_variables)]
-    fn build(&self, app: &mut App) {}
+    fn build(&self, app_builder: &mut AppBuilder) {}
 }
