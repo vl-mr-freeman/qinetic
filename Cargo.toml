@@ -13,6 +13,15 @@ license = "MIT"
 keywords = ["gamedev", "graphics", "game", "engine", "qinetic"]
 categories = ["game-engines"]
 
+[package.metadata.docs.rs]
+all-features = true
+
+[profile.release]
+lto = true
+strip = true
+codegen-units = 1
+panic = 'abort'
+
 [workspace]
 exclude = [
 	"benches",
@@ -30,20 +39,21 @@ default = [
 	"render",
 ]
 
-# force dynamic linking, which improves iterative compile times.
+# Force dynamic linking, which improves iterative compile times.
+# Avaliable only in `dev` profile.
 dynamic = ["qinetic_dylib"]
 
 # Optional Qinetic crates
+ai = ["qinetic_internal/qinetic_ai"]
 animation = ["qinetic_internal/qinetic_animation"]
 audio = ["qinetic_internal/qinetic_audio"]
+log = ["qinetic_internal/qinetic_log"]
 network = ["qinetic_internal/qinetic_network"]
 physics = ["qinetic_internal/qinetic_physics"]
 render = ["qinetic_internal/qinetic_render"]
 ui = ["qinetic_internal/qinetic_ui"]
 
 [dependencies]
-qinetic_dylib = { path = "crates/dylib", version = "0.*", default-features = false, optional = true}
 qinetic_internal = { path = "crates/internal", version = "0.*", default-features = false}
 
-[package.metadata.docs.rs]
-all-features = true
+qinetic_dylib = { path = "crates/dylib", version = "0.*", default-features = false, optional = true}

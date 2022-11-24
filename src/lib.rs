@@ -8,8 +8,9 @@
 //!  use qinetic::prelude::*;
 //!
 //!  fn main() {
-//!     Application::new()
-//!         .add_plugin_group(DefaultPluginGroup)
+//!     App::builder()
+//!         .with_plugins(DefaultPlugins)
+//!         .build()
 //!         .run();
 //!  }
 //! ```

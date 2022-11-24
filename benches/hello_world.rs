@@ -1,5 +1,14 @@
 use qinetic::prelude::*;
 
 fn main() {
-    App::new().add_plugin_group(DefaultPluginGroup).run();
+    App::builder()
+        .with_plugins(DefaultPlugins)
+        .with_runner(runner)
+        .build()
+        .run();
+}
+
+fn runner(mut app: App) {
+    println!("[runner]: hello, world!");
+    app.update();
 }
