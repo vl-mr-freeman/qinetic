@@ -14,3 +14,4 @@ keywords = ["qinetic"]
 
 [dependencies]
 qinetic_app = { path = "../app", version = "0.*" }
+qinetic_app_macros = {path = "../app_macros", version = "0.*"}

@@ -8,16 +8,23 @@
 pub mod prelude {
     //! Provides main network functionality.
     #[doc(hidden)]
-    pub use crate::NetworkPlugin;
+    pub use crate::{NetworkPlugin, NetworkStage};
 }
 
 use qinetic_app::prelude::*;
 
 /// Adds network functionality to [`App`]
 #[derive(Default)]
-pub struct NetworkPlugin {}
+pub struct NetworkPlugin;
 
 impl Plugin for NetworkPlugin {
-    #[allow(unused_variables)]
-    fn build(&self, app: &mut App) {}
+    fn build(&self, app_builder: &mut AppBuilder) {
+        app_builder.with_stage(NetworkStage::default());
+    }
 }
+
+/// [`App`]'s network step of execution cycle.
+#[derive(Default)]
+pub struct NetworkStage;
+
+impl Stage for NetworkStage {}

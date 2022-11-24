@@ -8,16 +8,23 @@
 pub mod prelude {
     //! Provides main asset functionality.
     #[doc(hidden)]
-    pub use crate::AssetPlugin;
+    pub use crate::{AssetPlugin, AssetStage};
 }
 
 use qinetic_app::prelude::*;
 
 /// Adds asset functionality to [`App`]
 #[derive(Default)]
-pub struct AssetPlugin {}
+pub struct AssetPlugin;
 
 impl Plugin for AssetPlugin {
-    #[allow(unused_variables)]
-    fn build(&self, app: &mut App) {}
+    fn build(&self, app_builder: &mut AppBuilder) {
+        app_builder.with_stage(AssetStage::default());
+    }
 }
+
+/// [`App`]'s asset step of execution cycle.
+#[derive(Default)]
+pub struct AssetStage;
+
+impl Stage for AssetStage {}

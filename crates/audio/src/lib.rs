@@ -8,16 +8,29 @@
 pub mod prelude {
     //! Provides main audio functionality.
     #[doc(hidden)]
-    pub use crate::AudioPlugin;
+    pub use crate::{AudioPlugin, AudioStage, Sound};
 }
 
 use qinetic_app::prelude::*;
+use qinetic_ecs::prelude::*;
 
 /// Adds audio functionality to [`App`]
 #[derive(Default)]
-pub struct AudioPlugin {}
+pub struct AudioPlugin;
 
 impl Plugin for AudioPlugin {
-    #[allow(unused_variables)]
-    fn build(&self, app: &mut App) {}
+    fn build(&self, app_builder: &mut AppBuilder) {
+        app_builder.with_component(Sound::default());
+        app_builder.with_stage(AudioStage::default());
+    }
 }
+
+/// [`App`]'s audio step of execution cycle.
+#[derive(Default)]
+pub struct AudioStage;
+
+impl Stage for AudioStage {}
+
+#[derive(Default, Component)]
+/// Sound [`Component`].
+pub struct Sound {}

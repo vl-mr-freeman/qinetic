@@ -11,37 +11,46 @@ pub mod prelude {
     //! Provides main functionality.
 
     #[doc(hidden)]
+    #[cfg(feature = "qinetic_ai")]
+    pub use super::ai::prelude::*;
+
+    #[doc(hidden)]
     #[cfg(feature = "qinetic_animation")]
-    pub use crate::animation::prelude::*;
+    pub use super::animation::prelude::*;
 
     #[doc(hidden)]
     #[cfg(feature = "qinetic_audio")]
-    pub use crate::audio::prelude::*;
+    pub use super::audio::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_log")]
+    pub use super::log::prelude::*;
 
     #[doc(hidden)]
     #[cfg(feature = "qinetic_network")]
-    pub use crate::network::prelude::*;
+    pub use super::network::prelude::*;
 
     #[doc(hidden)]
     #[cfg(feature = "qinetic_physics")]
-    pub use crate::physics::prelude::*;
+    pub use super::physics::prelude::*;
 
     #[doc(hidden)]
     #[cfg(feature = "qinetic_render")]
-    pub use crate::render::prelude::*;
+    pub use super::render::prelude::*;
 
     #[doc(hidden)]
     #[cfg(feature = "qinetic_ui")]
-    pub use crate::ui::prelude::*;
+    pub use super::ui::prelude::*;
 
     #[doc(hidden)]
-    pub use crate::{
+    pub use super::{
         app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
-        log::prelude::*, math::prelude::*, window::prelude::*, DefaultPluginGroup,
-        MinimalPluginGroup,
+        math::prelude::*, window::prelude::*, DefaultPlugins, MinimalPlugins,
     };
 }
 
+#[cfg(feature = "qinetic_ai")]
+pub use qinetic_ai as ai;
 #[cfg(feature = "qinetic_animation")]
 pub use qinetic_animation as animation;
 pub use qinetic_app as app;
@@ -51,6 +60,7 @@ pub use qinetic_audio as audio;
 pub use qinetic_core as core;
 pub use qinetic_ecs as ecs;
 pub use qinetic_input as input;
+#[cfg(feature = "qinetic_log")]
 pub use qinetic_log as log;
 pub use qinetic_math as math;
 #[cfg(feature = "qinetic_network")]

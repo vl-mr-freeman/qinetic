@@ -1,23 +1,24 @@
-use qinetic_app::plugin::{PluginGroup, PluginGroupBuilder};
+use qinetic_app::plugin::*;
 
-/// Minimal plugin group includes:
+/// Includes:
 /// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
 ///
-/// See also [`DefaultPluginGroup`] for a more complete set of plugins.
-pub struct MinimalPluginGroup;
+/// See also [`DefaultPlugins`] for a more complete group of [`Plugin`]s.
+#[derive(Default)]
+pub struct MinimalPlugins;
 
-impl PluginGroup for MinimalPluginGroup {
-    fn configure(&mut self, builder: &mut PluginGroupBuilder) {
-        builder.add(qinetic_core::CorePlugin::default());
+impl PluginGroup for MinimalPlugins {
+    fn configure(&self, registry: &mut PluginRegistry) {
+        registry.add(qinetic_core::CorePlugin::default());
     }
 }
 
-/// Default plugin group includes:
+/// Includes:
 /// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
 /// * [`LogPlugin`](../qinetic_log/struct.LogPlugin.html)
 /// * [`AssetPlugin`](../qinetic_asset/struct.AssetPlugin.html)
 /// * [`NetworkPlugin`](../qinetic_network/struct.NetworkPlugin.html) - feature = `network`
-/// * [`EcsPlugin`](../qinetic_ecs/struct.EcsPlugin.html)
+/// * [`AiPlugin`](../qinetic_ai/struct.Ailugin.html) - feature = `ai`
 /// * [`AnimationPlugin`](../qinetic_animation/struct.AnimationPlugin.html) - feature = `animation`
 /// * [`AudioPlugin`](../qinetic_audio/struct.AudioPlugin.html) - feature = `audio`
 /// * [`PhysicsPlugin`](../qinetic_physics/struct.PhysicsPlugin.html) - feature = `physics`
@@ -26,28 +27,31 @@ impl PluginGroup for MinimalPluginGroup {
 /// * [`RenderPlugin`](../qinetic_render/struct.RenderPlugin.html) - feature = `render`
 /// * [`UiPlugin`](../qinetic_ui/struct.UiPlugin.html) - feature = `ui`
 ///
-/// See also [`MinimalPluginGroup`] for a slimmed down option.
-pub struct DefaultPluginGroup;
+/// See also [`MinimalPlugins`] for a slimmed down group of [`Plugin`]s.
+#[derive(Default)]
+pub struct DefaultPlugins;
 
-impl PluginGroup for DefaultPluginGroup {
-    fn configure(&mut self, builder: &mut PluginGroupBuilder) {
-        builder.add(qinetic_core::CorePlugin::default());
-        builder.add(qinetic_log::LogPlugin::default());
-        builder.add(qinetic_asset::AssetPlugin::default());
+impl PluginGroup for DefaultPlugins {
+    fn configure(&self, registry: &mut PluginRegistry) {
+        registry.add(qinetic_core::CorePlugin::default());
+        #[cfg(feature = "qinetic_log")]
+        registry.add(qinetic_log::LogPlugin::default());
+        registry.add(qinetic_asset::AssetPlugin::default());
         #[cfg(feature = "qinetic_network")]
-        builder.add(qinetic_network::NetworkPlugin::default());
-        builder.add(qinetic_ecs::EcsPlugin::default());
+        registry.add(qinetic_network::NetworkPlugin::default());
+        #[cfg(feature = "qinetic_ai")]
+        registry.add(qinetic_ai::AiPlugin::default());
         #[cfg(feature = "qinetic_animation")]
-        builder.add(qinetic_animation::AnimationPlugin::default());
+        registry.add(qinetic_animation::AnimationPlugin::default());
         #[cfg(feature = "qinetic_audio")]
-        builder.add(qinetic_audio::AudioPlugin::default());
+        registry.add(qinetic_audio::AudioPlugin::default());
         #[cfg(feature = "qinetic_physics")]
-        builder.add(qinetic_physics::PhysicsPlugin::default());
-        builder.add(qinetic_window::WindowPlugin::default());
-        builder.add(qinetic_input::InputPlugin::default());
+        registry.add(qinetic_physics::PhysicsPlugin::default());
+        registry.add(qinetic_window::WindowPlugin::default());
+        registry.add(qinetic_input::InputPlugin::default());
         #[cfg(feature = "qinetic_render")]
-        builder.add(qinetic_render::RenderPlugin::default());
+        registry.add(qinetic_render::RenderPlugin::default());
         #[cfg(feature = "qinetic_ui")]
-        builder.add(qinetic_ui::UiPlugin::default());
+        registry.add(qinetic_ui::UiPlugin::default());
     }
 }
