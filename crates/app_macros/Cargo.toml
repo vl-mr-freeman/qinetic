@@ -1,0 +1,22 @@
+[package]
+name = "qinetic_app_macros"
+version = "0.1.0"
+authors = [
+	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
+]
+edition = "2021"
+description = "crate for Qinetic, containing application macros"
+documentation = "https://docs.rs/qinetic_app_macros"
+readme = "README.md"
+repository = "https://github.com/vl-mr-freeman/qinetic"
+license = "MIT"
+keywords = ["qinetic"]
+
+[lib]
+proc-macro = true
+
+[dependencies]
+qinetic_utils_macros = { path = "../utils_macros", version = "0.*" }
+
+syn = "1.*"
+quote = "1.*"
