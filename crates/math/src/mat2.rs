@@ -41,10 +41,7 @@ impl Mat2 {
     /// Returns a [`Mat2`] converted from 2x[`Vec2`].
     #[inline(always)]
     pub const fn from_cols(x_axis: Vec2, y_axis: Vec2) -> Self {
-        Self {
-            x_axis: x_axis,
-            y_axis: y_axis,
-        }
+        Self { x_axis, y_axis }
     }
 
     /// Returns a [`Mat2`] with all values set to `m`.

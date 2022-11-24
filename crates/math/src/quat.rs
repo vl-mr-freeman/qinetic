@@ -31,12 +31,7 @@ impl Quat {
     /// Returns a [`Quat`] with given values.
     #[inline(always)]
     pub const fn from_xyzw(x: f32, y: f32, z: f32, w: f32) -> Self {
-        Self {
-            x: x,
-            y: y,
-            z: z,
-            w: w,
-        }
+        Self { x, y, z, w }
     }
 
     /// Returns a [`Quat`] converted from array.

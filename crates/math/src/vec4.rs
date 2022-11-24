@@ -1,4 +1,4 @@
-use crate::{bvec4::BVec4, quat::Quat};
+use crate::{bvec4::BVec4, quat::Quat, vec2::Vec2, vec3::Vec3};
 use std::fmt;
 use std::iter::{Product, Sum};
 use std::ops::{
@@ -52,15 +52,10 @@ impl Vec4 {
     /// A unit-length [`Vec4`] along the negative W axis.
     pub const NEG_W: Self = Self::new(0.0, 0.0, 0.0, -1.0);
 
-    /// Returns a [`Vec4`] with all values set to `v`.
+    /// Returns a [`Vec4`] with given values.
     #[inline(always)]
     pub const fn new(x: f32, y: f32, z: f32, w: f32) -> Self {
-        Self {
-            x: x,
-            y: y,
-            z: z,
-            w: w,
-        }
+        Self { x, y, z, w }
     }
 
     /// Returns a [`Vec4`] with all values set to `v`.
@@ -774,6 +769,20 @@ impl fmt::Debug for Vec4 {
             .field(&self.z)
             .field(&self.w)
             .finish()
+    }
+}
+
+impl From<Vec2> for Vec4 {
+    #[inline]
+    fn from(v: Vec2) -> Self {
+        Self::new(v.x, v.y, 0.0, 0.0)
+    }
+}
+
+impl From<Vec3> for Vec4 {
+    #[inline]
+    fn from(v: Vec3) -> Self {
+        Self::new(v.x, v.y, v.z, 0.0)
     }
 }
 

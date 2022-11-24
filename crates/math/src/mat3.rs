@@ -32,6 +32,7 @@ impl Mat3 {
 
     /// Returns a [`Mat3`] with given values.
     #[inline(always)]
+    #[allow(clippy::too_many_arguments)]
     pub const fn new(
         m00: f32,
         m01: f32,
@@ -43,20 +44,20 @@ impl Mat3 {
         m21: f32,
         m22: f32,
     ) -> Self {
-        Self {
-            x_axis: Vec3::new(m00, m01, m02),
-            y_axis: Vec3::new(m10, m11, m12),
-            z_axis: Vec3::new(m20, m21, m22),
-        }
+        Self::from_cols(
+            Vec3::new(m00, m01, m02),
+            Vec3::new(m10, m11, m12),
+            Vec3::new(m20, m21, m22),
+        )
     }
 
     /// Returns a [`Mat3`] converted from 3x[`Vec3`].
     #[inline(always)]
     pub const fn from_cols(x_axis: Vec3, y_axis: Vec3, z_axis: Vec3) -> Self {
         Self {
-            x_axis: x_axis,
-            y_axis: y_axis,
-            z_axis: z_axis,
+            x_axis,
+            y_axis,
+            z_axis,
         }
     }
 

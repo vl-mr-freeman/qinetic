@@ -40,7 +40,7 @@ impl Vec2 {
     /// Returns a [`Vec2`] with given values.
     #[inline(always)]
     pub const fn new(x: f32, y: f32) -> Self {
-        Self { x: x, y: y }
+        Self { x, y }
     }
 
     /// Returns a [`Vec2`] with all values set to `v`.

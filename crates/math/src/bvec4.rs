@@ -2,7 +2,7 @@ use std::fmt;
 use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};
 
 /// A 4-dimensional boolean vector.
-#[derive(Clone, Copy, PartialEq, Default)]
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
 pub struct BVec4 {
     pub x: bool,
     pub y: bool,
@@ -20,12 +20,7 @@ impl BVec4 {
     /// Returns a [`BVec4`] with given values.
     #[inline(always)]
     pub const fn new(x: bool, y: bool, z: bool, w: bool) -> Self {
-        Self {
-            x: x,
-            y: y,
-            z: z,
-            w: w,
-        }
+        Self { x, y, z, w }
     }
 
     /// Returns a [`BVec4`] with all values set to `v`.

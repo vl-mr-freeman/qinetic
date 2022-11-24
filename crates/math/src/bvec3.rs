@@ -3,7 +3,7 @@ use std::fmt;
 use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};
 
 /// A 3-dimensional boolean vector.
-#[derive(Clone, Copy, PartialEq, Default)]
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
 pub struct BVec3 {
     pub x: bool,
     pub y: bool,
@@ -20,7 +20,7 @@ impl BVec3 {
     /// Returns a [`BVec3`] with given values.
     #[inline(always)]
     pub const fn new(x: bool, y: bool, z: bool) -> Self {
-        Self { x: x, y: y, z: z }
+        Self { x, y, z }
     }
 
     /// Returns a [`BVec3`] with all values set to `v`.

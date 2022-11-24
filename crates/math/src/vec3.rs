@@ -1,4 +1,4 @@
-use crate::{bvec3::BVec3, vec4::Vec4};
+use crate::{bvec3::BVec3, vec2::Vec2, vec4::Vec4};
 use std::fmt;
 use std::iter::{Product, Sum};
 use std::ops::{
@@ -48,10 +48,10 @@ impl Vec3 {
     /// Returns a [`Vec3`] with given values.
     #[inline(always)]
     pub const fn new(x: f32, y: f32, z: f32) -> Self {
-        Self { x: x, y: y, z: z }
+        Self { x, y, z }
     }
 
-    /// Returns a [`Vec3`] with all values set to `v`.
+    /// Returns a [`Vec3`] with given values.
     #[inline(always)]
     pub const fn splat(v: f32) -> Self {
         Self { x: v, y: v, z: v }
@@ -723,6 +723,13 @@ impl fmt::Debug for Vec3 {
             .field(&self.y)
             .field(&self.z)
             .finish()
+    }
+}
+
+impl From<Vec2> for Vec3 {
+    #[inline]
+    fn from(v: Vec2) -> Self {
+        Self::new(v.x, v.y, 0.0)
     }
 }
 

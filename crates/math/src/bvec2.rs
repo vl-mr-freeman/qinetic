@@ -3,7 +3,7 @@ use std::fmt;
 use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};
 
 /// A 2-dimensional boolean vector.
-#[derive(Clone, Copy, PartialEq, Default)]
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
 pub struct BVec2 {
     pub x: bool,
     pub y: bool,
@@ -19,7 +19,7 @@ impl BVec2 {
     /// Returns a [`BVec2`] with given values.
     #[inline(always)]
     pub const fn new(x: bool, y: bool) -> Self {
-        Self { x: x, y: y }
+        Self { x, y }
     }
 
     /// Returns a [`BVec2`] with all values set to `v`.

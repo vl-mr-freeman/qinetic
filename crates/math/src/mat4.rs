@@ -32,6 +32,7 @@ impl Mat4 {
     pub const IDENTITY: Self = Self::from_cols(Vec4::X, Vec4::Y, Vec4::Z, Vec4::W);
 
     /// Returns a [`Mat4`] with given values.
+    #[allow(clippy::too_many_arguments)]
     pub const fn new(
         m00: f32,
         m01: f32,
@@ -50,21 +51,21 @@ impl Mat4 {
         m32: f32,
         m33: f32,
     ) -> Self {
-        Self {
-            x_axis: Vec4::new(m00, m01, m02, m03),
-            y_axis: Vec4::new(m10, m11, m12, m13),
-            z_axis: Vec4::new(m20, m21, m22, m23),
-            w_axis: Vec4::new(m30, m31, m32, m33),
-        }
+        Self::from_cols(
+            Vec4::new(m00, m01, m02, m03),
+            Vec4::new(m10, m11, m12, m13),
+            Vec4::new(m20, m21, m22, m23),
+            Vec4::new(m30, m31, m32, m33),
+        )
     }
 
     /// Returns a [`Mat4`] converted from 4x[`Vec4`].
     pub const fn from_cols(x_axis: Vec4, y_axis: Vec4, z_axis: Vec4, w_axis: Vec4) -> Self {
         Self {
-            x_axis: x_axis,
-            y_axis: y_axis,
-            z_axis: z_axis,
-            w_axis: w_axis,
+            x_axis,
+            y_axis,
+            z_axis,
+            w_axis,
         }
     }
 
