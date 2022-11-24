@@ -13,3 +13,6 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
+qinetic_app_macros = { path = "../app_macros", version = "0.*" }
+
+qinetic_ecs = { path = "../ecs", version = "0.*" }

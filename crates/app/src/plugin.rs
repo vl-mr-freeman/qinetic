@@ -1,24 +1,23 @@
-use std::any::{type_name, TypeId};
+use std::any::{type_name, Any, TypeId};
 use std::collections::HashMap;
 
-use crate::app::App;
-use std::any::Any;
+use crate::app::*;
 
-/// Plugin configure an [`App`].
-pub trait Plugin: Any + Send + Sync {
-    /// Configures the [`App`] to which this plugin is added.
-    fn build(&self, app: &mut App);
+/// [`App`]'s additional feature.
+pub trait Plugin: Any {
+    /// Configures the [`AppBuilder`] to which this plugin is added.
+    fn build(&self, app_builder: &mut AppBuilder);
 
-    /// Configures a name of the [`Plugin`].
+    /// Returns a `type name` of the [`Plugin`].
     fn name(&self) -> &str {
-        std::any::type_name::<Self>()
+        type_name::<Self>()
     }
 }
 
 /// Combines multiple [`Plugin`]s into a group.
 pub trait PluginGroup {
     /// Configures the [`Plugin`]s that are to be added.
-    fn configure(&mut self, group: &mut PluginGroupBuilder);
+    fn configure(&self, registry: &mut PluginRegistry);
 }
 
 struct PluginEntry {
@@ -28,54 +27,13 @@ struct PluginEntry {
 
 /// Facilitates the creation and configuration of a [`PluginGroup`].
 #[derive(Default)]
-pub struct PluginGroupBuilder {
+pub struct PluginRegistry {
     plugins: HashMap<TypeId, PluginEntry>,
     order: Vec<TypeId>,
 }
 
-impl PluginGroupBuilder {
-    /// Finds the index of a target [`Plugin`]. Panics if the target's [`TypeId`] is not found.
-    fn index_of<Target>(&mut self) -> usize
-    where
-        Target: Plugin,
-    {
-        let i = self.order.iter().position(|&p| p == TypeId::of::<Target>());
-
-        match i {
-            Some(i) => i,
-            None => panic!("Plugin does not exist in group: {}.", type_name::<Target>()),
-        }
-    }
-
-    /// Insert the new [`Plugin`] as enabled, and removes its previous ordering if it was already present.
-    fn upsert<T>(&mut self, plugin: T, index: usize)
-    where
-        T: Plugin,
-    {
-        if let Some(e) = self.plugins.insert(
-            TypeId::of::<T>(),
-            PluginEntry {
-                plugin: Box::new(plugin),
-                enabled: true,
-            },
-        ) {
-            if e.enabled {
-                todo!();
-            }
-
-            if let Some(r) = self
-                .order
-                .iter()
-                .enumerate()
-                .find(|(i, p)| *i != index && **p == TypeId::of::<T>())
-                .map(|(i, _)| i)
-            {
-                self.order.remove(r);
-            }
-        }
-    }
-
-    /// Adds a [`Plugin`] in [`PluginGroupBuilder`] at the end.
+impl PluginRegistry {
+    /// Adds a [`Plugin`] in [`PluginRegistry`] at the end.
     /// If the plugin was already in the group, its removed from its previous place.
     pub fn add<T>(&mut self, plugin: T) -> &mut Self
     where
@@ -87,7 +45,7 @@ impl PluginGroupBuilder {
         self
     }
 
-    /// Adds a [`Plugin`] in [`PluginGroupBuilder`] before `Target` plugin.
+    /// Adds a [`Plugin`] in [`PluginRegistry`] before `Target` plugin.
     /// If the plugin was already in the group, its removed from its previous place.
     pub fn add_before<Target, T>(&mut self, plugin: T) -> &mut Self
     where
@@ -100,7 +58,7 @@ impl PluginGroupBuilder {
         self
     }
 
-    /// Adds a [`Plugin`] in [`PluginGroupBuilder`] after `Target` plugin.
+    /// Adds a [`Plugin`] in [`PluginRegistry`] after `Target` plugin.
     /// If the plugin was already in the group, its removed from its previous place.
     pub fn add_after<Target, T>(&mut self, plugin: T) -> &mut Self
     where
@@ -142,12 +100,53 @@ impl PluginGroupBuilder {
     }
 
     /// [builds](Plugin::build) the contained [`Plugin`]s.
-    pub fn build(self, app: &mut App) {
+    pub fn build(&self, app_builder: &mut AppBuilder) {
         for p in &self.order {
             if let Some(e) = self.plugins.get(p) {
                 if e.enabled {
-                    e.plugin.build(app);
+                    e.plugin.build(app_builder);
                 }
+            }
+        }
+    }
+
+    /// Finds the index of a target [`Plugin`]. Panics if the target's [`TypeId`] is not found.
+    fn index_of<Target>(&mut self) -> usize
+    where
+        Target: Plugin,
+    {
+        let i = self.order.iter().position(|&p| p == TypeId::of::<Target>());
+
+        match i {
+            Some(i) => i,
+            None => panic!("Plugin does not exist in group: {}.", type_name::<Target>()),
+        }
+    }
+
+    /// Insert the new [`Plugin`] as enabled, and removes its previous ordering if it was already present.
+    fn upsert<T>(&mut self, plugin: T, index: usize)
+    where
+        T: Plugin,
+    {
+        if let Some(e) = self.plugins.insert(
+            TypeId::of::<T>(),
+            PluginEntry {
+                plugin: Box::new(plugin),
+                enabled: true,
+            },
+        ) {
+            if e.enabled {
+                todo!();
+            }
+
+            if let Some(r) = self
+                .order
+                .iter()
+                .enumerate()
+                .find(|(i, p)| *i != index && **p == TypeId::of::<T>())
+                .map(|(i, _)| i)
+            {
+                self.order.remove(r);
             }
         }
     }

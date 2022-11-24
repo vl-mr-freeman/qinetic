@@ -1,84 +1,148 @@
-use crate::plugin::*;
+use crate::{
+    event::{Event, EventGroup},
+    plugin::{Plugin, PluginGroup, PluginRegistry},
+    resource::Resource,
+    schedule::Schedule,
+    stage::{Stage, StageGroup, StageRegistry},
+    state::State,
+};
+use qinetic_ecs::{component::*, system::*};
 use std::mem;
 
 /// A conteiner of application logic.
 pub struct App {
-    runner: Box<dyn Fn(App)>,
-}
-
-impl Default for App {
-    fn default() -> Self {
-        let app = App::empty();
-
-        app
-    }
+    runner: Box<dyn Fn(App) + 'static>,
+    schedule: Schedule,
 }
 
 impl App {
-    /// Returns a [`App`] with some default configuration.
-    pub fn new() -> Self {
-        Self::default()
+    /// Returns a [`AppBuilder`] with `default` configuration.
+    pub fn builder() -> AppBuilder {
+        AppBuilder::default()
     }
 
-    /// Returns a [`App`] with minimal configuration.
-    pub fn empty() -> Self {
-        Self {
-            runner: Box::new(run_once),
+    /// Starts a [`App`] by calling the [runner function](AppBuilder::with_runner).
+    pub fn run(mut self) {
+        let runner = mem::replace(&mut self.runner, Box::new(run_once));
+
+        (runner)(self);
+    }
+
+    /// Advances the execution of [`App`] by one cycle.
+    pub fn update(&mut self) {
+        self.schedule.run();
+    }
+}
+
+/// A `Builder Pattern` for [`App`].
+pub struct AppBuilder {
+    runner: Option<Box<dyn Fn(App) + 'static>>,
+    plugin_registry: PluginRegistry,
+    stage_registry: StageRegistry,
+}
+
+impl AppBuilder {
+    /// Returns a [`AppBuilder`] with set `runner` function.
+    #[inline]
+    pub fn with_runner(&mut self, runner: impl Fn(App) + 'static) -> &mut Self {
+        self.runner = Some(Box::new(runner));
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add [`Resource`].
+    #[inline]
+    pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add [`Component`].
+    #[inline]
+    pub fn with_component<T: Component>(&mut self, component: T) -> &mut Self {
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add single [`Stage`].
+    #[inline]
+    pub fn with_stage<T: Stage>(&mut self, stage: T) -> &mut Self {
+        self.stage_registry.add(stage);
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add single [`Stage`]s.
+    #[inline]
+    pub fn with_stages<T: StageGroup>(&mut self, group: T) -> &mut Self {
+        group.configure(&mut self.stage_registry);
+
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add single [`State`].
+    #[inline]
+    pub fn with_state<T: State>(&mut self, state: T) -> &mut Self {
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add a single [`Event`].
+    #[inline]
+    pub fn with_event<T: Event>(&mut self) -> &mut Self {
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add a multiple [`Event`]s.
+    #[inline]
+    pub fn with_events<T: EventGroup>(&mut self, group: T) -> &mut Self {
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add a single [`System`].
+    #[inline]
+    pub fn with_system<T: System, S: Stage>(&mut self, system: T, stage: S) -> &mut Self {
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add a multiple [`System`]s.
+    #[inline]
+    pub fn with_systems<T: SystemGroup>(&mut self, group: T) -> &mut Self {
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add single [`Plugin`].
+    #[inline]
+    pub fn with_plugin<T: Plugin>(&mut self, plugin: T) -> &mut Self {
+        self.plugin_registry.add(plugin);
+        self
+    }
+
+    /// Returns a [`AppBuilder`] with add multiple [`Plugin`]s.
+    #[inline]
+    pub fn with_plugins<T: PluginGroup>(&mut self, group: T) -> &mut Self {
+        group.configure(&mut self.plugin_registry);
+        self
+    }
+
+    /// Returns a [`App`] configured from [`AppBuilder`].
+    pub fn build(&mut self) -> App {
+        let plugin_registry = mem::take(&mut self.plugin_registry);
+        let stage_registry = mem::take(&mut self.stage_registry);
+
+        let mut app_builder = mem::take(self);
+
+        plugin_registry.build(&mut app_builder);
+
+        App {
+            runner: app_builder.runner.unwrap_or(Box::new(run_once)),
+            schedule: stage_registry.build(),
         }
     }
+}
 
-    /// Sets the function that will be called when the [`App`] is run.
-    pub fn set_runner(&mut self, func: impl Fn(App) + 'static) -> &mut Self {
-        self.runner = Box::new(func);
-
-        self
-    }
-
-    /// Starts the [`App`].
-    pub fn run(&mut self) {
-        let mut app = mem::replace(self, App::empty());
-        let runner = mem::replace(&mut app.runner, Box::new(run_once));
-
-        (runner)(app);
-    }
-
-    /// Advances the execution by one cycle
-    pub fn update(&mut self) {}
-
-    /// Adds a single [`Plugin`].
-    pub fn add_plugin<T>(&mut self, plugin: T) -> &mut Self
-    where
-        T: Plugin,
-    {
-        plugin.build(self);
-
-        self
-    }
-
-    /// Adds a group of [`Plugin`]s.
-    pub fn add_plugin_group<T>(&mut self, mut group: T) -> &mut Self
-    where
-        T: PluginGroup,
-    {
-        let mut builder = PluginGroupBuilder::default();
-        group.configure(&mut builder);
-        builder.build(self);
-
-        self
-    }
-
-    /// Adds a group of [`Plugin`]s with an initializer method.
-    pub fn add_plugin_group_with<T, F>(&mut self, mut group: T, func: F) -> &mut Self
-    where
-        T: PluginGroup,
-        F: FnOnce(&mut PluginGroupBuilder) -> &mut PluginGroupBuilder,
-    {
-        let mut builder = PluginGroupBuilder::default();
-        group.configure(&mut builder);
-        func(&mut builder);
-        builder.build(self);
-
-        self
+impl Default for AppBuilder {
+    fn default() -> Self {
+        Self {
+            runner: None,
+            plugin_registry: Default::default(),
+            stage_registry: Default::default(),
+        }
     }
 }
 
