@@ -1,4 +1,4 @@
-use qinetic_core::color4::*;
+use qinetic_core::color::*;
 
 /// A container of theme data.
 pub struct Theme {}
@@ -12,10 +12,10 @@ impl Theme {
 
 impl Default for Theme {
     fn default() -> Self {
-        let bg1: Color4 = Color4::from_hex("#282828aa").unwrap();
-        let bg0: Color4 = Color4::from_hex("#1d2021aa").unwrap();
-        let fg0: Color4 = Color4::from_hex("#928374aa").unwrap();
-        let fg1: Color4 = Color4::from_hex("#ebdbb2aa").unwrap();
+        let bg1: Color4 = Color4::from_hex("#282828ff").unwrap();
+        let bg0: Color4 = Color4::from_hex("#1d2021ff").unwrap();
+        let fg0: Color4 = Color4::from_hex("#928374ff").unwrap();
+        let fg1: Color4 = Color4::from_hex("#ebdbb2ff").unwrap();
 
         Self::builder()
             .with_text(fg1)
@@ -24,10 +24,10 @@ impl Default for Theme {
             .with_text_selected(bg1)
             .with_window_bg(bg1)
             .with_window_border(fg1)
-            .with_window_shadow(Color4::from_hex("#00000000").unwrap())
+            .with_window_shadow(Color4::from_hex("#000000ff").unwrap())
             .with_child_window_bg(bg1)
             .with_child_window_border(fg1)
-            .with_child_window_shadow(Color4::from_hex("#00000000").unwrap())
+            .with_child_window_shadow(Color4::from_hex("#000000ff").unwrap())
             .with_frame_bg(bg1)
             .with_frame_bg_hovered(fg0)
             .with_frame_bg_active(fg1)
@@ -363,6 +363,6 @@ impl ThemeBuilder {
 
     /// Returns a [`Theme`] configured from [`ThemeBuilder`].
     pub fn build(mut self) -> Theme {
-        todo!()
+        Theme {}
     }
 }

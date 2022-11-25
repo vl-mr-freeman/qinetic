@@ -8,14 +8,38 @@
 pub mod prelude {
     //! Provides main core functionality.
     #[doc(hidden)]
-    pub use crate::{color3::*, color4::*, CorePlugin};
+    pub use crate::{color::*, CorePlugin};
 }
 
-/// Provides color(r,g,b) facilitate creating.
-pub mod color3;
+pub mod color {
+    //! Provides color facilitate creating.
+    pub use crate::{color3::*, color4::*};
 
-/// Provides color(r,g,b,a) facilitate creating.
-pub mod color4;
+    use std::str::Bytes;
+
+    pub(crate) fn parse_double_hex_value(bytes: &mut Bytes) -> Option<u8> {
+        const HEX_RADIX: u32 = 16;
+        let buffer = [
+            match bytes.next() {
+                Some(b) => b,
+                None => return None,
+            },
+            match bytes.next() {
+                Some(b) => b,
+                None => return None,
+            },
+        ];
+        let s = core::str::from_utf8(&buffer);
+        let s = match s {
+            Ok(s) => s,
+            Err(_) => return None,
+        };
+        u8::from_str_radix(s, HEX_RADIX).ok()
+    }
+}
+
+mod color3;
+mod color4;
 
 use qinetic_app::prelude::*;
 

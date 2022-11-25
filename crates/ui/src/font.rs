@@ -48,7 +48,7 @@ impl FontBuilder {
 
     /// Returns a [`Font`] configured from [`FontBuilder`].
     pub fn build(mut self) -> Font {
-        todo!()
+        Font {}
     }
 }
 

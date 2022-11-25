@@ -51,14 +51,56 @@ impl Color4 {
 
     /// Returns a [`Color4`] converted from `hex string`, like `#cc241daa`.
     #[inline]
-    pub const fn from_hex(hex: &str) -> Option<Self> {
-        todo!()
+    pub fn from_hex(hex: &str) -> Option<Self> {
+        let mut bytes = hex.bytes();
+        match bytes.next() {
+            Some(b'#') => { /* just skip*/ }
+            Some(_) => return None,
+            None => return None,
+        }
+        let r = crate::color::parse_double_hex_value(&mut bytes);
+        let r = match r {
+            Some(r) => r,
+            None => return None,
+        };
+
+        let g = crate::color::parse_double_hex_value(&mut bytes);
+        let g = match g {
+            Some(g) => g,
+            None => return None,
+        };
+
+        let b = crate::color::parse_double_hex_value(&mut bytes);
+        let b = match b {
+            Some(b) => b,
+            None => return None,
+        };
+
+        let a = crate::color::parse_double_hex_value(&mut bytes);
+        let a = match a {
+            Some(a) => a,
+            None => return None,
+        };
+
+        Some(Self::new(r, g, b, a))
     }
 
     /// Returns a [`Color4`] converted from `f32`.
     #[inline]
-    pub const fn from_f32(r: f32, g: f32, b: f32, a: f32) -> Self {
-        todo!()
+    pub fn from_f32(r: f32, g: f32, b: f32, a: f32) -> Option<Self> {
+        if (r > 1.0 || r < 0.0)
+            || (g > 1.0 || g < 0.0)
+            || (b > 1.0 || b < 0.0)
+            || (a > 1.0 || a < 0.0)
+        {
+            return None;
+        }
+        Some(Self {
+            r: (r * 255.0) as u8,
+            g: (g * 255.0) as u8,
+            b: (b * 255.0) as u8,
+            a: (a * 255.0) as u8,
+        })
     }
 
     /// Returns a [`Color4`] converted from array.
@@ -91,7 +133,7 @@ impl Color4 {
 
 impl fmt::Display for Color4 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {}, {})", self.r, self.g, self.b, self.a)
+        write!(f, "#({}, {}, {}, {})", self.r, self.g, self.b, self.a)
     }
 }
 

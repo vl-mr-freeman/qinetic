@@ -12,6 +12,7 @@ pub mod prelude {
 }
 
 use qinetic_app::prelude::*;
+use qinetic_core::color::Color4;
 use qinetic_ecs::prelude::*;
 
 /// Adds render functionality to [`App`]
@@ -37,6 +38,7 @@ pub enum RenderApi {
 pub struct RenderResource {
     pub api: RenderApi,
     pub max_frames_in_flight: u32,
+    pub clear_color: Color4,
 }
 
 impl Default for RenderResource {
@@ -44,6 +46,7 @@ impl Default for RenderResource {
         Self {
             api: RenderApi::default(),
             max_frames_in_flight: 2,
+            clear_color: Color4::BLACK,
         }
     }
 }
