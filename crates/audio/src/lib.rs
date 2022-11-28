@@ -19,17 +19,15 @@ use qinetic_ecs::prelude::*;
 pub struct AudioPlugin;
 
 impl Plugin for AudioPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_component(Sound::default());
         app_builder.with_stage(AudioStage::default());
     }
 }
 
 /// [`App`]'s audio step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct AudioStage;
-
-impl Stage for AudioStage {}
 
 #[derive(Default, Component)]
 /// Sound [`Component`].

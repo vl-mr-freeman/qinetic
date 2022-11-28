@@ -20,13 +20,14 @@ pub mod theme;
 use crate::font::*;
 use crate::theme::*;
 use qinetic_app::prelude::*;
+use qinetic_ecs::prelude::*;
 
 /// Adds user-interface functionality to [`App`]
 #[derive(Default)]
 pub struct UiPlugin;
 
 impl Plugin for UiPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_resource(UiResource::default());
         app_builder.with_stage(UiStage::default());
     }
@@ -123,7 +124,5 @@ impl Default for UiResource {
 }
 
 /// [`App`]'s user-interface step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct UiStage;
-
-impl Stage for UiStage {}

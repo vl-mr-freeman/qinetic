@@ -18,13 +18,11 @@ use qinetic_app::prelude::*;
 pub struct AssetPlugin;
 
 impl Plugin for AssetPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_stage(AssetStage::default());
     }
 }
 
 /// [`App`]'s asset step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct AssetStage;
-
-impl Stage for AssetStage {}

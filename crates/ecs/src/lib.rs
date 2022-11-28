@@ -8,7 +8,9 @@
 pub mod prelude {
     //! Provides main entity-component-system functionality.
     #[doc(hidden)]
-    pub use crate::{component::*, entity::*, system::*, world::*};
+    pub use crate::{
+        component::*, entity::*, event::*, resource::*, state::*, system::*, world::*,
+    };
 
     #[doc(hidden)]
     pub use qinetic_ecs_macros::*;
@@ -22,6 +24,15 @@ pub mod entity;
 
 /// Provides ecs componenen.
 pub mod component;
+
+/// Provides ecs event.
+pub mod event;
+
+/// Provides ecs resource.
+pub mod resource;
+
+/// Provides ecs state.
+pub mod state;
 
 /// Provides ecs system.
 pub mod system;

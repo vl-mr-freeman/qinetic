@@ -12,13 +12,14 @@ pub mod prelude {
 }
 
 use qinetic_app::prelude::*;
+use qinetic_ecs::prelude::*;
 
 /// Adds log functionality to [`App`]
 #[derive(Default)]
 pub struct LogPlugin;
 
 impl Plugin for LogPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_resource(LogResource::default());
     }
 }

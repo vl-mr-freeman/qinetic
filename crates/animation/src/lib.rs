@@ -19,17 +19,16 @@ use qinetic_ecs::prelude::*;
 pub struct AnimationPlugin;
 
 impl Plugin for AnimationPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
+        println!("AnimationPlugin");
         app_builder.with_component(SkeletalMesh::default());
         app_builder.with_stage(AnimationStage::default());
     }
 }
 
 /// [`App`]'s animation step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct AnimationStage;
-
-impl Stage for AnimationStage {}
 
 #[derive(Default, Component)]
 /// Skeletal mesh [`Component`].

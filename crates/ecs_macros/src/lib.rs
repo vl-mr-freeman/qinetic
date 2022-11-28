@@ -8,6 +8,7 @@
 extern crate proc_macro;
 
 mod component;
+mod resource;
 
 use proc_macro::TokenStream;
 use qinetic_utils_macros::manifest::Manifest;
@@ -17,6 +18,12 @@ use syn::Path;
 /// Generates an impl for [`Component`] trait.
 pub fn derive_component(input: TokenStream) -> TokenStream {
     component::derive(input)
+}
+
+#[proc_macro_derive(Resource)]
+/// Generates an impl for [`Resource`] trait.
+pub fn derive_resource(input: TokenStream) -> TokenStream {
+    resource::derive(input)
 }
 
 pub(crate) fn ecs_path() -> Path {

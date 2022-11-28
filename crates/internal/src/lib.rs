@@ -45,7 +45,7 @@ pub mod prelude {
     #[doc(hidden)]
     pub use super::{
         app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
-        math::prelude::*, window::prelude::*, DefaultPlugins, MinimalPlugins,
+        math::prelude::*, window::prelude::*, DefaultPlugins, MinimalPlugins, RunLoop, RunOnce,
     };
 }
 
@@ -75,3 +75,6 @@ pub use qinetic_window as window;
 
 mod default_plugins;
 pub use default_plugins::*;
+
+mod default_runners;
+pub use default_runners::*;

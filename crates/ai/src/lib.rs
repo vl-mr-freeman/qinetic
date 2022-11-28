@@ -19,17 +19,15 @@ use qinetic_ecs::prelude::*;
 pub struct AiPlugin;
 
 impl Plugin for AiPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_component(AiController::default());
         app_builder.with_stage(AiStage::default());
     }
 }
 
 /// [`App`]'s ai step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct AiStage;
-
-impl Stage for AiStage {}
 
 #[derive(Default, Component)]
 /// Artificial intelligence controller [`Component`].

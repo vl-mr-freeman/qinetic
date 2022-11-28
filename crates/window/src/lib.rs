@@ -12,13 +12,14 @@ pub mod prelude {
 }
 
 use qinetic_app::prelude::*;
+use qinetic_ecs::prelude::*;
 
 /// Adds window functionality to [`App`]
 #[derive(Default)]
 pub struct WindowPlugin;
 
 impl Plugin for WindowPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_resource(WindowResource::default());
         app_builder.with_stage(WindowStage::default());
     }
@@ -67,7 +68,5 @@ pub enum WindowStyle {
 }
 
 /// [`App`]'s window step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct WindowStage;
-
-impl Stage for WindowStage {}

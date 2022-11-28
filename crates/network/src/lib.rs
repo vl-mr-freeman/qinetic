@@ -18,13 +18,11 @@ use qinetic_app::prelude::*;
 pub struct NetworkPlugin;
 
 impl Plugin for NetworkPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_stage(NetworkStage::default());
     }
 }
 
 /// [`App`]'s network step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct NetworkStage;
-
-impl Stage for NetworkStage {}

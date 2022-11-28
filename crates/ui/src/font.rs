@@ -1,5 +1,3 @@
-use std::fs::File;
-
 /// A conteiner of font data.
 pub struct Font {}
 

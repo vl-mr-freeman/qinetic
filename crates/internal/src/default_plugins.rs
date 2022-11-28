@@ -1,6 +1,6 @@
 use qinetic_app::plugin::*;
 
-/// Includes:
+/// Default [`PluginGroup`].
 /// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
 ///
 /// See also [`DefaultPlugins`] for a more complete group of [`Plugin`]s.
@@ -8,12 +8,12 @@ use qinetic_app::plugin::*;
 pub struct MinimalPlugins;
 
 impl PluginGroup for MinimalPlugins {
-    fn configure(&self, registry: &mut PluginRegistry) {
+    fn configure(&mut self, registry: &mut PluginRegistry) {
         registry.add(qinetic_core::CorePlugin::default());
     }
 }
 
-/// Includes:
+/// Minimal [`PluginGroup`].
 /// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
 /// * [`LogPlugin`](../qinetic_log/struct.LogPlugin.html)
 /// * [`AssetPlugin`](../qinetic_asset/struct.AssetPlugin.html)
@@ -32,7 +32,7 @@ impl PluginGroup for MinimalPlugins {
 pub struct DefaultPlugins;
 
 impl PluginGroup for DefaultPlugins {
-    fn configure(&self, registry: &mut PluginRegistry) {
+    fn configure(&mut self, registry: &mut PluginRegistry) {
         registry.add(qinetic_core::CorePlugin::default());
         #[cfg(feature = "qinetic_log")]
         registry.add(qinetic_log::LogPlugin::default());

@@ -20,9 +20,10 @@ use qinetic_ecs::prelude::*;
 pub struct RenderPlugin;
 
 impl Plugin for RenderPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_resource(RenderResource::default());
         app_builder.with_component(Mesh::default());
+        app_builder.with_component(Camera::default());
         app_builder.with_stage(RenderStage::default());
     }
 }
@@ -52,11 +53,13 @@ impl Default for RenderResource {
 }
 
 /// [`App`]'s render step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct RenderStage;
-
-impl Stage for RenderStage {}
 
 #[derive(Default, Component)]
 /// Mesh [`Component`].
 pub struct Mesh {}
+
+#[derive(Default, Component)]
+/// Camera [`Component`].
+pub struct Camera {}

@@ -19,17 +19,15 @@ use qinetic_ecs::prelude::*;
 pub struct InputPlugin;
 
 impl Plugin for InputPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_component(PlayerController::default());
         app_builder.with_stage(InputStage::default());
     }
 }
 
 /// [`App`]'s input step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct InputStage;
-
-impl Stage for InputStage {}
 
 #[derive(Default, Component)]
 /// Player controller component.

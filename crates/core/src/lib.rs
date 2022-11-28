@@ -8,7 +8,7 @@
 pub mod prelude {
     //! Provides main core functionality.
     #[doc(hidden)]
-    pub use crate::{color::*, CorePlugin};
+    pub use crate::{color::*, CorePlugin, Script, Tag};
 }
 
 pub mod color {
@@ -42,11 +42,27 @@ mod color3;
 mod color4;
 
 use qinetic_app::prelude::*;
+use qinetic_ecs::prelude::*;
 
 /// Adds core functionality to [`App`].
 #[derive(Default)]
 pub struct CorePlugin;
 
 impl Plugin for CorePlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {}
+    fn build(&mut self, app_builder: &mut AppBuilder) {
+        app_builder.with_component(Tag::default());
+        app_builder.with_component(Script::default());
+    }
+}
+
+/// Tag [`Component`].
+#[derive(Default, Component)]
+pub struct Tag {
+    pub tag: String,
+}
+
+/// Script [`Component`].
+#[derive(Default, Component)]
+pub struct Script {
+    pub name: String,
 }

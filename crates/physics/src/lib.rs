@@ -22,7 +22,7 @@ use qinetic_ecs::prelude::*;
 pub struct PhysicsPlugin;
 
 impl Plugin for PhysicsPlugin {
-    fn build(&self, app_builder: &mut AppBuilder) {
+    fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_component(BoxCollider::default());
         app_builder.with_component(CapsuleCollider::default());
         app_builder.with_component(MeshCollider::default());
@@ -35,10 +35,8 @@ impl Plugin for PhysicsPlugin {
 }
 
 /// [`App`]'s physics step of execution cycle.
-#[derive(Default)]
+#[derive(Default, Stage)]
 pub struct PhysicsStage;
-
-impl Stage for PhysicsStage {}
 
 #[derive(Default, Component)]
 /// Box collider [`Component`].

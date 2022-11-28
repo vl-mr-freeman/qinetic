@@ -2,6 +2,7 @@ use std::any::{type_name, TypeId};
 use std::collections::HashMap;
 
 use crate::stage::*;
+use qinetic_ecs::world::World;
 
 #[derive(Default)]
 pub struct Schedule {
@@ -10,5 +11,5 @@ pub struct Schedule {
 }
 
 impl Schedule {
-    pub fn run(&self) {}
+    pub fn run(&self, world: &mut World) {}
 }

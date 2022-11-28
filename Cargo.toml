@@ -37,11 +37,15 @@ default = [
 	"audio",
 	"physics",
 	"render",
+	"wayland"
 ]
 
 # Force dynamic linking, which improves iterative compile times.
 # Avaliable only in `dev` profile.
 dynamic = ["qinetic_dylib"]
+
+x11 = ["qinetic_internal/x11"]
+wayland = ["qinetic_internal/wayland"]
 
 # Optional Qinetic crates
 ai = ["qinetic_internal/qinetic_ai"]
