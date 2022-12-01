@@ -1,4 +1,4 @@
-//! Resource derive.
+//! System derive.
 
 use proc_macro::TokenStream;
 use quote::quote;
@@ -17,7 +17,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let (impl_generics, type_generics, where_clause) = &ast.generics.split_for_impl();
 
     TokenStream::from(quote! {
-        impl #impl_generics #path::resource::Resource for #struct_name #type_generics #where_clause {
+        impl #impl_generics #path::system::System for #struct_name #type_generics #where_clause {
         }
     })
 }

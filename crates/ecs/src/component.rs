@@ -1,7 +1,18 @@
-use crate::{entity::EntityId, world::World};
-use std::any::{type_name, Any};
+//! Component functionality.
+
+use crate::entity::EntityId;
+use std::any::{type_name, Any, TypeId};
+use std::collections::HashMap;
 
 /// Data conteiner of the [`World`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_ecs::prelude::*;
+/// #
+/// #[derive(Default, Component)]
+/// struct MyComponent {/* something to do */}
+/// ```
 pub trait Component: Any + Send + Sync + 'static {
     /// Returns a `type name` of the [`Component`].
     fn name(&self) -> &str {
@@ -9,57 +20,50 @@ pub trait Component: Any + Send + Sync + 'static {
     }
 }
 
-/// Indentificator for [`Entity`] within a [`World`].
-#[derive(Debug, Copy, Clone, Hash, Ord, PartialOrd, Eq, PartialEq, Default)]
-pub struct ComponentId {
+struct ComponentInfo {
     entity_id: EntityId,
-    id: usize,
-}
-
-impl ComponentId {
-    /// Returns a [`ComponentId`] with given `id` for [`EntityId`].
-    #[inline(always)]
-    pub const fn new(entity_id: EntityId, id: usize) -> Self {
-        Self { entity_id, id }
-    }
-
-    /// Returns `id` of the [`ComponentId`].
-    #[inline(always)]
-    pub fn id(self) -> usize {
-        self.id
-    }
+    type_id: TypeId,
 }
 
 /// Facilities addition and remove [`Component`]s.
 #[derive(Default)]
-pub struct Components {}
+pub struct ComponentRegistry {
+    components: HashMap<TypeId, Vec<Option<ComponentInfo>>>,
+}
 
-impl Components {
+impl ComponentRegistry {
     pub(crate) fn init_component<T: Component>(&mut self, component: T) {
+        self.components
+            .insert(TypeId::of::<T>(), Vec::with_capacity(32));
+    }
+
+    /// Adds a [`Component`] to [`Entity`] dy [`EntityId`].
+    #[inline]
+    pub fn add_component<T: Component>(&mut self, entity_id: EntityId) {
         todo!()
     }
 
-    /// Returns a [`ComponentId`] of added [`Component`].
+    /// Removes a [`Component`] from [`Entity`] dy [`EntityId`], if it's present.
     #[inline]
-    pub fn add<T: Component>(&mut self, component: T) -> ComponentId {
+    pub fn remove_component<T: Component>(&mut self, entity_id: EntityId) {
         todo!()
     }
 
-    /// Removes a [`Component`] by [`ComponentId`].
+    /// Returns a immutable [`Component`] of [`Entity`] dy [`EntityId`], if it's present.
     #[inline]
-    pub fn remove(&mut self, id: &ComponentId) {
+    pub fn get_component<T: Component>(&self, entity_id: EntityId) -> Option<&T> {
         todo!()
     }
 
-    /// Returns a immutable [`Component`] by [`ComponentId`], if it's present.
+    /// Returns a mutable [`Component`] of [`Entity`] dy [`EntityId`], if it's present.
     #[inline]
-    pub fn get<T: Component>(&self, id: &ComponentId) -> Option<&T> {
+    pub fn get_component_mut<T: Component>(&mut self, entity_id: EntityId) -> Option<&mut T> {
         todo!()
     }
 
-    /// Returns a mutable [`Component`] dy [`ComponentId`], if it's present.
+    /// Returns `true`, if [`Component`] of [`Entity`] by [`EntityId`] present.
     #[inline]
-    pub fn get_mut<T: Component>(&mut self, id: &ComponentId) -> Option<&mut T> {
+    pub fn has_component<T: Component>(&self, entity_id: EntityId) -> bool {
         todo!()
     }
 }

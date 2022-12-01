@@ -1,3 +1,5 @@
+//! 2-dimensional boolean vector.
+
 use crate::{bvec3::BVec3, bvec4::BVec4};
 use std::fmt;
 use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not};

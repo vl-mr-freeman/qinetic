@@ -16,6 +16,9 @@ keywords = ["qinetic"]
 x11 = ["qinetic_window/x11"]
 wayland = ["qinetic_window/wayland"]
 
+vulkan = ["qinetic_render/vulkan"]
+directx12 = ["qinetic_render/directx12"]
+
 [dependencies]
 qinetic_app = { path = "../app", version = "0.*" }
 qinetic_asset = { path = "../asset", version = "0.*" }

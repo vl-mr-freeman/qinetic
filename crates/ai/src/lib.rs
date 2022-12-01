@@ -6,7 +6,8 @@
 )]
 
 pub mod prelude {
-    /// Provides main artificial intelligence functionality.
+    //! Main artificial intelligence functionality.
+
     #[doc(hidden)]
     pub use crate::{AiController, AiPlugin, AiStage};
 }
@@ -14,9 +15,23 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Adds artificial intelligence functionality to [`App`].
+/// Artificial intelligence functionality for [`App`].
+///
+/// [`Component`]s:
+/// * [`AiController`]
+///
+/// [`Stage`]s:
+/// * [`AiStage`]
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ai::prelude::*;
+/// #
+/// App::builder().with_plugin(AiPlugin::default()).build().run();
+/// ```
 #[derive(Default)]
-pub struct AiPlugin;
+pub struct AiPlugin {}
 
 impl Plugin for AiPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
@@ -25,10 +40,26 @@ impl Plugin for AiPlugin {
     }
 }
 
-/// [`App`]'s ai step of execution cycle.
+/// Artificial intelligence [`Stage`] for [`App`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ai::prelude::*;
+/// #
+/// App::builder().with_stage(AiStage::default()).build().run();
+/// ```
 #[derive(Default, Stage)]
-pub struct AiStage;
+pub struct AiStage {}
 
-#[derive(Default, Component)]
 /// Artificial intelligence controller [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ai::prelude::*;
+/// #
+/// App::builder().with_component(AiController::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct AiController {}

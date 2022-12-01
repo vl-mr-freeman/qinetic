@@ -6,7 +6,8 @@
 )]
 
 pub mod prelude {
-    //! Provides main input functionality.
+    //! Main input functionality.
+
     #[doc(hidden)]
     pub use crate::{InputPlugin, InputStage, PlayerController};
 }
@@ -14,9 +15,23 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Adds input functionality to [`App`]
+/// Input functionality for [`App`]
+///
+/// [`Component`]s:
+/// * [`PlayerController`]
+///
+/// [`Stage`]s:
+/// * [`InputStage`]
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_input::prelude::*:
+/// #
+/// App::builder().with_plugin(InputPlugin::default()).build().run();
+/// ```
 #[derive(Default)]
-pub struct InputPlugin;
+pub struct InputPlugin {}
 
 impl Plugin for InputPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
@@ -25,10 +40,26 @@ impl Plugin for InputPlugin {
     }
 }
 
-/// [`App`]'s input step of execution cycle.
+/// Input [`Stage`] for [`App`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_input::prelude::*;
+/// #
+/// App::builder().with_stage(InputStage::default()).build().run();
+/// ```
 #[derive(Default, Stage)]
 pub struct InputStage;
 
-#[derive(Default, Component)]
 /// Player controller component.
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_player::prelude::*;
+/// #
+/// App::builder().with_component(PlayerController::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct PlayerController {}

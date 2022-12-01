@@ -6,16 +6,25 @@
 )]
 
 pub mod prelude {
-    //! Provides main asset functionality.
+    //! Main asset functionality.
+
     #[doc(hidden)]
     pub use crate::{AssetPlugin, AssetStage};
 }
 
 use qinetic_app::prelude::*;
 
-/// Adds asset functionality to [`App`]
+/// Asset functionality([`AssetStage`]) to [`App`]
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_asset::prelude::*;
+/// #
+/// App::builder().with_plugin(AssetPlugin).build().run();
+/// ```
 #[derive(Default)]
-pub struct AssetPlugin;
+pub struct AssetPlugin {}
 
 impl Plugin for AssetPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
@@ -23,6 +32,14 @@ impl Plugin for AssetPlugin {
     }
 }
 
-/// [`App`]'s asset step of execution cycle.
+/// Asset [`Stage`] for [`App`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_asset::prelude::*;
+/// #
+/// App::builder().with_stage(AssetStage).build().run();
+/// ```
 #[derive(Default, Stage)]
-pub struct AssetStage;
+pub struct AssetStage {}

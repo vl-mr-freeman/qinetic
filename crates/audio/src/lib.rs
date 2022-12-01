@@ -6,17 +6,26 @@
 )]
 
 pub mod prelude {
-    //! Provides main audio functionality.
+    //! Main audio functionality.
+
     #[doc(hidden)]
-    pub use crate::{AudioPlugin, AudioStage, Sound};
+    pub use crate::{AudioPlugin, AudioStage, Listener, Sound};
 }
 
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Adds audio functionality to [`App`]
+/// Audio functionality([`Sound`], [`AudioStage`]) to [`App`]
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_audio::prelude::*;
+/// #
+/// App::builder().with_plugin(AudioPlugin).build().run();
+/// ```
 #[derive(Default)]
-pub struct AudioPlugin;
+pub struct AudioPlugin {}
 
 impl Plugin for AudioPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
@@ -25,10 +34,38 @@ impl Plugin for AudioPlugin {
     }
 }
 
-/// [`App`]'s audio step of execution cycle.
+/// Audio [`Stage`] for [`App`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_audio::prelude::*;
+/// #
+/// App::builder().with_stage(AudioStage).build().run();
+/// ```
 #[derive(Default, Stage)]
-pub struct AudioStage;
+pub struct AudioStage {}
 
-#[derive(Default, Component)]
 /// Sound [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_audio::prelude::*;
+/// #
+/// App::builder().with_component(Sound::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct Sound {}
+
+/// Listener [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_audio::prelude::*;
+/// #
+/// App::builder().with_component(Listener::default()).build().run();
+/// ```
+#[derive(Default, Component)]
+pub struct Listener {}

@@ -1,3 +1,5 @@
+//! Font loading.
+
 /// A conteiner of font data.
 pub struct Font {}
 
@@ -45,7 +47,7 @@ impl FontBuilder {
     }
 
     /// Returns a [`Font`] configured from [`FontBuilder`].
-    pub fn build(mut self) -> Font {
+    pub fn build(&mut self) -> Font {
         Font {}
     }
 }

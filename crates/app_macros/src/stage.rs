@@ -4,7 +4,7 @@ use syn::{parse_macro_input, parse_quote, DeriveInput};
 
 pub fn derive(input: TokenStream) -> TokenStream {
     let mut ast = parse_macro_input!(input as DeriveInput);
-    let qinetic_app_path = crate::app_path();
+    let path = crate::path();
 
     ast.generics
         .make_where_clause()
@@ -15,7 +15,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let (impl_generics, type_generics, where_clause) = &ast.generics.split_for_impl();
 
     TokenStream::from(quote! {
-        impl #impl_generics #qinetic_app_path::stage::Stage for #struct_name #type_generics #where_clause {
+        impl #impl_generics #path::stage::Stage for #struct_name #type_generics #where_clause {
         }
     })
 }

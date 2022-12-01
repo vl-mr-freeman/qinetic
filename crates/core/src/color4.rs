@@ -1,6 +1,16 @@
+//! Color(rgba) functionality.
+
+use crate::color3::Color3;
 use std::fmt;
 
-/// A color representation.
+/// A color representation with r, g, b, a channels.
+///
+/// # Exampless
+/// ```
+/// # use qinetic_core::prelude::*;
+/// #
+/// let yellow = Color4::new(255, 255, 0, 255);
+/// ```
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Color4 {
     /// Red channel of color.
@@ -17,28 +27,46 @@ pub struct Color4 {
 }
 
 impl Color4 {
-    /// Only red channel of [`Color4`].
+    /// Only [red](Color4::r) channel of [`Color4`].
     pub const RED: Self = Self::new(255, 0, 0, 0);
 
-    /// Only green channel of [`Color4`].
+    /// Only [green](Color4::g) channel of [`Color4`].
     pub const GREEN: Self = Self::new(0, 255, 0, 0);
 
-    /// Only blue channel of [`Color4`].
+    /// Only [blue](Color4::b) channel of [`Color4`].
     pub const BLUE: Self = Self::new(0, 0, 255, 0);
 
     /// Black color of [`Color4`].
+    /// All channels of [`Color4`] is `0`, except [alpha](Color4::a).
     pub const BLACK: Self = Self::splat(0);
 
     /// White color of [`Color4`].
+    /// All channels of [`Color4`] is `255`.
     pub const WHITE: Self = Self::splat(255);
 
     /// Returns a [`Color4`] with given `u8` values.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    /// let yellow = Color4::new(255, 255, 0, 255);
+    /// assert_eq!(Color4 { r: 255, g: 255, b: 0, a: 255}, yellow);
+    /// ```
     #[inline(always)]
     pub const fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
         Self { r, g, b, a }
     }
 
     /// Returns a [`Color4`] with all values set to `c`, except `a` which 255.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    /// let black = Color4::splat(0);
+    /// assert_eq!(Color4 { r: 0, g: 0, b: 0, a: 255}, black);
+    /// ```
     #[inline(always)]
     pub const fn splat(c: u8) -> Self {
         Self {
@@ -50,6 +78,26 @@ impl Color4 {
     }
 
     /// Returns a [`Color4`] converted from `hex string`, like `#cc241daa`.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    ///     let red = Color4::from_hex("#FF0000FF").unwrap();
+    ///     assert_eq!(Color4 { r: 255, g: 0, b: 0, a: 255 }, red);
+    ///
+    ///     let green = Color4::from_hex("#00FF00FF").unwrap();
+    ///     assert_eq!(Color4 { r: 0, g: 255, b: 0, a: 255 }, green);
+    ///
+    ///     let blue = Color4::from_hex("#0000FFFF").unwrap();
+    ///     assert_eq!(Color4 { r: 0, g: 0, b: 255, a: 255 }, blue);
+    ///
+    ///     let black = Color4::from_hex("#000000FF").unwrap();
+    ///     assert_eq!(Color4 { r: 0, g: 0, b: 0, a: 255 }, black);
+    ///
+    ///     let yellow = Color4::from_hex("#FFFF00FF").unwrap();
+    ///     assert_eq!(Color4 { r: 255, g: 255, b: 0, a: 255 }, yellow);
+    /// ```
     #[inline]
     pub fn from_hex(hex: &str) -> Option<Self> {
         let mut bytes = hex.bytes();
@@ -86,13 +134,45 @@ impl Color4 {
     }
 
     /// Returns a [`Color4`] converted from `f32`.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    /// let red = Color4::from_f32(1.0, 0.0, 0.0, 1.0).unwrap();
+    /// assert_eq!(Color4 { r: 255, g: 0, b: 0, a: 255 }, red);
+    ///```
+    ///
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    /// let green = Color4::from_f32(0.0, 1.0, 0.0, 1.0).unwrap();
+    /// assert_eq!(Color4 { r: 0, g: 255, b: 0, a: 255 }, green);
+    /// ```
+    ///
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    /// let blue = Color4::from_f32(0.0, 0.0, 1.0, 1.0).unwrap();
+    /// assert_eq!(Color4 { r: 0, g: 0, b: 255, a: 255 }, blue);
+    /// ```
+    ///
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    /// let black = Color4::from_f32(0.0, 0.0, 0.0, 1.0).unwrap();
+    /// assert_eq!(Color4 { r: 0, g: 0, b: 0, a: 255 }, black);
+    /// ```
+    ///
+    /// ```
+    /// # use qinetic_core::prelude::*;
+    /// #
+    /// let yellow = Color4::from_f32(1.0, 1.0, 0.0, 1.0).unwrap();
+    /// assert_eq!(Color4 { r: 255, g: 255, b: 0, a: 255 }, yellow);
+    /// ```
     #[inline]
     pub fn from_f32(r: f32, g: f32, b: f32, a: f32) -> Option<Self> {
-        if (r > 1.0 || r < 0.0)
-            || (g > 1.0 || g < 0.0)
-            || (b > 1.0 || b < 0.0)
-            || (a > 1.0 || a < 0.0)
-        {
+        if [r, g, b, a].iter().all(|c| *c >= 0.0 && *c <= 1.0) {
             return None;
         }
         Some(Self {
@@ -101,33 +181,6 @@ impl Color4 {
             b: (b * 255.0) as u8,
             a: (a * 255.0) as u8,
         })
-    }
-
-    /// Returns a [`Color4`] converted from array.
-    #[inline]
-    pub const fn from_array(a: [u8; 4]) -> Self {
-        Self::new(a[0], a[1], a[2], a[3])
-    }
-
-    /// Returns array converted from [`Color4`].
-    #[inline]
-    pub const fn to_array(&self) -> [u8; 4] {
-        [self.r, self.g, self.b, self.a]
-    }
-
-    /// Returns a [`Color4`] converted from slice.
-    #[inline]
-    pub const fn from_slice(s: &[u8]) -> Self {
-        Self::new(s[0], s[1], s[2], s[3])
-    }
-
-    /// Converts [`Color4`] `self` to slice.
-    #[inline]
-    pub fn to_slice(self, s: &mut [u8]) {
-        s[0] = self.r;
-        s[1] = self.g;
-        s[2] = self.b;
-        s[3] = self.a;
     }
 }
 
@@ -145,6 +198,13 @@ impl fmt::Debug for Color4 {
             .field(&self.b)
             .field(&self.a)
             .finish()
+    }
+}
+
+impl From<Color3> for Color4 {
+    #[inline]
+    fn from(c: Color3) -> Self {
+        Self::new(c.r, c.g, c.b, 255)
     }
 }
 

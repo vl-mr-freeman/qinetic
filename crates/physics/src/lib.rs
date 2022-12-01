@@ -6,7 +6,8 @@
 )]
 
 pub mod prelude {
-    //! Provides main physics functionality.
+    //! Main physics functionality.
+
     #[doc(hidden)]
     pub use crate::{
         BoxCollider, CapsuleCollider, Cloth, MeshCollider, PhysicsPlugin, PhysicsStage, Rigidbody,
@@ -17,9 +18,29 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Adds physics functionality to [`App`]
+/// Physics functionality for [`App`]
+///
+/// [`Component`]s:
+/// * [`BoxCollider`]
+/// * [`CapsuleCollider`]
+/// * [`MeshCollider`]
+/// * [`SphereCollider`]
+/// * [`Rigidbody`]
+/// * [`Softbody`]
+/// * [`Cloth`]
+///
+/// [`Stage`]s:
+/// * [`PhysicsStage`]
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_plugin(PhysicsPlugin::default()).build().run();
+/// ```
 #[derive(Default)]
-pub struct PhysicsPlugin;
+pub struct PhysicsPlugin {}
 
 impl Plugin for PhysicsPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
@@ -34,34 +55,98 @@ impl Plugin for PhysicsPlugin {
     }
 }
 
-/// [`App`]'s physics step of execution cycle.
+/// Physics [`Stage`] for [`App`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_stage(PhysicsStage::default()).build().run();
+/// ```
 #[derive(Default, Stage)]
 pub struct PhysicsStage;
 
-#[derive(Default, Component)]
 /// Box collider [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_component(BoxCollider::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct BoxCollider {}
 
-#[derive(Default, Component)]
 /// Capsule collider [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_component(CapsuleCollider::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct CapsuleCollider {}
 
-#[derive(Default, Component)]
 /// Mesh collider [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_component(MeshCollider::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct MeshCollider {}
 
-#[derive(Default, Component)]
 /// Sphere collider [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_component(SphereCollider::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct SphereCollider {}
 
-#[derive(Default, Component)]
 /// Rigidbody [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_component(Rigidbody::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct Rigidbody {}
 
-#[derive(Default, Component)]
 /// Softbody [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_component(Softbody::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct Softbody {}
 
-#[derive(Default, Component)]
 /// Cloth [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_physics::prelude::*;
+/// #
+/// App::builder().with_component(Cloth::default()).build().run();
+/// ```
+#[derive(Default, Component)]
 pub struct Cloth {}

@@ -2,17 +2,18 @@
 //!
 //! Free, cross-platform, open-source game engine, designed to be fast, simple and modular.
 //!
-//! ## Example
-//!  Here is a simple application:
-//!  ```
-//!  use qinetic::prelude::*;
+//! # Examples
 //!
-//!  fn main() {
+//! Here is a simple application:
+//! ```
+//! use qinetic::prelude::*;
+//!
+//! fn main() {
 //!     App::builder()
 //!         .with_plugins(DefaultPlugins)
 //!         .build()
 //!         .run();
-//!  }
+//! }
 //! ```
 
 #![doc(

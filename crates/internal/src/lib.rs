@@ -8,7 +8,7 @@
 )]
 
 pub mod prelude {
-    //! Provides main functionality.
+    //! Main functionality.
 
     #[doc(hidden)]
     #[cfg(feature = "qinetic_ai")]

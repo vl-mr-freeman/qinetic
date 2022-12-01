@@ -6,7 +6,8 @@
 )]
 
 pub mod prelude {
-    //! Provides main application functionality.
+    //! Main application functionality.
+
     #[doc(hidden)]
     pub use crate::{app::*, plugin::*, runner::*, schedule::*, stage::*};
 
@@ -14,17 +15,8 @@ pub mod prelude {
     pub use qinetic_app_macros::*;
 }
 
-/// Provides application.
 pub mod app;
-
-/// Provides application runner.
-pub mod runner;
-
-/// Provides application plugin.
 pub mod plugin;
-
-/// Provides application stage.
-pub mod stage;
-
-/// Provides application stage's schedule.
+pub mod runner;
 pub mod schedule;
+pub mod stage;

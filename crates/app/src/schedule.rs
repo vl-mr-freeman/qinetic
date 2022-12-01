@@ -1,7 +1,9 @@
-use std::any::{type_name, TypeId};
+//! Application stage schedule functionality.
+
+use std::any::TypeId;
 use std::collections::HashMap;
 
-use crate::stage::*;
+use crate::stage::Stage;
 use qinetic_ecs::world::World;
 
 #[derive(Default)]

@@ -1,3 +1,5 @@
+//! Theme creation and loading.
+
 use qinetic_core::color::*;
 
 /// A container of theme data.
@@ -362,7 +364,7 @@ impl ThemeBuilder {
     }
 
     /// Returns a [`Theme`] configured from [`ThemeBuilder`].
-    pub fn build(mut self) -> Theme {
+    pub fn build(&mut self) -> Theme {
         Theme {}
     }
 }

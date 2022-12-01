@@ -6,33 +6,73 @@
 )]
 
 pub mod prelude {
-    //! Provides main user-interface functionality.
+    //! Main user-interface functionality.
+
     #[doc(hidden)]
     pub use crate::{font::*, theme::*, UiPlugin, UiResource, UiStage};
 }
 
-/// Provides font facilitate loading.
 pub mod font;
-
-/// Provides theme facilitate creating.
 pub mod theme;
 
 use crate::font::*;
 use crate::theme::*;
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
+use qinetic_math::vector::Vec2;
 
-/// Adds user-interface functionality to [`App`]
+/// User-interface functionality for [`App`]
+///
+/// [`Component`]s:
+/// * [`RectTransform`]
+/// * [`Button`]
+/// * [`Image`]
+/// * [`Text`]
+/// * [`Slider`]
+/// * [`Scrollbar`]
+///
+/// [`Stage`]s:
+/// * [`UiStage`]
+///
+/// [`Resource`]:
+/// * [`UiResource`]
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder().with_plugin(UiPlugin::default()).build().run();
+/// ```
 #[derive(Default)]
-pub struct UiPlugin;
+pub struct UiPlugin {}
 
 impl Plugin for UiPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
+        app_builder.with_component(RectTransform::default());
+        app_builder.with_component(Button::default());
+        app_builder.with_component(Image::default());
+        app_builder.with_component(Text::default());
+        app_builder.with_component(Slider::default());
+        app_builder.with_component(Scrollbar::default());
         app_builder.with_resource(UiResource::default());
         app_builder.with_stage(UiStage::default());
     }
 }
 
+/// User-interface [`Resource`] for [`App`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder()
+///     .with_plugin(UiPlugin)
+///     .with_resource(UiResource::default())
+///     .build()
+///     .run();
+/// ```
 #[derive(Resource)]
 pub struct UiResource {
     /// The requested user-interface client opacity.
@@ -123,6 +163,107 @@ impl Default for UiResource {
     }
 }
 
-/// [`App`]'s user-interface step of execution cycle.
+/// User-interface [`Stage`] for [`App`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_window:prelude::*;
+///`#
+/// App::builder().with_stage(Uitage).build().run();
+/// ```
 #[derive(Default, Stage)]
 pub struct UiStage;
+
+/// Rectangle Transform [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder().with_component(RectTransform::default()).build().run();
+/// ```
+#[derive(Default, Component)]
+pub struct RectTransform {
+    /// width, height in `ui`.
+    pub ui_scale: Vec2,
+
+    /// min anchor in `ui`.
+    pub anchor_min: Vec2,
+
+    /// max anchor in `ui`.
+    pub anchors_max: Vec2,
+
+    /// pivot in `ui`.
+    pub pivot: Vec2,
+
+    /// position in [`World`].
+    pub position: Vec2,
+
+    /// rotation in [`World`].
+    pub rotation: Vec2,
+
+    /// scale in [`World`].
+    pub scale: Vec2,
+}
+
+/// Button [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder().with_component(Button::default()).build().run();
+/// ```
+#[derive(Default, Component)]
+pub struct Button {}
+
+/// Image [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder().with_component(Image::default()).build().run();
+/// ```
+#[derive(Default, Component)]
+pub struct Image {}
+
+/// Text [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder().with_component(Text::default()).build().run();
+/// ```
+#[derive(Default, Component)]
+pub struct Text {}
+
+/// Slider [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder().with_component(Slider::default()).build().run();
+/// ```
+#[derive(Default, Component)]
+pub struct Slider {}
+
+/// Scrollbar [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ui::prelude::*;
+/// #
+/// App::builder().with_component(Scrollbar::default()).build().run();
+/// ```
+#[derive(Default, Component)]
+pub struct Scrollbar {}

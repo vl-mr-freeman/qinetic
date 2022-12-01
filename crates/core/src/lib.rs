@@ -6,17 +6,20 @@
 )]
 
 pub mod prelude {
-    //! Provides main core functionality.
+    //! Main core functionality.
+
     #[doc(hidden)]
     pub use crate::{color::*, CorePlugin, Script, Tag};
 }
 
 pub mod color {
-    //! Provides color facilitate creating.
+    //! Color functionality.
+
     pub use crate::{color3::*, color4::*};
 
     use std::str::Bytes;
 
+    /// Return `u8` parsed from [`Bytes`].
     pub(crate) fn parse_double_hex_value(bytes: &mut Bytes) -> Option<u8> {
         const HEX_RADIX: u32 = 16;
         let buffer = [
@@ -44,9 +47,21 @@ mod color4;
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Adds core functionality to [`App`].
+/// Core functionality for [`App`].
+///
+/// [`Component`]s:
+/// * [`Tag`]
+/// * [`Script`]
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_core::prelude::*;
+///`#
+/// App::builder().with_plugin(CorePlugin::default()).build().run();
+/// ```
 #[derive(Default)]
-pub struct CorePlugin;
+pub struct CorePlugin {}
 
 impl Plugin for CorePlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
@@ -56,12 +71,28 @@ impl Plugin for CorePlugin {
 }
 
 /// Tag [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_core::prelude::*;
+/// #
+/// App::builder().with_component(Tag::default()).build().run();
+/// ```
 #[derive(Default, Component)]
 pub struct Tag {
     pub tag: String,
 }
 
 /// Script [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_core::prelude::*;
+/// #
+/// App::builder().with_component(Script::default()).build().run();
+/// ```
 #[derive(Default, Component)]
 pub struct Script {
     pub name: String,
