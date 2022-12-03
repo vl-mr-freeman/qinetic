@@ -13,5 +13,6 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
+# Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }
 qinetic_ecs = { path = "../ecs", version = "0.* "}
