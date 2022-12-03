@@ -1,47 +1,62 @@
 //! Application stage functionality.
 
-use std::any::{type_name, Any, TypeId};
+use downcast_rs::{impl_downcast, DowncastSync};
+use std::any::{type_name, TypeId};
 use std::collections::HashMap;
 
 use crate::schedule::*;
+use qinetic_ecs::world::World;
 
 /// [`Schedule`]'s step of execution cycle.
 ///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
+/// # use qinetic_ecs::world::World;
 /// #
 /// struct MyStage;
 ///
-/// impl Stage for MyStage {}
+/// impl Stage for MyStage {
+///     fn run(&mut self, world: &mut World) {/* something to do */}
+/// }
 /// ```
-pub trait Stage: Send + Sync + Any {
+pub trait Stage: DowncastSync {
+    /// Runs step of execution.
+    fn run(&mut self, world: &mut World);
+
     /// Returns a `type name` of the [`Stage`].
     fn name(&self) -> &str {
         type_name::<Self>()
     }
 }
 
+impl_downcast!(Stage);
+
 /// Combines multiple [`Stage`]s into a group.
 ///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
+/// # use qinetic_ecs::world::World;
 /// #
 /// struct MyStage1;
 ///
-/// impl Stage for MyStage1 {}
+/// impl Stage for MyStage1 {
+///     fn run(&mut self, world: &mut World) {/* something to do */}
+/// }
 ///
 /// struct MyStage2;
 ///
-/// impl Stage for MyStage2 {}
+/// impl Stage for MyStage2 {
+///     fn run(&mut self, world: &mut World) {/* something to do */}
+/// }
 ///
 /// struct MyStages;
 ///
 /// impl StageGroup for MyStages {
 ///     fn configure(&mut self, registry: &mut StageRegistry) {
-///         registry.add_stage(MyStage1):
-///         registry.add_stage(MyStage2):
+///         registry.add_stage(MyStage1);
+///         registry.add_stage(MyStage2);
 ///     }
 /// }
 /// ```
@@ -60,18 +75,25 @@ pub trait StageGroup {
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
+/// # use qinetic_ecs::world::World;
 /// #
 /// struct MyStage1;
 ///
-/// impl Stage for MyStage1 {}
+/// impl Stage for MyStage1 {
+///     fn run(&mut self, world: &mut World) {/* something to do */}
+/// }
 ///
 /// struct MyStage2;
 ///
-/// impl Stage for MyStage2 {}
+/// impl Stage for MyStage2 {
+///     fn run(&mut self, world: &mut World) {/* something to do */}
+/// }
 ///
 /// struct MyStage3;
 ///
-/// impl Stage for MyStage3 {}
+/// impl Stage for MyStage3 {
+///     fn run(&mut self, world: &mut World) {/* something to do */}
+/// }
 ///
 /// let mut stage_registry = StageRegistry::default();
 /// stage_registry.add_stage(MyStage1);
@@ -99,10 +121,13 @@ impl StageRegistry {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// struct MyStage;
     ///
-    /// impl Stage for MyStage {}
+    /// impl Stage for MyStage {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// let mut stage_registry = StageRegistry::default();
     /// stage_registry.add_stage(MyStage);
@@ -123,14 +148,19 @@ impl StageRegistry {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// struct MyStage1;
     ///
-    /// impl Stage for MyStage1 {}
+    /// impl Stage for MyStage1 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// struct MyStage2;
     ///
-    /// impl Stage for MyStage2 {}
+    /// impl Stage for MyStage2 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// let mut stage_registry = StageRegistry::default();
     /// stage_registry.add_stage(MyStage1);
@@ -160,14 +190,19 @@ impl StageRegistry {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// struct MyStage1;
     ///
-    /// impl Stage for MyStage1 {}
+    /// impl Stage for MyStage1 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// struct MyStage2;
     ///
-    /// impl Stage for MyStage2 {}
+    /// impl Stage for MyStage2 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// let mut stage_registry = StageRegistry::default();
     /// stage_registry.add_stage(MyStage1);
@@ -195,14 +230,19 @@ impl StageRegistry {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// struct MyStage1;
     ///
-    /// impl Stage for MyStage1 {}
+    /// impl Stage for MyStage1 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// struct MyStage2;
     ///
-    /// impl Stage for MyStage2 {}
+    /// impl Stage for MyStage2 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// let mut stage_registry = StageRegistry::default();
     /// stage_registry.add_stage(MyStage1);
@@ -222,14 +262,19 @@ impl StageRegistry {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// struct MyStage1;
     ///
-    /// impl Stage for MyStage1 {}
+    /// impl Stage for MyStage1 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// struct MyStage2;
     ///
-    /// impl Stage for MyStage2 {}
+    /// impl Stage for MyStage2 {
+    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    /// }
     ///
     /// struct MyStages;
     ///

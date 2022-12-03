@@ -1,6 +1,6 @@
 [package]
 name = "qinetic_internal"
-version = "0.1.6"
+version = "0.2.0"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
@@ -12,22 +12,18 @@ repository = "https://github.com/vl-mr-freeman/qinetic"
 license = "MIT"
 keywords = ["qinetic"]
 
-[features]
-x11 = ["qinetic_window/x11"]
-wayland = ["qinetic_window/wayland"]
-
-vulkan = ["qinetic_render/vulkan"]
-directx12 = ["qinetic_render/directx12"]
-
 [dependencies]
+# Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }
 qinetic_asset = { path = "../asset", version = "0.*" }
 qinetic_core = { path = "../core", version = "0.*" }
 qinetic_ecs = { path = "../ecs", version = "0.*" }
 qinetic_input = { path = "../input", version = "0.*" }
 qinetic_math = { path = "../math", version = "0.*" }
+qinetic_utils = { path = "../utils", version = "0.*"}
 qinetic_window = { path = "../window", version = "0.*" }
 
+# Qinetic option.
 qinetic_ai = { path = "../ai", optional = true, version = "0.*" }
 qinetic_animation = { path = "../animation", optional = true, version = "0.*" }
 qinetic_audio = { path = "../audio", optional = true, version = "0.*" }

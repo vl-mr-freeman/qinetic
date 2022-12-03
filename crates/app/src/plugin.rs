@@ -49,8 +49,8 @@ pub trait Plugin: Any + 'static {
 ///
 /// impl PluginGroup for MyPlugins {
 ///     fn configure(&mut self, registry: &mut PluginRegistry) {
-///         registry.add_plugin(MyPlugin1):
-///         registry.add_plugin(MyPlugin2):
+///         registry.add_plugin(MyPlugin1);
+///         registry.add_plugin(MyPlugin2);
 ///     }
 /// }
 /// ```

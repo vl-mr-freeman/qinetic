@@ -7,5 +7,4 @@
 
 extern crate proc_macro;
 
-/// Provides `Cargo.toml` manifest.
 pub mod manifest;

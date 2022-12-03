@@ -1,6 +1,6 @@
 [package]
 name = "qinetic_app"
-version = "0.1.5"
+version = "0.2.0"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
@@ -13,6 +13,11 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
+# Qinetic macros.
 qinetic_app_macros = { path = "../app_macros", version = "0.*" }
 
+# Qinetic.
 qinetic_ecs = { path = "../ecs", version = "0.*" }
+
+# Other.
+downcast-rs = "1.*"

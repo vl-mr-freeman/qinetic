@@ -13,15 +13,19 @@ pub mod prelude {
 }
 
 use qinetic_app::prelude::*;
+use qinetic_ecs::prelude::*;
 
-/// Asset functionality([`AssetStage`]) to [`App`]
+/// Asset functionality for [`App`]
+///
+/// [`Stage`]s:
+/// * [`AssetStage`]
 ///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_asset::prelude::*;
 /// #
-/// App::builder().with_plugin(AssetPlugin).build().run();
+/// App::builder().with_plugin(AssetPlugin::default()).build().run();
 /// ```
 #[derive(Default)]
 pub struct AssetPlugin {}
@@ -39,7 +43,7 @@ impl Plugin for AssetPlugin {
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_asset::prelude::*;
 /// #
-/// App::builder().with_stage(AssetStage).build().run();
+/// App::builder().with_stage(AssetStage::default()).build().run();
 /// ```
 #[derive(Default, Stage)]
 pub struct AssetStage {}

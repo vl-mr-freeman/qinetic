@@ -15,20 +15,25 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Audio functionality([`Sound`], [`AudioStage`]) to [`App`]
+/// Audio functionality for [`App`]
+///
+/// [`Component`]s:
+/// * [`Listener`]
+/// * [`Sound`]
 ///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_audio::prelude::*;
 /// #
-/// App::builder().with_plugin(AudioPlugin).build().run();
+/// App::builder().with_plugin(AudioPlugin::default()).build().run();
 /// ```
 #[derive(Default)]
 pub struct AudioPlugin {}
 
 impl Plugin for AudioPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
+        app_builder.with_component(Listener::default());
         app_builder.with_component(Sound::default());
         app_builder.with_stage(AudioStage::default());
     }
@@ -41,7 +46,7 @@ impl Plugin for AudioPlugin {
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_audio::prelude::*;
 /// #
-/// App::builder().with_stage(AudioStage).build().run();
+/// App::builder().with_stage(AudioStage::default()).build().run();
 /// ```
 #[derive(Default, Stage)]
 pub struct AudioStage {}

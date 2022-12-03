@@ -1,6 +1,6 @@
 [package]
 name = "qinetic"
-version = "0.1.5"
+version = "0.2.0"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
@@ -37,19 +37,11 @@ default = [
 	"audio",
 	"physics",
 	"render",
-	"wayland",
-	"vulkan"
 ]
 
 # Force dynamic linking, which improves iterative compile times.
 # Avaliable only in `dev` profile.
 dynamic = ["qinetic_dylib"]
-
-x11 = ["qinetic_internal/x11"]
-wayland = ["qinetic_internal/wayland"]
-
-vulkan = ["qinetic_internal/vulkan"]
-directx12 = ["qinetic_internal/directx12"]
 
 # Optional Qinetic crates
 ai = ["qinetic_internal/qinetic_ai"]
@@ -62,6 +54,8 @@ render = ["qinetic_internal/qinetic_render"]
 ui = ["qinetic_internal/qinetic_ui"]
 
 [dependencies]
+# Qinetic.
 qinetic_internal = { path = "crates/internal", version = "0.*", default-features = false}
 
+# Qinetic option.
 qinetic_dylib = { path = "crates/dylib", version = "0.*", default-features = false, optional = true}

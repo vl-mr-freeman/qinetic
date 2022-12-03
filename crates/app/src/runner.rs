@@ -7,7 +7,7 @@ use std::any::Any;
 ///
 /// # Examples
 /// ```
-/// # use qinetic_qpp::prelude::*;
+/// # use qinetic_app::prelude::*;
 /// #
 /// struct MyRunner;
 ///

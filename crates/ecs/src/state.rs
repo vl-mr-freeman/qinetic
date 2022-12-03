@@ -4,7 +4,7 @@ use crate::world::World;
 use std::any::type_name;
 
 /// State of the [`World`].
-pub trait State: Send + Sync + 'static + Sized {
+pub trait State: Send + Sync + 'static {
     /// Returns a `type name` of the [`State`].
     fn name(&self) -> &str {
         type_name::<Self>()
@@ -16,9 +16,7 @@ pub trait State: Send + Sync + 'static + Sized {
 pub struct StateRegistry {}
 
 impl StateRegistry {
-    pub(crate) fn init_state<T: State>(&mut self, state: T) {
-        todo!()
-    }
+    pub(crate) fn init_state<T: State>(&mut self, state: T) {}
 
     /// Adds a [`State`].
     /// If the [`State`] by `T`, was already present, it's replace.

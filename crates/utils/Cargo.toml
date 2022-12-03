@@ -13,4 +13,5 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
+# Qinetic macros.
 qinetic_utils_macros = { path = "../utils_macros", version = "0.*" }

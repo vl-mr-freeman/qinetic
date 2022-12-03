@@ -130,6 +130,7 @@ impl AppBuilder {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// #[derive(Stage)]
     /// struct MyStage;
@@ -152,6 +153,7 @@ impl AppBuilder {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// #[derive(Stage)]
     /// struct MyStage1;
@@ -179,6 +181,7 @@ impl AppBuilder {
     ///
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// #[derive(Stage)]
     /// struct MyStage1;
@@ -205,6 +208,7 @@ impl AppBuilder {
     /// # Examples
     /// ```
     /// # use qinetic_app::prelude::*;
+    /// # use qinetic_ecs::world::World;
     /// #
     /// #[derive(Stage)]
     /// struct MyStage1;
@@ -216,8 +220,8 @@ impl AppBuilder {
     ///
     /// impl StageGroup for MyStages {
     ///     fn configure(&mut self, registry: &mut StageRegistry) {
-    ///         registry.add(MyStage1);
-    ///         registry.add(MyStage2);
+    ///         registry.add_stage(MyStage1);
+    ///         registry.add_stage(MyStage2);
     ///     }
     /// }
     ///
@@ -324,8 +328,8 @@ impl AppBuilder {
     ///
     /// impl PluginGroup for MyPlugins {
     ///     fn configure(&mut self, registry: &mut PluginRegistry) {
-    ///         registry.add(MyPlugin1);
-    ///         registry.add(MyPlugin2);
+    ///         registry.add_plugin(MyPlugin1);
+    ///         registry.add_plugin(MyPlugin2);
     ///     }
     /// }
     ///

@@ -10,7 +10,7 @@
 //!
 //! fn main() {
 //!     App::builder()
-//!         .with_plugins(DefaultPlugins)
+//!         .with_plugins(DefaultPlugins::default())
 //!         .build()
 //!         .run();
 //! }

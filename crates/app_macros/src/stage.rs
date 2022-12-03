@@ -16,6 +16,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
 
     TokenStream::from(quote! {
         impl #impl_generics #path::stage::Stage for #struct_name #type_generics #where_clause {
+            #[allow(unused_variables)]
+            fn run(&mut self, world: &mut World) {}
         }
     })
 }

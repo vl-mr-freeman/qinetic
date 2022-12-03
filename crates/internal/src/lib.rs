@@ -45,7 +45,8 @@ pub mod prelude {
     #[doc(hidden)]
     pub use super::{
         app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
-        math::prelude::*, window::prelude::*, DefaultPlugins, MinimalPlugins, RunLoop, RunOnce,
+        math::prelude::*, utils::prelude::*, window::prelude::*, DefaultPlugins, MinimalPlugins,
+        RunLoop, RunOnce,
     };
 }
 
@@ -71,6 +72,7 @@ pub use qinetic_physics as physics;
 pub use qinetic_render as render;
 #[cfg(feature = "qinetic_ui")]
 pub use qinetic_ui as ui;
+pub use qinetic_utils as utils;
 pub use qinetic_window as window;
 
 mod default_plugins;

@@ -4,7 +4,7 @@ use crate::{component::Component, world::World};
 use std::any::{type_name, Any};
 
 /// Entity of a [`World`].
-pub trait Entity: Any + Send + Sync + 'static + Sized {
+pub trait Entity: Any + Send + Sync + 'static {
     /// Adds [`Component`] to [`Entity`].
     #[inline]
     fn add_component<T: Component>(&self, id: EntityId, world: &mut World) {

@@ -5,13 +5,16 @@
     html_favicon_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg"
 )]
 
+pub mod event_loop;
+pub mod window;
+
 pub mod prelude {
     //! Main window functionality.
 
     #[doc(hidden)]
     pub use crate::{
-        WindowMode, WindowMonitor, WindowPlugin, WindowPosition, WindowResource,
-        WindowSizeConstraints, WindowStage,
+        event_loop::*, window::*, WindowMode, WindowMonitor, WindowPlugin, WindowPosition,
+        WindowResource, WindowSizeConstraints, WindowStage,
     };
 }
 
@@ -26,6 +29,10 @@ use qinetic_ecs::prelude::*;
 /// [`Resource`]s:
 /// * [`WindowResource`]
 ///
+/// [`Event`]s:
+/// * [`WindowEvent`]
+/// * [`CursorEvent`]
+///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
@@ -38,6 +45,14 @@ pub struct WindowPlugin {}
 
 impl Plugin for WindowPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
+        app_builder.with_event(WindowEvent::Created);
+        app_builder.with_event(WindowEvent::Destroyed);
+        app_builder.with_event(WindowEvent::Resized);
+        app_builder.with_event(WindowEvent::Focused);
+        app_builder.with_event(WindowEvent::Moved);
+        app_builder.with_event(CursorEvent::Moved);
+        app_builder.with_event(CursorEvent::Entered);
+        app_builder.with_event(CursorEvent::Left);
         app_builder.with_resource(WindowResource::default());
         app_builder.with_stage(WindowStage::default());
     }
@@ -233,4 +248,58 @@ pub struct WindowSizeConstraints {
 
     /// Maximum logical height of the `window`'s client area.
     pub max_height: Option<u32>,
+}
+
+/// Cursor [`Event`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_window::prelude::*;
+/// #
+/// App::builder()
+///     .with_event(WindowEvent::Resized)
+///     .build()
+///     .run();
+/// ```
+#[derive(Event)]
+pub enum WindowEvent {
+    /// The [`Event`] that sent whenever a window is created.
+    Created,
+
+    /// The [`Event`] that sent whenever a window is destroyed.
+    Destroyed,
+
+    /// The [`Event`] that sent whenever a window is resized.
+    Resized,
+
+    /// The [`Event`] that sent whenever a window is focused.
+    Focused,
+
+    /// The [`Event`] that sent whenever a window is moved.
+    Moved,
+}
+
+/// Cursor [`Event`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_window::prelude::*;
+/// #
+/// App::builder()
+///     .with_event(CursorEvent::Moved)
+///     .build()
+///     .run();
+/// ```
+#[derive(Event)]
+pub enum CursorEvent {
+    /// The [`Event`] that sent whenever a cursor is moved in [`Window`].
+    Moved,
+
+    /// The [`Event`] that sent whenever a cursor is entered to [`Window`].
+    Entered,
+
+    /// The [`Event`] that sent whenever a cursor is leaves from [`Window`].
+    Left,
 }

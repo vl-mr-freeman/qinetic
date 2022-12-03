@@ -6,22 +6,7 @@ use std::any::{type_name, Any};
 pub trait IntoEvent {}
 
 /// Event of the [`World`].
-pub trait Event: Any + Send + Sync + 'static + Sized {
-    /// Calls a [`Event`].
-    fn call(&self, world: &mut World) {
-        world.call_event::<Self>();
-    }
-
-    /// Binds a [`Event`].
-    fn bind<IE: IntoEvent>(&mut self, into_event: IE, world: &mut World) {
-        world.bind_event::<Self, _>(into_event);
-    }
-
-    /// Unbinds a [`Event`].
-    fn unbind(&mut self, world: &mut World) {
-        world.unbind_event::<Self>();
-    }
-
+pub trait Event: Any + Send + Sync + 'static {
     /// Returns a `type name` of the [`Event`].
     fn name(&self) -> &str {
         type_name::<Self>()
@@ -33,9 +18,7 @@ pub trait Event: Any + Send + Sync + 'static + Sized {
 pub struct EventRegistry {}
 
 impl EventRegistry {
-    pub(crate) fn init_event<T: Event>(&mut self, event: T) {
-        todo!()
-    }
+    pub(crate) fn init_event<T: Event>(&mut self, event: T) {}
 
     pub(crate) fn call_event<T: Event>(&self) {
         todo!()

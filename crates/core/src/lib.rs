@@ -9,7 +9,7 @@ pub mod prelude {
     //! Main core functionality.
 
     #[doc(hidden)]
-    pub use crate::{color::*, CorePlugin, Script, Tag};
+    pub use crate::{color::*, CorePlugin, CoreStage, Script, Tag};
 }
 
 pub mod color {
@@ -53,11 +53,14 @@ use qinetic_ecs::prelude::*;
 /// * [`Tag`]
 /// * [`Script`]
 ///
+/// [`Stage`]s:
+/// * [`CoreStage`]
+///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_core::prelude::*;
-///`#
+/// #
 /// App::builder().with_plugin(CorePlugin::default()).build().run();
 /// ```
 #[derive(Default)]
@@ -67,7 +70,55 @@ impl Plugin for CorePlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder.with_component(Tag::default());
         app_builder.with_component(Script::default());
+        app_builder.with_stage(CoreStage::PreInit);
+        app_builder.with_stage(CoreStage::Init);
+        app_builder.with_stage(CoreStage::PostInit);
+        app_builder.with_stage(CoreStage::PreUpdate);
+        app_builder.with_stage(CoreStage::Update);
+        app_builder.with_stage(CoreStage::PostUpdate);
+        app_builder.with_stage(CoreStage::PreTerm);
+        app_builder.with_stage(CoreStage::Term);
+        app_builder.with_stage(CoreStage::PostTerm);
     }
+}
+
+/// Core [`Stage`].
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_ecs::prelude::*;
+/// # use qinetic_core::prelude::*;
+/// #
+/// App::builder().with_stage(CoreStage::PreInit).build().run();
+/// ```
+#[derive(Stage)]
+pub enum CoreStage {
+    /// The [`Stage`] that runs once before [`CoreStage::Init`].
+    PreInit,
+
+    /// The [`Stage`] that runs once on running [`App`].
+    Init,
+
+    /// The [`Stage`] that runs once after [`CoreStage::Init`].
+    PostInit,
+
+    /// The [`Stage`] that runs before [`CoreStage::Update`].
+    PreUpdate,
+
+    /// The [`Stage`] that runs on updating [`App`].
+    Update,
+
+    /// The [`Stage`] that runs after [`CoreStage::Update`].
+    PostUpdate,
+
+    /// The [`Stage`] that runs once before [`CoreStage::Term`].
+    PreTerm,
+
+    /// The [`Stage`] that runs once on closing [`App`].
+    Term,
+
+    /// The [`Stage`] that runs once after [`CoreStage::Term`].
+    PostTerm,
 }
 
 /// Tag [`Component`].

@@ -1,6 +1,6 @@
 [package]
 name = "qinetic_ecs"
-version = "0.1.2"
+version = "0.2.0"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
@@ -13,4 +13,5 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
+# Qinetic macros.
 qinetic_ecs_macros = { path = "../ecs_macros", version = "0.*" }

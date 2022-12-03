@@ -13,6 +13,7 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
+# Other.
 syn = "1.*"
 quote = "1.*"
 toml = "0.5.*"

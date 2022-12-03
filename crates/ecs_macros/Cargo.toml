@@ -16,7 +16,9 @@ keywords = ["qinetic"]
 proc-macro = true
 
 [dependencies]
+# Qinetic macros.
 qinetic_utils_macros = { path = "../utils_macros", version = "0.*" }
 
+# Other.
 syn = "1.*"
 quote = "1.*"

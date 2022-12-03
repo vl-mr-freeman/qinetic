@@ -1,25 +1,44 @@
+//! Manifest to parse `Cargo.toml`.
+
 use proc_macro::TokenStream;
 use std::{env, path::PathBuf};
+use syn::{parse::Parse, Path};
 use toml::map::Map;
 
 /// Manifest for `Cargo.toml` file.
+///
+/// # Examples
+/// ```
+/// # use qinetic_utils::prelude::*;
+/// #
+/// Manifest::get_path("qinetic_utils")
+/// ```
 pub struct Manifest {
     manifest: Map<String, toml::Value>,
 }
 
 impl Manifest {
-    /// Returns a [`syn::Path`] for the `crate` with `name`.
-    pub fn get_path(name: &str) -> syn::Path {
+    /// Returns a [`Path`] for the `crate` with `name`.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_utils::prelude::*;
+    /// #
+    /// Manifest::get_path("qinetic_utils");
+    /// ```
+    pub fn get_path(name: &str) -> Path {
         Self::default()
             .maybe_get_path(name)
             .unwrap_or_else(|| Self::parse_str(name))
     }
 
-    fn parse_str<T: syn::parse::Parse>(path: &str) -> T {
+    /// Parse [`str`] like path.
+    fn parse_str<T: Parse>(path: &str) -> T {
         syn::parse(path.parse::<TokenStream>().unwrap()).unwrap()
     }
 
-    fn maybe_get_path(&self, name: &str) -> Option<syn::Path> {
+    /// Returns a [`Path`] for the `crate` with `name`.
+    fn maybe_get_path(&self, name: &str) -> Option<Path> {
         const QINETIC: &str = "qinetic";
         const QINETIC_INTERNAL: &str = "qinetic_internal";
 
@@ -34,7 +53,7 @@ impl Manifest {
             }
         }
 
-        let find_in_deps = |deps: &Map<String, toml::Value>| -> Option<syn::Path> {
+        let find_in_deps = |deps: &Map<String, toml::Value>| -> Option<Path> {
             let package = if let Some(dep) = deps.get(name) {
                 return Some(Self::parse_str(dep_package(dep).unwrap_or(name)));
             } else if let Some(dep) = deps.get(QINETIC) {
@@ -45,7 +64,7 @@ impl Manifest {
                 return None;
             };
 
-            let mut path = Self::parse_str::<syn::Path>(package);
+            let mut path = Self::parse_str::<Path>(package);
             if let Some(module) = name.strip_prefix("qinetic_") {
                 path.segments.push(Self::parse_str(module));
             }

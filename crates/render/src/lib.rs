@@ -71,10 +71,6 @@ pub enum RenderApi {
     /// Vulkan `api`.
     #[cfg(feature = "vulkan")]
     Vulkan,
-
-    /// DirectX12 `api`.
-    #[cfg(feature = "directx12")]
-    DirectX12,
 }
 
 /// Render [`Resource`] for [`App`].

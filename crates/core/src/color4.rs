@@ -172,7 +172,7 @@ impl Color4 {
     /// ```
     #[inline]
     pub fn from_f32(r: f32, g: f32, b: f32, a: f32) -> Option<Self> {
-        if [r, g, b, a].iter().all(|c| *c >= 0.0 && *c <= 1.0) {
+        if [r, g, b, a].iter().all(|c| *c < 0.0 || *c > 1.0) {
             return None;
         }
         Some(Self {

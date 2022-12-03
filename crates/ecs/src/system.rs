@@ -6,7 +6,7 @@ use std::any::{type_name, Any};
 pub trait IntoSystem {}
 
 /// System of the [`World`].
-pub trait System: Any + Send + Sync + 'static + Sized {
+pub trait System: Any + Send + Sync + 'static {
     /// Returns a `type name` of the [`System`].
     fn name(&self) -> &str {
         type_name::<Self>()
@@ -18,7 +18,5 @@ pub trait System: Any + Send + Sync + 'static + Sized {
 pub struct SystemRegistry {}
 
 impl SystemRegistry {
-    pub(crate) fn init_system<T: System>(&mut self, system: T) {
-        todo!()
-    }
+    pub(crate) fn init_system<T: System>(&mut self, system: T) {}
 }
