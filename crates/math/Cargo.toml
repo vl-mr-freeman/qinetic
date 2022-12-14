@@ -16,3 +16,6 @@ keywords = ["qinetic"]
 # Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }
 qinetic_ecs = { path = "../ecs", version = "0.*" }
+
+# Other.
+num-traits = "0.2"

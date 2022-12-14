@@ -178,7 +178,7 @@ impl fmt::Display for Color3 {
 
 impl fmt::Debug for Color3 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Vec4))
+        f.debug_tuple(stringify!(Color3))
             .field(&self.r)
             .field(&self.g)
             .field(&self.b)

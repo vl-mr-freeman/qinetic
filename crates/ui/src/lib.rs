@@ -19,7 +19,7 @@ use crate::font::*;
 use crate::theme::*;
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
-use qinetic_math::vector::Vec2;
+use qinetic_math::vector::Vector2;
 
 /// User-interface functionality for [`App`]
 ///
@@ -187,25 +187,25 @@ pub struct UiStage;
 #[derive(Default, Component)]
 pub struct RectTransform {
     /// width, height in `ui`.
-    pub ui_scale: Vec2,
+    pub ui_scale: Vector2<f32>,
 
     /// min anchor in `ui`.
-    pub anchor_min: Vec2,
+    pub anchor_min: Vector2<f32>,
 
     /// max anchor in `ui`.
-    pub anchors_max: Vec2,
+    pub anchors_max: Vector2<f32>,
 
     /// pivot in `ui`.
-    pub pivot: Vec2,
+    pub pivot: Vector2<f32>,
 
     /// position in [`World`].
-    pub position: Vec2,
+    pub position: Vector2<f32>,
 
     /// rotation in [`World`].
-    pub rotation: Vec2,
+    pub rotation: Vector2<f32>,
 
     /// scale in [`World`].
-    pub scale: Vec2,
+    pub scale: Vector2<f32>,
 }
 
 /// Button [`Component`].
