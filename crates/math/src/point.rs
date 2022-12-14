@@ -4,7 +4,6 @@ use crate::vector::{Vector2, Vector3, Vector4};
 use crate::{Digit, DigitFloat, DigitNum};
 use num_traits::{clamp, clamp_max as clamp_min, clamp_min as clamp_max, Signed};
 use std::fmt;
-use std::iter::{Product, Sum};
 use std::ops::*;
 
 macro_rules! impl_point {
@@ -64,6 +63,7 @@ macro_rules! impl_point {
             }
 
             #[inline]
+            #[allow(dead_code)]
             pub(crate) fn from_vector(v: $VectorN<T>) -> $PointN<T> {
                 $PointN::new($(v.$field),+)
             }
