@@ -18,7 +18,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Physics functionality for [`App`]
+/// Physics [`Plugin`] for [`App`]
 ///
 /// [`Component`]s:
 /// * [`BoxCollider`]

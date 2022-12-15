@@ -25,7 +25,7 @@ use crate::vector::Vector3;
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Math functionality for [`App`].
+/// Math [`Plugin`] for [`App`].
 ///
 /// [`Component`]s:
 /// * [`Transform`]

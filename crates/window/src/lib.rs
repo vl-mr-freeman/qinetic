@@ -21,7 +21,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Window functionality for [`App`]
+/// Window [`Plugin`] for [`App`]
 ///
 /// [`Stage`]s:
 /// * [`WindowStage`]

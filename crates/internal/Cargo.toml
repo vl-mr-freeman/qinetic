@@ -32,3 +32,5 @@ qinetic_network = { path = "../network", optional = true, version = "0.*" }
 qinetic_physics = { path = "../physics", optional = true, version = "0.*" }
 qinetic_render = { path = "../render", optional = true, version = "0.*" }
 qinetic_ui = { path = "../ui", optional = true, version = "0.*" }
+qinetic_ar = { path = "../ar", optional = true, version = "0.*" }
+qinetic_vr = { path = "../vr", optional = true, version = "0.*" }

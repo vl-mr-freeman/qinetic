@@ -1,0 +1,15 @@
+[package]
+name = "qinetic_xr"
+version = "0.1.0"
+authors = [
+	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
+]
+edition = "2021"
+description = "crate for Qinetic, containing cross-platform VR/AR device integration functionality"
+documentation = "https://docs.rs/qinetic_xr"
+readme = "README.md"
+repository = "https://github.com/vl-mr-freeman/qinetic"
+license = "MIT"
+keywords = ["qinetic"]
+
+[dependencies]

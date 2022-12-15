@@ -2,7 +2,7 @@
 
 use qinetic_app::plugin::*;
 
-/// Default [`PluginGroup`].
+/// Minimal [`PluginGroup`].
 /// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
 ///
 /// See also [`DefaultPlugins`] for a more complete group of [`Plugin`]s.
@@ -23,7 +23,7 @@ impl PluginGroup for MinimalPlugins {
     }
 }
 
-/// Minimal [`PluginGroup`].
+/// Default [`PluginGroup`].
 /// * [`CorePlugin`](../qinetic_core/struct.CorePlugin.html)
 /// * [`LogPlugin`](../qinetic_log/struct.LogPlugin.html)
 /// * [`AssetPlugin`](../qinetic_asset/struct.AssetPlugin.html)
@@ -36,6 +36,8 @@ impl PluginGroup for MinimalPlugins {
 /// * [`InputPlugin`](../qinetic_input/struct.InputPlugin.html)
 /// * [`RenderPlugin`](../qinetic_render/struct.RenderPlugin.html) - feature = `render`
 /// * [`UiPlugin`](../qinetic_ui/struct.UiPlugin.html) - feature = `ui`
+/// * [`VrPlugin`](../qinetic_vr/struct.VrPlugin.html) - feature = `vr`
+/// * [`ArPlugin`](../qinetic_ar/struct.ArPlugin.html) - feature = `ar`
 ///
 /// See also [`MinimalPlugins`] for a slimmed down group of [`Plugin`]s.
 ///
@@ -71,5 +73,9 @@ impl PluginGroup for DefaultPlugins {
         registry.add_plugin(qinetic_render::RenderPlugin::default());
         #[cfg(feature = "qinetic_ui")]
         registry.add_plugin(qinetic_ui::UiPlugin::default());
+        #[cfg(feature = "qinetic_vr")]
+        registry.add_plugin(qinetic_vr::VrPlugin::default());
+        #[cfg(feature = "qinetic_ar")]
+        registry.add_plugin(qinetic_ar::ArPlugin::default());
     }
 }

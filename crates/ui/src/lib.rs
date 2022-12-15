@@ -21,7 +21,7 @@ use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 use qinetic_math::vector::Vector2;
 
-/// User-interface functionality for [`App`]
+/// User-interface [`Plugin`] for [`App`]
 ///
 /// [`Component`]s:
 /// * [`RectTransform`]

@@ -16,7 +16,7 @@ use qinetic_app::prelude::*;
 use qinetic_core::color::Color4;
 use qinetic_ecs::prelude::*;
 
-/// Render functionality for [`App`]
+/// Render [`Plugin`] for [`App`]
 ///
 /// [`Component`]s:
 /// * [`Mesh`]

@@ -43,6 +43,14 @@ pub mod prelude {
     pub use super::ui::prelude::*;
 
     #[doc(hidden)]
+    #[cfg(feature = "qinetic_vr")]
+    pub use super::vr::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_ar")]
+    pub use super::ar::prelude::*;
+
+    #[doc(hidden)]
     pub use super::{
         app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
         math::prelude::*, utils::prelude::*, window::prelude::*, DefaultPlugins, MinimalPlugins,
@@ -55,6 +63,8 @@ pub use qinetic_ai as ai;
 #[cfg(feature = "qinetic_animation")]
 pub use qinetic_animation as animation;
 pub use qinetic_app as app;
+#[cfg(feature = "qinetic_ar")]
+pub use qinetic_ar as ar;
 pub use qinetic_asset as asset;
 #[cfg(feature = "qinetic_audio")]
 pub use qinetic_audio as audio;
@@ -73,6 +83,8 @@ pub use qinetic_render as render;
 #[cfg(feature = "qinetic_ui")]
 pub use qinetic_ui as ui;
 pub use qinetic_utils as utils;
+#[cfg(feature = "qinetic_vr")]
+pub use qinetic_vr as vr;
 pub use qinetic_window as window;
 
 mod default_plugins;

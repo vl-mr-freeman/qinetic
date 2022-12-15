@@ -15,7 +15,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Audio functionality for [`App`]
+/// Audio [`Plugin`] for [`App`]
 ///
 /// [`Component`]s:
 /// * [`Listener`]

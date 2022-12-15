@@ -1,12 +1,12 @@
 [package]
-name = "qinetic_vr"
+name = "qinetic_ar"
 version = "0.1.0"
 authors = [
 	"Vladislav Loginov <vl.mr.freeman@gmail.com>",
 ]
 edition = "2021"
-description = "crate for Qinetic, containing virtual reality functionality"
-documentation = "https://docs.rs/qinetic_vr"
+description = "crate for Qinetic, containing augmented reality functionality"
+documentation = "https://docs.rs/qinetic_ar"
 readme = "README.md"
 repository = "https://github.com/vl-mr-freeman/qinetic"
 license = "MIT"

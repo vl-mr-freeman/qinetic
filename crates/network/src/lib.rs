@@ -15,7 +15,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Network functionality for [`App`]
+/// Network [`Plugin`] for [`App`]
 ///
 /// [`Stage`]s:
 /// * [`NetworkStage`]

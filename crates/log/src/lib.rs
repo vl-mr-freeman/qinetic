@@ -16,7 +16,7 @@ use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 use std::fs::File;
 
-/// Log functionality for [`App`]
+/// Log [`Plugin`] for [`App`]
 ///
 /// [`Resource`]s:
 /// * [`LogResource`]

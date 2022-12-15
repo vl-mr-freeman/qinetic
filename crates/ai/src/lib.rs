@@ -15,7 +15,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Artificial intelligence functionality for [`App`].
+/// Artificial intelligence [`Plugin`] for [`App`].
 ///
 /// [`Component`]s:
 /// * [`AiController`]

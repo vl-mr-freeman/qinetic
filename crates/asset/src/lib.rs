@@ -15,7 +15,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Asset functionality for [`App`]
+/// Asset [`Plugin`] for [`App`]
 ///
 /// [`Stage`]s:
 /// * [`AssetStage`]

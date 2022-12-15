@@ -1,4 +1,4 @@
-//! Virtual reality functionality for Qinetic.
+//! Augmented reality functionality for Qinetic.
 
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg",
@@ -6,37 +6,37 @@
 )]
 
 pub mod prelude {
-    //! Main virtual reality functionality.
+    //! Main augmented reality functionality.
 
     #[doc(hidden)]
-    pub use crate::{VrController, VrPlugin, VrStage, VrTracker};
+    pub use crate::{ArController, ArPlugin, ArStage, ArTracker};
 }
 
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Virtual reality [`Plugin`] for [`App`].
+/// Augmented reality [`Plugin`] for [`App`].
 ///
 /// [`Component`]s:
-/// * [`VrController`]
-/// * [`VrTracker`]
+/// * [`ArController`]
+/// * [`ArTracker`]
 ///
 /// [`Stage`]s:
-/// * [`VrStage`]
+/// * [`ArStage`]
 ///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_vr::prelude::*;
 /// #
-/// App::builder().with_plugin(VrPlugin::default()).build().run();
+/// App::builder().with_plugin(ArPlugin::default()).build().run();
 /// ```
 #[derive(Default)]
-pub struct VrPlugin {}
+pub struct ArPlugin {}
 
-impl Plugin for VrPlugin {
+impl Plugin for ArPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
-        app_builder.with_stage(VrStage::default());
+        app_builder.with_stage(ArStage::default());
     }
 }
 
@@ -47,10 +47,10 @@ impl Plugin for VrPlugin {
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_ai::prelude::*;
 /// #
-/// App::builder().with_stage(VrStage::default()).build().run();
+/// App::builder().with_stage(ArStage::default()).build().run();
 /// ```
 #[derive(Default, Stage)]
-pub struct VrStage {}
+pub struct ArStage {}
 
 /// Virtual reality controller [`Component`].
 ///
@@ -59,9 +59,9 @@ pub struct VrStage {}
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_vr::prelude::*;
 /// #
-/// App::builder().with_component(VrController::default()).build().run();
+/// App::builder().with_component(ArController::default()).build().run();
 /// ```
-pub struct VrController {}
+pub struct ArController {}
 
 /// Virtual reality tracker [`Component`].
 ///
@@ -73,4 +73,4 @@ pub struct VrController {}
 /// App::builder().with_component(Tracker::default()).build().run();
 /// ```
 #[derive(Default, Component)]
-pub struct VrTracker {}
+pub struct ArTracker {}

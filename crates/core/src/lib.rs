@@ -47,7 +47,7 @@ mod color4;
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Core functionality for [`App`].
+/// Core [`Plugin`] for [`App`].
 ///
 /// [`Component`]s:
 /// * [`Tag`]

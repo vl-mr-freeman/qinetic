@@ -52,6 +52,8 @@ network = ["qinetic_internal/qinetic_network"]
 physics = ["qinetic_internal/qinetic_physics"]
 render = ["qinetic_internal/qinetic_render"]
 ui = ["qinetic_internal/qinetic_ui"]
+vr = ["qinetic_internal/qinetic_vr"]
+ar = ["qinetic_internal/qinetic_ar"]
 
 [dependencies]
 # Qinetic.

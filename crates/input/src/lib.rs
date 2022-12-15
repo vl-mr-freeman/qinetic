@@ -15,7 +15,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Input functionality for [`App`]
+/// Input [`Plugin`] for [`App`]
 ///
 /// [`Component`]s:
 /// * [`PlayerController`]

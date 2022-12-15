@@ -15,7 +15,7 @@ pub mod prelude {
 use qinetic_app::prelude::*;
 use qinetic_ecs::prelude::*;
 
-/// Animation functionality for [`App`].
+/// Animation [`Plugin`] for [`App`].
 ///
 /// [`Component`]s:
 /// * [`SkeletalMesh`]
