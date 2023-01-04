@@ -20,11 +20,6 @@ use crate::app::*;
 pub trait Plugin: Any + 'static {
     /// Configures the [`AppBuilder`] to which this plugin is added.
     fn build(&mut self, app_builder: &mut AppBuilder);
-
-    /// Returns a `type name` of the [`Plugin`].
-    fn name(&self) -> &str {
-        type_name::<Self>()
-    }
 }
 
 /// Combines multiple [`Plugin`]s into a group.
@@ -57,11 +52,6 @@ pub trait Plugin: Any + 'static {
 pub trait PluginGroup {
     /// Adds a [`Plugin`]s in group to the [`PluginRegistry`].
     fn configure(&mut self, registry: &mut PluginRegistry);
-
-    /// Returns a `type name` of the [`PluginGroup`].
-    fn name(&self) -> &'static str {
-        type_name::<Self>()
-    }
 }
 
 /// Facilities addition and remove [`Plugin`]s.

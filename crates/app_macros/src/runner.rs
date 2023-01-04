@@ -14,10 +14,11 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let struct_name = &ast.ident;
     let (impl_generics, type_generics, where_clause) = &ast.generics.split_for_impl();
 
-    TokenStream::from(quote! {
+    (quote! {
         impl #impl_generics #path::runner::Runner for #struct_name #type_generics #where_clause {
             #[allow(unused_variables)]
             fn run(&mut self, app: App) {}
         }
     })
+    .into()
 }

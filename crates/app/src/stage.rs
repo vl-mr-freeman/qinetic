@@ -23,14 +23,16 @@ use qinetic_ecs::world::World;
 pub trait Stage: DowncastSync {
     /// Runs step of execution.
     fn run(&mut self, world: &mut World);
-
-    /// Returns a `type name` of the [`Stage`].
-    fn name(&self) -> &str {
-        type_name::<Self>()
-    }
 }
 
 impl_downcast!(Stage);
+
+qinetic_utils::define_label!(
+    /// A strongly-typed class of labels used to identify [`Stage`].
+    StageLabel,
+    /// Strongly-typed identifier for a [`StageLabel`].
+    StageLabelId,
+);
 
 /// Combines multiple [`Stage`]s into a group.
 ///
@@ -63,11 +65,6 @@ impl_downcast!(Stage);
 pub trait StageGroup {
     /// Adds a [`Stage`]s in group to the [`StageRegistry`].
     fn configure(&mut self, registry: &mut StageRegistry);
-
-    /// Returns a `type name` of the [`StageGroup`].
-    fn name(&self) -> &'static str {
-        type_name::<Self>()
-    }
 }
 
 /// Facilities addition and remove [`Stage`]s.
@@ -134,7 +131,7 @@ impl StageRegistry {
     ///
     /// # assert!(stage_registry.has_stage::<MyStage>());
     // ```
-    pub fn add_stage<T: Stage>(&mut self, stage: T) -> &mut Self {
+    pub fn add_stage<T: Stage>(&mut self, label: impl StageLabel, stage: T) -> &mut Self {
         let i = self.order.len();
         self.order.push(TypeId::of::<T>());
         self.upsert(stage, i);
@@ -169,7 +166,13 @@ impl StageRegistry {
     /// # assert!(stage_registry.has_stage::<MyStage1>());
     /// # assert!(stage_registry.has_stage::<MyStage2>());
     /// ```
-    pub fn add_stage_after<Target: Stage, T: Stage>(&mut self, stage: T) -> &mut Self {
+    pub fn add_stage_after<T: Stage>(
+        &mut self,
+        target: impl StageLabel,
+        label: impl StageLabel,
+        stage: T,
+    ) -> &mut Self {
+        /*
         let i = self.index_of::<Target>();
         let i = match i {
             Some(i) => i + 1,
@@ -180,6 +183,7 @@ impl StageRegistry {
         };
         self.order.insert(i, TypeId::of::<T>());
         self.upsert(stage, i);
+        */
         self
     }
 
@@ -211,7 +215,13 @@ impl StageRegistry {
     /// # assert!(stage_registry.has_stage::<MyStage1>());
     /// # assert!(stage_registry.has_stage::<MyStage2>());
     /// ```
-    pub fn add_stage_before<Target: Stage, T: Stage>(&mut self, stage: T) -> &mut Self {
+    pub fn add_stage_before<T: Stage>(
+        &mut self,
+        target: impl StageLabel,
+        label: impl StageLabel,
+        stage: T,
+    ) -> &mut Self {
+        /*
         let i = self.index_of::<Target>();
         let i = match i {
             Some(i) => i + 1,
@@ -222,6 +232,7 @@ impl StageRegistry {
         };
         self.order.insert(i, TypeId::of::<T>());
         self.upsert(stage, i);
+        */
         self
     }
 
@@ -327,4 +338,18 @@ impl StageRegistry {
             self.order.remove(r);
         }
     }
+}
+
+#[derive(Default)]
+pub struct SingleStage {}
+
+impl Stage for SingleStage {
+    fn run(&mut self, world: &mut World) {}
+}
+
+#[derive(Default)]
+pub struct ParallelStage {}
+
+impl Stage for ParallelStage {
+    fn run(&mut self, world: &mut World) {}
 }

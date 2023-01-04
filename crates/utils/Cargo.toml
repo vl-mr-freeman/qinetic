@@ -13,5 +13,15 @@ license = "MIT"
 keywords = ["qinetic"]
 
 [dependencies]
-# Qinetic macros.
-qinetic_utils_macros = { path = "../utils_macros", version = "0.*" }
+# Other.
+getset = "0.1.*"
+derive_builder = "0.12.*"
+derive_more = "0.99.*"
+derive-new = "0.5.*"
+smart-default = "0.6.*"
+downcast-rs = "1.2.*"
+static_assertions = "1.1.*"
+syn = "1.*"
+quote = "1.*"
+toml = "0.5.*"
+rgb = "0.8.*"

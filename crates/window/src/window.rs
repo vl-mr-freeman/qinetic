@@ -1,8 +1,11 @@
 //! Window creating functionality.
 
-use crate::event_loop::EventLoop;
+use qinetic_utils::prelude::*;
 
-/// Represent a `window`.
+/// Cross-platform window representation.
+#[derive(SmartDefault, Clone, Debug, PartialEq, Eq, Builder, Getters)]
+#[getset(get = "pub")]
+#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
 pub struct Window {}
 
 impl Window {
@@ -16,43 +19,5 @@ impl Window {
     /// ```
     pub fn builder() -> WindowBuilder {
         WindowBuilder::default()
-    }
-}
-
-/// A `Builder pattern` for [`Window`].
-pub struct WindowBuilder {}
-
-impl WindowBuilder {
-    /// Returns a [`WindowBuilder`] with set a `title`.
-    ///
-    /// # Examples
-    /// ```
-    /// # use qinetic_window::prelude::*;
-    /// #
-    /// Window::builder()
-    ///     .with_title("Qinetic")
-    ///     .build()
-    ///     .run();
-    /// ```
-    pub fn with_title<T: Into<String>>(&mut self, title: T) -> &mut Self {
-        todo!()
-    }
-
-    /// Returns a [`Window`] configured from [`WindowBuilder`].
-    ///
-    /// # Examples
-    /// ```
-    /// # use qinetic_window::prelude::*;
-    /// #
-    /// Window::builder().build();
-    /// ```
-    pub fn build(&mut self, event_loop: &EventLoop) -> Window {
-        Window {}
-    }
-}
-
-impl Default for WindowBuilder {
-    fn default() -> Self {
-        Self {}
     }
 }

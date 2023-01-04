@@ -9,28 +9,16 @@ extern crate proc_macro;
 
 mod plugin;
 mod runner;
-mod stage;
+mod stage_label;
 
 use proc_macro::TokenStream;
-use qinetic_utils_macros::manifest::Manifest;
+use qinetic_utils::manifest::Manifest;
 use syn::Path;
 
-/// Generates an impl for [`Plugin`] trait.
-#[proc_macro_derive(Plugin)]
-pub fn derive_plugin(input: TokenStream) -> TokenStream {
-    plugin::derive(input)
-}
-
-/// Generates an impl for [`Runner`] trait.
-#[proc_macro_derive(Runner)]
-pub fn derive_runner(input: TokenStream) -> TokenStream {
-    runner::derive(input)
-}
-
-/// Generates an impl for [`Stage`] trait.
-#[proc_macro_derive(Stage)]
+/// Generates an impl for [`StageLabel`] trait.
+#[proc_macro_derive(StageLabel)]
 pub fn derive_stage(input: TokenStream) -> TokenStream {
-    stage::derive(input)
+    stage_label::derive(input)
 }
 
 /// Returns a [`Path`] of `qinetic_app`.

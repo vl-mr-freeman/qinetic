@@ -4,6 +4,7 @@ use std::any::TypeId;
 use std::collections::HashMap;
 
 use crate::stage::Stage;
+use derive_builder::Builder;
 use qinetic_ecs::world::World;
 
 #[derive(Default)]

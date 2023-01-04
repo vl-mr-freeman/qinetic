@@ -1,76 +1,41 @@
+//! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
+//!
 //! Virtual reality functionality for Qinetic.
+//!
+//! # Examples
+//!
+//! Here is a simple virtual reality application:
+//! ```
+//! use qinetic_app::prelude::*;
+//! use qinetic_vr::prelude::*;
+//!
+//! fn main() {
+//!     App::builder()
+//!         .with_plugin(VrPlugin::default())
+//!         .build()
+//!         .unwrap()
+//!         .run();
+//! }
+//! ```
 
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg",
     html_favicon_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg"
 )]
 
+pub mod components;
+pub mod plugins;
+pub mod stages;
+pub mod systems;
+
 pub mod prelude {
     //! Main virtual reality functionality.
 
     #[doc(hidden)]
-    pub use crate::{VrController, VrPlugin, VrStage, VrTracker};
+    pub use crate::{
+        components::{VrController, VrTracker},
+        plugins::VrPlugin,
+        stages::{VrStage, VrStageGroup},
+        systems::VrSystem,
+    };
 }
-
-use qinetic_app::prelude::*;
-use qinetic_ecs::prelude::*;
-
-/// Virtual reality [`Plugin`] for [`App`].
-///
-/// [`Component`]s:
-/// * [`VrController`]
-/// * [`VrTracker`]
-///
-/// [`Stage`]s:
-/// * [`VrStage`]
-///
-/// # Examples
-/// ```
-/// # use qinetic_app::prelude::*;
-/// # use qinetic_vr::prelude::*;
-/// #
-/// App::builder().with_plugin(VrPlugin::default()).build().run();
-/// ```
-#[derive(Default)]
-pub struct VrPlugin {}
-
-impl Plugin for VrPlugin {
-    fn build(&mut self, app_builder: &mut AppBuilder) {
-        app_builder.with_stage(VrStage::default());
-    }
-}
-
-/// Virtual reality [`Stage`] for [`App`].
-///
-/// # Examples
-/// ```
-/// # use qinetic_app::prelude::*;
-/// # use qinetic_ai::prelude::*;
-/// #
-/// App::builder().with_stage(VrStage::default()).build().run();
-/// ```
-#[derive(Default, Stage)]
-pub struct VrStage {}
-
-/// Virtual reality controller [`Component`].
-///
-/// # Examples
-/// ```
-/// # use qinetic_app::prelude::*;
-/// # use qinetic_vr::prelude::*;
-/// #
-/// App::builder().with_component(VrController::default()).build().run();
-/// ```
-pub struct VrController {}
-
-/// Virtual reality tracker [`Component`].
-///
-/// # Examples
-/// ```
-/// # use qinetic_app::prelude::*;
-/// # use qinetic_vr::prelude::*;
-/// #
-/// App::builder().with_component(Tracker::default()).build().run();
-/// ```
-#[derive(Default, Component)]
-pub struct VrTracker {}

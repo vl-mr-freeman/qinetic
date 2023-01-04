@@ -1,6 +1,6 @@
 //! Event loop functionality.
 
-use crate::{CursorEvent, WindowEvent};
+use crate::events::{CursorEvent, WindowEvent};
 
 /// Loop of [`Event`]s.
 pub struct EventLoop {}

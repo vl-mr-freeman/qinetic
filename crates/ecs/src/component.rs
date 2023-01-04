@@ -13,12 +13,7 @@ use std::collections::HashMap;
 /// #[derive(Default, Component)]
 /// struct MyComponent {/* something to do */}
 /// ```
-pub trait Component: Any + Send + Sync + 'static {
-    /// Returns a `type name` of the [`Component`].
-    fn name(&self) -> &str {
-        type_name::<Self>()
-    }
-}
+pub trait Component: Any + Send + Sync + 'static {}
 
 struct ComponentInfo {
     entity_id: EntityId,

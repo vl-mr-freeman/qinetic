@@ -4,12 +4,7 @@ use crate::world::World;
 use std::any::type_name;
 
 /// State of the [`World`].
-pub trait State: Send + Sync + 'static {
-    /// Returns a `type name` of the [`State`].
-    fn name(&self) -> &str {
-        type_name::<Self>()
-    }
-}
+pub trait State: Send + Sync + 'static {}
 
 /// Facilities addition and remove [`State`]s.
 #[derive(Default)]

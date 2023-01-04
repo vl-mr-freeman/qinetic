@@ -1,18 +1,15 @@
 //! Application functionality.
 
 use crate::{
-    plugin::{Plugin, PluginGroup, PluginRegistry},
+    plugin::{Plugin, PluginGroup},
     runner::Runner,
     schedule::Schedule,
-    stage::{Stage, StageGroup, StageRegistry},
+    stage::{Stage, StageGroup, StageLabel},
 };
+use derive_builder::Builder;
 use qinetic_ecs::{
-    component::Component,
-    event::Event,
-    resource::Resource,
-    state::State,
-    system::System,
-    world::{World, WorldBuilder},
+    component::Component, event::Event, resource::Resource, state::State, system::System,
+    world::World,
 };
 use std::mem;
 
@@ -24,15 +21,48 @@ use std::mem;
 /// #
 /// App::builder().build().run();
 /// ```
+//#[derive(Builder)]
+//#[builder(setter(prefix = "with"))]
 pub struct App {
-    /// The [runner function](Self::run) is primarily responsible for managing loop.
+    /// Returns a [`AppBuilder`] with `default` configuration.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_app::prelude::*;
+    /// #
+    /// let app_builder = App::builder();
+    /// ```
+    //#[builder(setter(custom))]
+    //#[builder(default = "Box::new(RunEmpty)")]
     runner: Box<dyn Runner>,
 
     /// Container of [`Stage`]s in a linear order.
+    //#[builder(setter(skip))]
     schedule: Schedule,
 
     /// The ECS [`World`], provides access to all ECS data.
+    //#[builder(setter(skip))]
     world: World,
+}
+
+#[derive(Default)]
+pub struct AppBuilder {
+    runner: Option<Box<dyn Runner>>,
+}
+
+impl AppBuilder {
+    pub fn with_runner<T: Runner>(&mut self, runner: T) -> &mut Self {
+        self.runner = Some(Box::new(runner));
+        self
+    }
+
+    pub fn build(&self) -> App {
+        App {
+            runner: Box::new(RunEmpty),
+            schedule: Schedule::default(),
+            world: World::default(),
+        }
+    }
 }
 
 impl App {
@@ -44,6 +74,7 @@ impl App {
     /// #
     /// let app_builder = App::builder();
     /// ```
+    #[inline]
     pub fn builder() -> AppBuilder {
         AppBuilder::default()
     }
@@ -86,43 +117,7 @@ impl App {
     }
 }
 
-/// A `Builder Pattern` for [`App`].
-#[derive(Default)]
-pub struct AppBuilder {
-    /// The [runner function](Self::with_runner) is primarily responsible for managing loop.
-    runner: Option<Box<dyn Runner>>,
-
-    /// Registers [`Plugin`]s.
-    plugin_registry: PluginRegistry,
-
-    /// Registers [`Stage`]s.
-    stage_registry: StageRegistry,
-
-    /// The ECS [`WorldBuilder`], builds a [`World`].
-    world_builder: WorldBuilder,
-}
-
 impl AppBuilder {
-    /// Returns a [`AppBuilder`] with set a [`Runner`].
-    ///
-    /// # Examples
-    /// ```
-    /// # use qinetic_app::prelude::*;
-    /// #
-    /// #[derive(Runner)]
-    /// struct MyRunner;
-    ///
-    /// App::builder()
-    ///     .with_runner(MyRunner)
-    ///     .build()
-    ///     .run();
-    /// ```
-    #[inline]
-    pub fn with_runner<T: Runner>(&mut self, runner: T) -> &mut Self {
-        self.runner = Some(Box::new(runner));
-        self
-    }
-
     /// Returns a [`AppBuilder`] with added a single [`Stage`].
     ///
     /// If the [`Stage`] was already present, it's removed from it's previous place and add at the end.
@@ -132,17 +127,17 @@ impl AppBuilder {
     /// # use qinetic_app::prelude::*;
     /// # use qinetic_ecs::world::World;
     /// #
-    /// #[derive(Stage)]
+    /// #[derive(StageLabel)]
     /// struct MyStage;
     ///
     /// App::builder()
-    ///     .with_stage(MyStage)
+    ///     .with_stage(MyStage, SingleStage::default())
     ///     .build()
     ///     .run();
     /// ```
     #[inline]
-    pub fn with_stage<T: Stage>(&mut self, stage: T) -> &mut Self {
-        self.stage_registry.add_stage(stage);
+    pub fn with_stage<T: Stage>(&mut self, label: impl StageLabel, stage: T) -> &mut Self {
+        //self.stage_registry.add_stage(label, stage);
         self
     }
 
@@ -155,21 +150,26 @@ impl AppBuilder {
     /// # use qinetic_app::prelude::*;
     /// # use qinetic_ecs::world::World;
     /// #
-    /// #[derive(Stage)]
+    /// #[derive(StageLabel)]
     /// struct MyStage1;
     ///
-    /// #[derive(Stage)]
+    /// #[derive(StageLabel)]
     /// struct MyStage2;
     ///
     /// App::builder()
-    ///     .with_stage(MyStage1)
-    ///     .with_stage_after::<MyStage1, _>(MyStage2)
+    ///     .with_stage(MyStage1, SingleStage::default())
+    ///     .with_stage_after(MyStage2, SingleStage::default())
     ///     .build()
     ///     .run();
     /// ```
     #[inline]
-    pub fn with_stage_after<Target: Stage, T: Stage>(&mut self, stage: T) -> &mut Self {
-        self.stage_registry.add_stage_after::<Target, _>(stage);
+    pub fn with_stage_after<T: Stage>(
+        &mut self,
+        target: impl StageLabel,
+        label: impl StageLabel,
+        stage: T,
+    ) -> &mut Self {
+        //self.stage_registry.add_stage_after(target, label, stage);
         self
     }
 
@@ -183,21 +183,26 @@ impl AppBuilder {
     /// # use qinetic_app::prelude::*;
     /// # use qinetic_ecs::world::World;
     /// #
-    /// #[derive(Stage)]
+    /// #[derive(StageLabel)]
     /// struct MyStage1;
     ///
-    /// #[derive(Stage)]
+    /// #[derive(StageLabel)]
     /// struct MyStage2;
     ///
     /// App::builder()
-    ///     .with_stage(MyStage1)
-    ///     .with_stage_before::<MyStage1, _>(MyStage2)
+    ///     .with_stage(MyStage1, SingleStage::default())
+    ///     .with_stage_before(MyStage2, SingleStage::default())
     ///     .build()
     ///     .run();
     /// ```
     #[inline]
-    pub fn with_stage_before<Target: Stage, T: Stage>(&mut self, stage: T) -> &mut Self {
-        self.stage_registry.add_stage_before::<Target, _>(stage);
+    pub fn with_stage_before<T: Stage>(
+        &mut self,
+        target: impl StageLabel,
+        label: impl StageLabel,
+        stage: T,
+    ) -> &mut Self {
+        //self.stage_registry.add_stage_before(target, label, stage);
         self
     }
 
@@ -210,29 +215,29 @@ impl AppBuilder {
     /// # use qinetic_app::prelude::*;
     /// # use qinetic_ecs::world::World;
     /// #
-    /// #[derive(Stage)]
+    /// #[derive(StageLabel)]
     /// struct MyStage1;
     ///
-    /// #[derive(Stage)]
+    /// #[derive(StageLabel)]
     /// struct MyStage2;
     ///
     /// struct MyStages;
     ///
     /// impl StageGroup for MyStages {
     ///     fn configure(&mut self, registry: &mut StageRegistry) {
-    ///         registry.add_stage(MyStage1);
-    ///         registry.add_stage(MyStage2);
+    ///         registry.add_stage(MyStage1, SingleStage::default());
+    ///         registry.add_stage(MyStage2, SingleStage::default());
     ///     }
     /// }
     ///
     /// App::builder()
-    ///     .with_stages(MyStages)
+    ///     .with_stage_group(MyStages)
     ///     .build()
     ///     .run();
     /// ```
     #[inline]
-    pub fn with_stages<T: StageGroup>(&mut self, group: T) -> &mut Self {
-        self.stage_registry.add_stage_group(group);
+    pub fn with_stage_group<T: StageGroup>(&mut self, group: T) -> &mut Self {
+        //self.stage_registry.add_stage_group(group);
         self
     }
 
@@ -254,7 +259,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_plugin<T: Plugin>(&mut self, plugin: T) -> &mut Self {
-        self.plugin_registry.add_plugin(plugin);
+        //self.plugin_registry.add_plugin(plugin);
         self
     }
 
@@ -280,7 +285,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_plugin_after<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
-        self.plugin_registry.add_plugin_after::<Target, _>(plugin);
+        //self.plugin_registry.add_plugin_after::<Target, _>(plugin);
         self
     }
 
@@ -306,7 +311,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_plugin_before<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
-        self.plugin_registry.add_plugin_before::<Target, _>(plugin);
+        //self.plugin_registry.add_plugin_before::<Target, _>(plugin);
         self
     }
 
@@ -334,13 +339,13 @@ impl AppBuilder {
     /// }
     ///
     /// App::builder()
-    ///     .with_plugins(MyPlugins)
+    ///     .with_plugin_group(MyPlugins)
     ///     .build()
     ///     .run();
     /// ```
     #[inline]
-    pub fn with_plugins<T: PluginGroup>(&mut self, group: T) -> &mut Self {
-        self.plugin_registry.add_plugin_group(group);
+    pub fn with_plugin_group<T: PluginGroup>(&mut self, group: T) -> &mut Self {
+        //self.plugin_registry.add_plugin_group(group);
         self
     }
 
@@ -363,7 +368,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_component<T: Component>(&mut self, component: T) -> &mut Self {
-        self.world_builder.with_component(component);
+        //self.world_builder.with_component(component);
         self
     }
 
@@ -386,7 +391,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_event<T: Event>(&mut self, event: T) -> &mut Self {
-        self.world_builder.with_event(event);
+        //self.world_builder.with_event(event);
         self
     }
 
@@ -409,7 +414,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
-        self.world_builder.with_resource(resource);
+        //self.world_builder.with_resource(resource);
         self
     }
 
@@ -435,7 +440,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_state<T: State>(&mut self, state: T) -> &mut Self {
-        self.world_builder.with_state(state);
+        //self.world_builder.with_state(state);
         self
     }
 
@@ -460,39 +465,14 @@ impl AppBuilder {
     ///     .run();
     /// ```
     #[inline]
-    pub fn with_system<T: System, S: Stage>(&mut self, system: T) -> &mut Self {
-        self.world_builder.with_system(system);
+    pub fn with_system<T: System>(&mut self, stage: impl StageLabel, system: T) -> &mut Self {
+        //self.world_builder.with_system(system);
         self
-    }
-
-    /// Returns a [`App`] configured from [`AppBuilder`].
-    ///
-    /// # Examples
-    /// ```
-    /// # use qinetic_app::prelude::*;
-    /// #
-    /// App::builder().build().run();
-    /// ```
-    pub fn build(&mut self) -> App {
-        let mut plugin_registry = mem::take(&mut self.plugin_registry);
-        let mut stage_registry = mem::take(&mut self.stage_registry);
-
-        let mut app_builder = mem::take(self);
-
-        plugin_registry.build(&mut app_builder);
-
-        App {
-            runner: app_builder.runner.unwrap_or_else(|| Box::new(RunEmpty)),
-            schedule: stage_registry.build(),
-            world: app_builder.world_builder.build(),
-        }
     }
 }
 
-/// [`Runner`], that's doing nothing.
 struct RunEmpty;
 
 impl Runner for RunEmpty {
-    #[allow(unused_variables)]
     fn run(&mut self, app: App) {}
 }

@@ -12,12 +12,7 @@ use std::collections::HashMap;
 /// #[derive(Default, Resource)]
 /// struct MyResource {/* something to do */}
 /// ```
-pub trait Resource: Any + Send + Sync + 'static {
-    /// Returns a `type name` of the [`Resource`].
-    fn name(&self) -> &str {
-        type_name::<Self>()
-    }
-}
+pub trait Resource: Any + Send + Sync + 'static {}
 
 /// Facilities addition and remove [`Resource`]s.
 #[derive(Default)]

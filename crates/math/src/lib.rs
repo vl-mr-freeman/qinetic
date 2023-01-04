@@ -1,15 +1,38 @@
+//! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
+//!
 //! Math functionality for Qinetic.
+//!
+//! # Examples
+//!
+//! Here is a simple math application:
+//! ```
+//! use qinetic_app::prelude::*;
+//! use qinetic_math::prelude::*;
+//!
+//! fn main() {
+//!     App::builder()
+//!         .with_plugin(MathPlugin::default())
+//!         .build()
+//!         .unwrap()
+//!         .run();
+//! }
+//! ```
 
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg",
     html_favicon_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg"
 )]
 
+pub mod components;
+pub mod plugins;
+
 pub mod prelude {
     //! Main math functionality.
 
     #[doc(hidden)]
-    pub use crate::{matrix::*, quaternion::*, vector::*, Transform};
+    pub use crate::{
+        components::Transform, matrix::*, plugins::MathPlugin, quaternion::*, vector::*,
+    };
 }
 
 pub mod matrix;
@@ -20,52 +43,6 @@ pub mod vector;
 mod macros;
 
 pub(crate) use macros::*;
-
-use crate::vector::Vector3;
-use qinetic_app::prelude::*;
-use qinetic_ecs::prelude::*;
-
-/// Math [`Plugin`] for [`App`].
-///
-/// [`Component`]s:
-/// * [`Transform`]
-///
-/// # Examples
-/// ```
-/// # use qinetic_app::prelude::*;
-/// # use qinetic_math::prelude::*;
-///`#
-/// App::builder().with_plugin(MathPlugin::default()).build().run();
-/// ```
-#[derive(Default)]
-pub struct MathPlugin {}
-
-impl Plugin for MathPlugin {
-    fn build(&mut self, app_builder: &mut AppBuilder) {
-        app_builder.with_component(Transform::default());
-    }
-}
-
-/// Transform [`Component`].
-///
-/// # Examples
-/// ```
-/// # use qinetic_app::prelude::*;
-/// # use qinetic_math::prelude::*;
-/// #
-/// App::builder().with_component(Transform::default()).build().run();
-/// ```
-#[derive(Default, Component)]
-pub struct Transform {
-    /// Position of the [`Entity`] in the [`World`].
-    pub position: Vector3<f32>,
-
-    /// Rotation of the [`Entity`] in the [`World`].
-    pub rotation: Vector3<f32>,
-
-    /// Scale of the [`Entity`] in the [`World`].
-    pub scale: Vector3<f32>,
-}
 
 use num_traits::{Float, Num};
 

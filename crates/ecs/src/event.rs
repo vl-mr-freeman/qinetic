@@ -6,12 +6,7 @@ use std::any::{type_name, Any};
 pub trait IntoEvent {}
 
 /// Event of the [`World`].
-pub trait Event: Any + Send + Sync + 'static {
-    /// Returns a `type name` of the [`Event`].
-    fn name(&self) -> &str {
-        type_name::<Self>()
-    }
-}
+pub trait Event: Any + Send + Sync + 'static {}
 
 /// Facilities addition and remove [`Event`]s.
 #[derive(Default)]

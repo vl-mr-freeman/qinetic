@@ -1,0 +1,19 @@
+//! Input [`Component`]s functionality.
+
+use qinetic_ecs::prelude::*;
+
+/// Player controller [`Component`].
+///
+/// # Examples
+/// ```
+/// # use qinetic_app::prelude::*;
+/// # use qinetic_player::prelude::*;
+/// #
+/// App::builder()
+///     .with_component(PlayerController::default())
+///     .build()
+///     .unwrap()
+///     .run();
+/// ```
+#[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Component)]
+pub struct PlayerController {}

@@ -1,12 +1,131 @@
 //! Theme creation and loading.
 
-use qinetic_core::color::*;
+use qinetic_utils::prelude::*;
 
 /// A container of theme data.
-pub struct Theme {}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Getters, Builder)]
+#[getset(get = "pub")]
+#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
+pub struct Theme {
+    //#[default(RGBA8::new(235, 219, 178, 255))]
+    text: RGBA8,
+
+    //#[default(_code = "RGBA8::new(146, 131, 116, 255)")]
+    text_disabled: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    text_selected_bg: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    text_selected: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    window_bg: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    window_border: RGBA8,
+
+    //#[default(_code = "RGBA8::new(0, 0, 0, 255)")]
+    window_shadow: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    child_window_bg: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    child_window_border: RGBA8,
+
+    //#[default(_code = "RGBA8::new(0, 0, 0, 255)")]
+    child_window_shadow: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    frame_bg: RGBA8,
+
+    //#[default(_code = "RGBA8::new(146, 131, 116, 255)")]
+    frame_bg_hovered: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    frame_bg_active: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    title_bg: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    title_bg_collapsed: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    title_bg_active: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    scrollbar_bg: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    scrollbar_grab: RGBA8,
+
+    //#[default(_code = "RGBA8::new(146, 131, 116, 255)")]
+    scrollbar_hovered: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    scrollbar_active: RGBA8,
+
+    //#[default(_code = "RGBA8::new(29, 32, 33, 255)")]
+    combo_bg: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    check_mark: RGBA8,
+
+    //#[default(_code = "RGBA8::new(146, 131, 116, 255)")]
+    slider_grab: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    slider_grab_active: RGBA8,
+
+    //#[default(_code = "RGBA8::new(29, 32, 33, 255)")]
+    button: RGBA8,
+
+    //#[default(_code = "RGBA8::new(146, 131, 116, 255)")]
+    button_hovered: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    button_active: RGBA8,
+
+    //#[default(_code = "RGBA8::new(40, 40, 40, 255)")]
+    header: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    header_hovered: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    header_active: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    close_button: RGBA8,
+
+    //#[default(_code = "RGBA8::new(146, 131, 116, 255)")]
+    close_button_hovered: RGBA8,
+
+    //#[default(_code = "RGBA8::new(60, 56, 54, 255)")]
+    close_button_active: RGBA8,
+
+    //#[default(_code = "RGBA8::new(60, 56, 54, 255)")]
+    resize_grip: RGBA8,
+
+    //#[default(_code = "RGBA8::new(146, 131, 116, 255)")]
+    resize_grip_hovered: RGBA8,
+
+    //#[default(_code = "RGBA8::new(235, 219, 178, 255)")]
+    resize_grip_active: RGBA8,
+}
 
 impl Theme {
     /// Returns a [`ThemeBuilder`] with `default` configuration.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_ui::prelude::*;
+    /// #
+    /// let theme_builder = Theme::builder();
+    /// ```
+    #[inline]
     pub fn builder() -> ThemeBuilder {
         ThemeBuilder::default()
     }
@@ -14,10 +133,10 @@ impl Theme {
 
 impl Default for Theme {
     fn default() -> Self {
-        let bg1: Color4 = Color4::from_hex("#282828ff").unwrap();
-        let bg0: Color4 = Color4::from_hex("#1d2021ff").unwrap();
-        let fg0: Color4 = Color4::from_hex("#928374ff").unwrap();
-        let fg1: Color4 = Color4::from_hex("#ebdbb2ff").unwrap();
+        let bg1: RGBA8 = RGBA8::new(40, 40, 40, 255);
+        let bg0: RGBA8 = RGBA8::new(29, 32, 33, 255);
+        let fg0: RGBA8 = RGBA8::new(124, 131, 116, 255);
+        let fg1: RGBA8 = RGBA8::new(235, 219, 178, 255);
 
         Self::builder()
             .with_text(fg1)
@@ -26,10 +145,10 @@ impl Default for Theme {
             .with_text_selected(bg1)
             .with_window_bg(bg1)
             .with_window_border(fg1)
-            .with_window_shadow(Color4::from_hex("#000000ff").unwrap())
+            .with_window_shadow(RGBA8::new(0, 0, 0, 255))
             .with_child_window_bg(bg1)
             .with_child_window_border(fg1)
-            .with_child_window_shadow(Color4::from_hex("#000000ff").unwrap())
+            .with_child_window_shadow(RGBA8::new(0, 0, 0, 255))
             .with_frame_bg(bg1)
             .with_frame_bg_hovered(fg0)
             .with_frame_bg_active(fg1)
@@ -53,318 +172,6 @@ impl Default for Theme {
             .with_close_button(fg1)
             .with_close_button_hovered(fg0)
             .build()
-    }
-}
-
-/// A `Builder Pattern` for [`Theme`].
-#[derive(Default)]
-pub struct ThemeBuilder {
-    text: Option<Color4>,
-    text_disabled: Option<Color4>,
-
-    text_selected_bg: Option<Color4>,
-    text_selected: Option<Color4>,
-
-    window_bg: Option<Color4>,
-    window_border: Option<Color4>,
-    window_shadow: Option<Color4>,
-
-    child_window_bg: Option<Color4>,
-    child_window_border: Option<Color4>,
-    child_window_shadow: Option<Color4>,
-
-    frame_bg: Option<Color4>,
-    frame_bg_hovered: Option<Color4>,
-    frame_bg_active: Option<Color4>,
-
-    title_bg: Option<Color4>,
-    title_bg_collapsed: Option<Color4>,
-    title_bg_active: Option<Color4>,
-
-    scrollbar_bg: Option<Color4>,
-    scrollbar_grab: Option<Color4>,
-    scrollbar_hovered: Option<Color4>,
-    scrollbar_active: Option<Color4>,
-
-    combo_bg: Option<Color4>,
-
-    check_mark: Option<Color4>,
-
-    slider_grab: Option<Color4>,
-    slider_grab_active: Option<Color4>,
-
-    button: Option<Color4>,
-    button_hovered: Option<Color4>,
-    button_active: Option<Color4>,
-
-    header: Option<Color4>,
-    header_hovered: Option<Color4>,
-    header_active: Option<Color4>,
-
-    close_button: Option<Color4>,
-    close_button_hovered: Option<Color4>,
-    close_button_active: Option<Color4>,
-
-    resize_grip: Option<Color4>,
-    resize_grip_hovered: Option<Color4>,
-    resize_grip_active: Option<Color4>,
-}
-
-impl ThemeBuilder {
-    /// Returns a [`ThemeBuilder`] with `text` color.
-    #[inline]
-    pub fn with_text(mut self, color: Color4) -> Self {
-        self.text = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `text disabled` color.
-    #[inline]
-    pub fn with_text_disabled(mut self, color: Color4) -> Self {
-        self.text_disabled = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `text selected background` color.
-    #[inline]
-    pub fn with_text_selected_bg(mut self, color: Color4) -> Self {
-        self.text_selected_bg = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `text selected` color.
-    #[inline]
-    pub fn with_text_selected(mut self, color: Color4) -> Self {
-        self.text_selected = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `window background` color.
-    #[inline]
-    pub fn with_window_bg(mut self, color: Color4) -> Self {
-        self.window_bg = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `window border` color.
-    #[inline]
-    pub fn with_window_border(mut self, color: Color4) -> Self {
-        self.window_border = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `window shadow` color.
-    #[inline]
-    pub fn with_window_shadow(mut self, color: Color4) -> Self {
-        self.window_shadow = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `child window background` color.
-    #[inline]
-    pub fn with_child_window_bg(mut self, color: Color4) -> Self {
-        self.child_window_bg = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `child window border` color.
-    #[inline]
-    pub fn with_child_window_border(mut self, color: Color4) -> Self {
-        self.child_window_border = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `child window shadow` color.
-    #[inline]
-    pub fn with_child_window_shadow(mut self, color: Color4) -> Self {
-        self.child_window_shadow = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `frame background` color.
-    #[inline]
-    pub fn with_frame_bg(mut self, color: Color4) -> Self {
-        self.frame_bg = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `frame background hovered` color.
-    #[inline]
-    pub fn with_frame_bg_hovered(mut self, color: Color4) -> Self {
-        self.frame_bg_hovered = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `frame background active` color.
-    #[inline]
-    pub fn with_frame_bg_active(mut self, color: Color4) -> Self {
-        self.frame_bg_active = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `title background` color.
-    #[inline]
-    pub fn with_title_bg(mut self, color: Color4) -> Self {
-        self.title_bg = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `title background collapsed` color.
-    #[inline]
-    pub fn with_title_bg_collapsed(mut self, color: Color4) -> Self {
-        self.title_bg_collapsed = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `title background active` color.
-    #[inline]
-    pub fn with_title_bg_active(mut self, color: Color4) -> Self {
-        self.title_bg_active = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `scrollbar background` color.
-    #[inline]
-    pub fn with_scrollbar_bg(mut self, color: Color4) -> Self {
-        self.scrollbar_bg = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `scrollbar grab` color.
-    #[inline]
-    pub fn with_scrollbar_grab(mut self, color: Color4) -> Self {
-        self.scrollbar_grab = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `scrollbar hovered` color.
-    #[inline]
-    pub fn with_scrollbar_hovered(mut self, color: Color4) -> Self {
-        self.scrollbar_hovered = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `scrollbar active` color.
-    #[inline]
-    pub fn with_scrollbar_active(mut self, color: Color4) -> Self {
-        self.scrollbar_active = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `combo background` color.
-    #[inline]
-    pub fn with_combo_bg(mut self, color: Color4) -> Self {
-        self.combo_bg = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `check mark` color.
-    #[inline]
-    pub fn with_check_mark(mut self, color: Color4) -> Self {
-        self.check_mark = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `slider grab` color.
-    #[inline]
-    pub fn with_slider_grab(mut self, color: Color4) -> Self {
-        self.slider_grab = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `slider grab active` color.
-    #[inline]
-    pub fn with_slider_grab_active(mut self, color: Color4) -> Self {
-        self.slider_grab_active = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `button` color.
-    #[inline]
-    pub fn with_button(mut self, color: Color4) -> Self {
-        self.button = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `button hovered` color.
-    #[inline]
-    pub fn with_button_hovered(mut self, color: Color4) -> Self {
-        self.button_hovered = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `button active` color.
-    #[inline]
-    pub fn with_button_active(mut self, color: Color4) -> Self {
-        self.button_active = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `header background` color.
-    #[inline]
-    pub fn with_header(mut self, color: Color4) -> Self {
-        self.header = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `header background hovered` color.
-    #[inline]
-    pub fn with_header_hovered(mut self, color: Color4) -> Self {
-        self.header_hovered = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `header background active` color.
-    #[inline]
-    pub fn with_header_active(mut self, color: Color4) -> Self {
-        self.header_active = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `close button` color.
-    #[inline]
-    pub fn with_close_button(mut self, color: Color4) -> Self {
-        self.close_button = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `close button hovered` color.
-    #[inline]
-    pub fn with_close_button_hovered(mut self, color: Color4) -> Self {
-        self.close_button_hovered = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `close button active` color.
-    #[inline]
-    pub fn with_close_button_active(mut self, color: Color4) -> Self {
-        self.close_button_active = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `resize grip` color.
-    #[inline]
-    pub fn with_resize_grip(mut self, color: Color4) -> Self {
-        self.resize_grip = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `resize grip hovered` color.
-    #[inline]
-    pub fn with_resize_grip_hovered(mut self, color: Color4) -> Self {
-        self.resize_grip_hovered = Some(color);
-        self
-    }
-
-    /// Returns a [`ThemeBuilder`] with `resize grip active` color.
-    #[inline]
-    pub fn with_resize_grip_active(mut self, color: Color4) -> Self {
-        self.resize_grip_active = Some(color);
-        self
-    }
-
-    /// Returns a [`Theme`] configured from [`ThemeBuilder`].
-    pub fn build(&mut self) -> Theme {
-        Theme {}
+            .unwrap()
     }
 }

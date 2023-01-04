@@ -2,13 +2,11 @@
 
 use crate::{
     component::{Component, ComponentRegistry},
-    entity::{Entity, EntityId, EntityRegistry},
+    entity::{EntityId, EntityRegistry},
     event::{Event, EventRegistry, IntoEvent},
     resource::{Resource, ResourceRegistry},
     state::{State, StateRegistry},
-    system::{IntoSystem, System, SystemRegistry},
 };
-use std::mem;
 
 /// A representation of ECS `world`.
 ///
@@ -18,26 +16,19 @@ use std::mem;
 /// #
 /// World::builder().build();
 /// ```
+#[derive(Default)]
 pub struct World {
     component_registry: ComponentRegistry,
     entity_registry: EntityRegistry,
     event_registry: EventRegistry,
     resource_registry: ResourceRegistry,
     state_registry: StateRegistry,
-    system_registry: SystemRegistry,
 }
 
 impl World {
-    /// Returns a [`WorldBuilder`] with `default` configuration.
-    ///
-    /// # Examples
-    /// ```
-    /// # use qinetic_ecs::prelude::*;
-    /// #
-    /// let world_builder = World::builder();
-    /// ```
-    pub fn builder() -> WorldBuilder {
-        WorldBuilder::default()
+    /// Returns a [`World`] with `default` configuration.
+    pub fn new() -> Self {
+        World::default()
     }
 
     /// Adds a [`Component`] to [`Entity`] by [`EntityId`].
@@ -168,32 +159,20 @@ impl World {
     /// # assert!(world.)
     /// ```
     #[inline]
-    pub fn add_entity<T: Entity>(&mut self) {
-        self.entity_registry.add_entity::<T>();
+    pub fn add_entity(&mut self) -> EntityId {
+        self.entity_registry.add_entity()
     }
 
     /// Removes a [`Entity`] by [`EntityId`].
     #[inline]
-    pub fn remove_entity<T: Entity>(&mut self, id: EntityId) {
-        self.entity_registry.remove_entity::<T>(id);
-    }
-
-    /// Returns a immutable [`Entity`] by [`EntityId`], if it's present.
-    #[inline]
-    pub fn get_entity<T: Entity>(&self, id: EntityId) -> Option<&T> {
-        self.entity_registry.get_entity::<T>(id)
-    }
-
-    /// Returns a mutable [`Entity`] by [`EntityId`], if it's present.
-    #[inline]
-    pub fn get_entity_mut<T: Entity>(&mut self, id: EntityId) -> Option<&mut T> {
-        self.entity_registry.get_entity_mut::<T>(id)
+    pub fn remove_entity(&mut self, id: EntityId) {
+        self.entity_registry.remove_entity(id);
     }
 
     /// Returns `true`, if [`Entity`] by [`EntityId`] present.
     #[inline]
-    pub fn has_entity<T: Entity>(&self, id: EntityId) -> bool {
-        self.entity_registry.has_entity::<T>(id)
+    pub fn has_entity(&self, id: EntityId) -> bool {
+        self.entity_registry.has_entity(id)
     }
 
     /// Returns a immutable [`Event`] by `T` of [`World`], if it's present.
@@ -260,65 +239,5 @@ impl World {
     #[inline]
     pub fn has_state<T: State>(&self) -> bool {
         self.state_registry.has_state::<T>()
-    }
-}
-
-/// `Builder pattern` for [`World`].
-#[derive(Default)]
-pub struct WorldBuilder {
-    component_registry: ComponentRegistry,
-    entity_registry: EntityRegistry,
-    event_registry: EventRegistry,
-    resource_registry: ResourceRegistry,
-    state_registry: StateRegistry,
-    system_registry: SystemRegistry,
-}
-
-impl WorldBuilder {
-    /// Returns a [`WorldBuilder`] with add [`Component`].
-    #[inline]
-    pub fn with_component<T: Component>(&mut self, component: T) -> &mut Self {
-        self.component_registry.init_component(component);
-        self
-    }
-
-    /// Returns a [`WorldBuilder`] with add [`Event`].
-    #[inline]
-    pub fn with_event<T: Event>(&mut self, event: T) -> &mut Self {
-        self.event_registry.init_event(event);
-        self
-    }
-
-    /// Returns a [`WorldBuilder`] with added [`Resource`].
-    #[inline]
-    pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
-        self.resource_registry.init_resource(resource);
-        self
-    }
-
-    /// Returns a [`WorldBuilder`] with added a [`State`].
-    #[inline]
-    pub fn with_state<T: State>(&mut self, state: T) -> &mut Self {
-        self.state_registry.init_state(state);
-        self
-    }
-
-    /// Returns a [`WorldBuilder`] with add [`System`].
-    #[inline]
-    pub fn with_system<T: System>(&mut self, system: T) -> &mut Self {
-        self.system_registry.init_system(system);
-        self
-    }
-
-    /// Returns a [`World`] configured from [`WorldBuilder`].
-    pub fn build(&mut self) -> World {
-        World {
-            component_registry: mem::take(&mut self.component_registry),
-            entity_registry: mem::take(&mut self.entity_registry),
-            event_registry: mem::take(&mut self.event_registry),
-            resource_registry: mem::take(&mut self.resource_registry),
-            state_registry: mem::take(&mut self.state_registry),
-            system_registry: mem::take(&mut self.system_registry),
-        }
     }
 }

@@ -37,6 +37,7 @@ default = [
 	"audio",
 	"physics",
 	"render",
+	"log"
 ]
 
 # Force dynamic linking, which improves iterative compile times.

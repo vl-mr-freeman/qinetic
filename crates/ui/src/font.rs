@@ -1,62 +1,31 @@
 //! Font loading.
 
+use qinetic_utils::prelude::*;
+
 /// A conteiner of font data.
-pub struct Font {}
+#[derive(SmartDefault, Clone, Debug, PartialEq, Getters, Builder)]
+#[getset(get = "pub")]
+#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq))]
+pub struct Font {
+    #[builder(setter(into))]
+    #[default = "notosans.ttf"]
+    path: String,
+
+    #[default = 12.0]
+    size: f32,
+}
 
 impl Font {
     /// Returns a [`FontBuilder`] with `default` configuration.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_window::prelude::*;
+    /// #
+    /// let font_builder = Font::builder();
+    /// ```
+    #[inline]
     pub fn builder() -> FontBuilder {
         FontBuilder::default()
-    }
-}
-
-impl Default for Font {
-    fn default() -> Self {
-        #[cfg(target_family = "unix")]
-        FontBuilder::default()
-            .with_file_ttf("notosans.ttf")
-            .with_size(12.0)
-            .build()
-    }
-}
-
-/// A `Builder Pattern` for [`Font`].
-pub struct FontBuilder {
-    path: Option<String>,
-    size: Option<f32>,
-}
-
-impl FontBuilder {
-    /// Returns a [`FontBuilder`] with path to [`Font`] .ttf file.
-    pub fn with_file_ttf(mut self, path: &str) -> Self {
-        self.path = Some(path.into());
-        self
-    }
-
-    /// Returns a [`FontBuilder`] with path to [`Font`] .otf file.
-    pub fn with_file_otf(mut self, path: &str) -> Self {
-        self.path = Some(path.into());
-        self
-    }
-
-    /// Returns a [`FontBuilder`] with size of `font`.
-    #[inline]
-    pub fn with_size(mut self, size: f32) -> Self {
-        self.size = Some(size);
-        self
-    }
-
-    /// Returns a [`Font`] configured from [`FontBuilder`].
-    pub fn build(&mut self) -> Font {
-        Font {}
-    }
-}
-
-impl Default for FontBuilder {
-    fn default() -> Self {
-        Self {
-            path: None,
-            size: None,
-        }
     }
 }

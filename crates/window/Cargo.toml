@@ -15,4 +15,10 @@ keywords = ["qinetic"]
 [dependencies]
 # Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }
-qinetic_ecs = { path = "../ecs", version = "0.* "}
+qinetic_ecs = { path = "../ecs", version = "0.* " }
+qinetic_core = { path = "../core", version = "0.* " }
+qinetic_utils = { path = "../utils", version = "0.*" }
+
+# Other.
+winit = "0.27.*"
+derive_builder = "0.12.*"

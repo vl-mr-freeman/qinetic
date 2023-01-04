@@ -8,14 +8,13 @@
 extern crate proc_macro;
 
 mod component;
-mod entity;
 mod event;
 mod resource;
 mod state;
-mod system;
+mod system_label;
 
 use proc_macro::TokenStream;
-use qinetic_utils_macros::manifest::Manifest;
+use qinetic_utils::manifest::Manifest;
 use syn::Path;
 
 /// Generates an impl for [`Component`] trait.
@@ -30,12 +29,6 @@ pub fn derive_resource(input: TokenStream) -> TokenStream {
     resource::derive(input)
 }
 
-/// Generates an impl for [`Entity`] trait.
-#[proc_macro_derive(Entity)]
-pub fn derive_entity(input: TokenStream) -> TokenStream {
-    entity::derive(input)
-}
-
 /// Generates an impl for [`Event`] trait.
 #[proc_macro_derive(Event)]
 pub fn derive_event(input: TokenStream) -> TokenStream {
@@ -48,10 +41,10 @@ pub fn devive_state(input: TokenStream) -> TokenStream {
     state::derive(input)
 }
 
-/// Generates an impl for [`System`] trait.
-#[proc_macro_derive(System)]
-pub fn derive_system(input: TokenStream) -> TokenStream {
-    system::derive(input)
+/// Generates an impl for [`SystemLabel`] trait.
+#[proc_macro_derive(SystemLabel)]
+pub fn derive_system_label(input: TokenStream) -> TokenStream {
+    system_label::derive(input)
 }
 
 /// Returns a [`Path`] of `qinetic_ecs`.

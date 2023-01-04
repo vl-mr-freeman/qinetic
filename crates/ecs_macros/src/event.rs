@@ -16,8 +16,9 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let struct_name = &ast.ident;
     let (impl_generics, type_generics, where_clause) = &ast.generics.split_for_impl();
 
-    TokenStream::from(quote! {
+    (quote! {
         impl #impl_generics #path::event::Event for #struct_name #type_generics #where_clause {
         }
     })
+    .into()
 }
