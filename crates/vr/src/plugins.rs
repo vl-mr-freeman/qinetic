@@ -44,6 +44,6 @@ impl Plugin for VrPlugin {
             .with_component(VrController::default())
             .with_component(VrTracker::default())
             .with_stage_group(VrStageGroup::default())
-            .with_system(VrStage::Update, VrSystem::default());
+            .with_system(VrStage::default(), VrSystem::default());
     }
 }

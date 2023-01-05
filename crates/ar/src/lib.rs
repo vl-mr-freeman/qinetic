@@ -4,7 +4,7 @@
 //!
 //! # Examples
 //!
-//! Here is a simple virtual reality application:
+//! Here is a simple augmented reality application:
 //! ```
 //! use qinetic_app::prelude::*;
 //! use qinetic_ar::prelude::*;

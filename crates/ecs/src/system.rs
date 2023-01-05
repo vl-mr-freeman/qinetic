@@ -7,6 +7,7 @@ use std::any::{type_name, Any};
 pub trait System: Any + Send + Sync + 'static {
     type Data;
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data);
 }
 

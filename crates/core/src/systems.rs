@@ -23,5 +23,6 @@ pub struct CoreSystem {}
 impl System for CoreSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

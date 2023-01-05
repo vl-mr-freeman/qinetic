@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(UiStageGroup::default())
-///     .with_system(UiStage::Update, UiSystem, UiSystem::default())
+///     .with_system(UiStage::default(), UiSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct UiSystem {}
 impl System for UiSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

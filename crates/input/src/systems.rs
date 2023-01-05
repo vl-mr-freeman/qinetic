@@ -22,5 +22,6 @@ pub struct InputSystem {}
 impl System for InputSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

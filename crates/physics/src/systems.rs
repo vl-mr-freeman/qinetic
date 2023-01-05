@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(PhysicsStageGroup::default())
-///     .with_system(PhysicsStage::Update, PhysicsSystem, PhysicsSystem::default())
+///     .with_system(PhysicsStage::default(), PhysicsSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct PhysicsSystem {}
 impl System for PhysicsSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

@@ -22,5 +22,6 @@ pub struct AssetSystem {}
 impl System for AssetSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(VrStageGroup::default())
-///     .with_system(VrStage::Update, VrSystem, VrSystem::default())
+///     .with_system(VrStage::default(), VrSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct VrSystem {}
 impl System for VrSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

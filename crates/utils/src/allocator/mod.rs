@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub mod linear;
 pub mod pool;
 pub mod stack;

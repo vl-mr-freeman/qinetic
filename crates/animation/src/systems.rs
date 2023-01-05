@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(AnimationStageGroup::default())
-///     .with_system(AnimationStage::Update, AnimationSystem, AnimationSystem::default())
+///     .with_system(AnimationStage::default(), AnimationSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct AnimationSystem {}
 impl System for AnimationSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

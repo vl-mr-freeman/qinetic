@@ -1,7 +1,7 @@
-//! Default runners
+//! Default [`Runner`]s.
 
-use qinetic_app::app::App;
-use qinetic_app::runner::*;
+use qinetic_app::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// [`Runner`] for [`App`] that calls once.
 ///
@@ -10,9 +10,13 @@ use qinetic_app::runner::*;
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_internal::prelude::*;
 /// #
-/// App::builder().with_runner(RunOnce::default()).build().run();
+/// App::builder()
+///     .with_runner(RunOnce::default())
+///     .build()
+///     .unwrap()
+///     .run();
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct RunOnce {}
 
 impl Runner for RunOnce {
@@ -28,9 +32,13 @@ impl Runner for RunOnce {
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_internal::prelude::*;
 /// #
-/// App::builder().with_runner(RunLoop::default()).build().run();
+/// App::builder()
+///     .with_runner(RunLoop::default())
+///     .build()
+///     .unwrap()
+///     .run();
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct RunLoop {}
 
 impl Runner for RunLoop {

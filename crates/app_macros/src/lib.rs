@@ -7,8 +7,6 @@
 
 extern crate proc_macro;
 
-mod plugin;
-mod runner;
 mod stage_label;
 
 use proc_macro::TokenStream;

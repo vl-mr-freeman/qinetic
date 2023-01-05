@@ -8,6 +8,7 @@ use crate::{
 };
 
 use qinetic_app::prelude::*;
+use qinetic_utils::prelude::*;
 
 #[allow(unused_imports)]
 use qinetic_ecs::prelude::*;
@@ -33,9 +34,13 @@ use qinetic_ecs::prelude::*;
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_ui::prelude::*;
 /// #
-/// App::builder().with_plugin(UiPlugin::default()).build().run();
+/// App::builder()
+///     .with_plugin(UiPlugin::default())
+///     .build()
+///     .unwrap()
+///     .run();
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct UiPlugin {}
 
 impl Plugin for UiPlugin {

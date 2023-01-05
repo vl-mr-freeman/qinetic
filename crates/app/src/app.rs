@@ -6,7 +6,6 @@ use crate::{
     schedule::Schedule,
     stage::{Stage, StageGroup, StageLabel},
 };
-use derive_builder::Builder;
 use qinetic_ecs::{
     component::Component, event::Event, resource::Resource, state::State, system::System,
     world::World,
@@ -19,7 +18,10 @@ use std::mem;
 /// ```
 /// # use qinetic_app::prelude::*;
 /// #
-/// App::builder().build().run();
+/// App::builder()
+///     .build()
+///     .unwrap()
+///     .run();
 /// ```
 //#[derive(Builder)]
 //#[builder(setter(prefix = "with"))]
@@ -85,7 +87,10 @@ impl App {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// #
-    /// App::builder().build().run();
+    /// App::builder()
+    ///     .build()
+    ///     .unwrap()
+    ///     .run();
     /// ```
     pub fn run(mut self) {
         let mut runner = mem::replace(&mut self.runner, Box::new(RunEmpty));

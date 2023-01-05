@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(RenderStageGroup::default())
-///     .with_system(RenderStage::Update, RenderSystem, RenderSystem::default())
+///     .with_system(RenderStage::default(), RenderSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct RenderSystem {}
 impl System for RenderSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

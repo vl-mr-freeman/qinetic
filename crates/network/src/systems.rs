@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(NetworkStageGroup::default())
-///     .with_system(NetworkStage::default(), NetworkSystem, NetworkSystem::default())
+///     .with_system(NetworkStage::default(), NetworkSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct NetworkSystem {}
 impl System for NetworkSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

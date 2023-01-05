@@ -2,9 +2,7 @@
 
 use proc_macro::TokenStream;
 use quote::{quote, quote_spanned};
-use std::{env, path::PathBuf};
 use syn::spanned::Spanned;
-use toml::{map::Map, Value};
 
 #[macro_export]
 macro_rules! define_label {

@@ -22,5 +22,6 @@ pub struct AudioSystem {}
 impl System for AudioSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

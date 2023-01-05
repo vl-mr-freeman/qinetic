@@ -4,7 +4,7 @@ use crate::{
     components::{
         BoxCollider, CapsuleCollider, Cloth, MeshCollider, Rigidbody, Softbody, SphereCollider,
     },
-    resources::{PhysicsResource, PhysicsResourceBuilder, PhysicsResourceBuilderError},
+    resources::PhysicsResource,
     stages::{PhysicsStage, PhysicsStageGroup},
     systems::PhysicsSystem,
 };

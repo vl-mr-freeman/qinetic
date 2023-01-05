@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(WindowStageGroup::default())
-///     .with_system(WindowStage::Update, WindowSystem, WindowSystem::default())
+///     .with_system(WindowStage::default(), WindowSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct WindowSystem {}
 impl System for WindowSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

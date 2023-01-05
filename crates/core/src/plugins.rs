@@ -7,6 +7,7 @@ use crate::{
 };
 
 use qinetic_app::prelude::*;
+use qinetic_utils::prelude::*;
 
 #[allow(unused_imports)]
 use qinetic_ecs::prelude::*;
@@ -18,22 +19,31 @@ use qinetic_ecs::prelude::*;
 /// * [`Script`]
 ///
 /// [`Stage`]s:
-/// * [`CoreStage`]
+/// * [`CoreStageGroup`]
+///
+/// [`System`]s:
+/// * [`CoreSystem`]
 ///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_core::prelude::*;
 /// #
-/// App::builder().with_plugin(CorePlugin::default()).build().run();
+/// App::builder()
+///     .with_plugin(CorePlugin::default())
+///     .build()
+///     .unwrap()
+///     .run();
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct CorePlugin {}
 
 impl Plugin for CorePlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
-        app_builder.with_component(Tag::default());
-        app_builder.with_component(Script::default());
-        app_builder.with_stage_group(CoreStageGroup::default());
+        app_builder
+            .with_component(Tag::default())
+            .with_component(Script::default())
+            .with_stage_group(CoreStageGroup::default())
+            .with_system(CoreStage::default(), CoreSystem::default());
     }
 }

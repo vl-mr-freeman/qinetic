@@ -1,4 +1,4 @@
-//!  Augmented reality [`Plugin`]s functionality.
+//! Augmented reality [`Plugin`]s functionality.
 
 use crate::{
     components::{ArController, ArTracker},
@@ -44,6 +44,6 @@ impl Plugin for ArPlugin {
             .with_component(ArController::default())
             .with_component(ArTracker::default())
             .with_stage_group(ArStageGroup::default())
-            .with_system(ArStage::Update, ArSystem::default());
+            .with_system(ArStage::default(), ArSystem::default());
     }
 }

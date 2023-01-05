@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(ArStageGroup::default())
-///     .with_system(ArStage::Update, ArSystem, ArSystem::default())
+///     .with_system(ArStage::default(), ArSystem::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -23,5 +23,6 @@ pub struct ArSystem {}
 impl System for ArSystem {
     type Data = ();
 
+    #[allow(unused_variables)]
     fn run(&mut self, data: Self::Data) {}
 }

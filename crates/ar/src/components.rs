@@ -27,7 +27,7 @@ pub struct ArController {}
 /// # use qinetic_ar::prelude::*;
 /// #
 /// App::builder()
-///     .with_component(Tracker::default())
+///     .with_component(ArTracker::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
