@@ -3,6 +3,8 @@
 use std::any::{type_name, Any, TypeId};
 use std::collections::HashMap;
 
+use qinetic_utils::prelude::*;
+
 /// Resource of the [`World`].
 ///
 /// # Examples
@@ -15,7 +17,7 @@ use std::collections::HashMap;
 pub trait Resource: Any + Send + Sync + 'static {}
 
 /// Facilities addition and remove [`Resource`]s.
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct ResourceRegistry {
     resources: HashMap<TypeId, Box<dyn Resource>>,
 }

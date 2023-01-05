@@ -3,11 +3,13 @@
 use crate::world::World;
 use std::any::{type_name, Any};
 
+use qinetic_utils::prelude::*;
+
 /// Event of the [`World`].
 pub trait Event: Any + Send + Sync + 'static {}
 
 /// Facilities addition and remove [`Event`]s.
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct EventRegistry {}
 
 impl EventRegistry {

@@ -1,20 +1,20 @@
 //! Matrix functionality.
 
+use crate::digit::{Digit, DigitFloat, DigitNum};
 use crate::{
     point::{Point2, Point3},
     quaternion::Quaternion,
     vector::{Vector2, Vector3, Vector4},
 };
-use crate::{Digit, DigitFloat, DigitNum};
 use num_traits::Signed;
-use std::fmt;
+use qinetic_utils::prelude::*;
 use std::iter::{Product, Sum};
 use std::ops::*;
 
 macro_rules! impl_matrix {
     ($(#[$attr:meta])* => $MatrixN:ident { $($field:ident),+ }, $VectorN:ident, $n:expr) => {
         $(#[$attr])*
-        #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
+        #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, PartialOrd, Neg)]
         pub struct $MatrixN<T: Digit> {
             $(
                 pub $field: $VectorN<T>
@@ -37,11 +37,7 @@ macro_rules! impl_matrix {
             /// Returns a `Matrix` from elements `if_true` or `if_false`, by `mask`.
             #[inline(always)]
             pub const fn mask(mask: $MatrixN<bool>, if_true: Self, if_false: Self) -> Self {
-                Self {
-                    $(
-                        $field: $VectorN::mask(mask.$field, if_true.$field, if_false.$field),
-                    )*
-                }
+                Self { $($field: $VectorN::mask(mask.$field, if_true.$field, if_false.$field) ),+ }
             }
         }
 
@@ -49,21 +45,13 @@ macro_rules! impl_matrix {
             /// Returns a `Matrix` with all elements set to `0`.
             #[inline]
             pub fn zero() -> Self {
-                Self {
-                    $(
-                        $field: $VectorN::<T>::zero(),
-                    )*
-                }
+                Self { $($field: $VectorN::<T>::zero() ),+ }
             }
 
             /// Returns a `Matrix` with all elements set to `1`.
             #[inline]
             pub fn one() -> Self {
-                Self {
-                    $(
-                        $field: $VectorN::<T>::one(),
-                    )*
-                }
+                Self { $($field: $VectorN::<T>::one() ),+ }
             }
         }
 
@@ -71,27 +59,19 @@ macro_rules! impl_matrix {
             /// Returns a `Matrix` with all elements set to `Nan`.
             #[inline]
             pub fn nan() -> Self {
-                Self {
-                    $(
-                        $field: $VectorN::nan(),
-                    )*
-                }
+                Self { $($field: $VectorN::nan() ),+ }
             }
 
             /// Returns `true` if all values of `self` are finite.
             #[inline]
             pub fn is_finite(self) -> bool {
-                $(
-                    self.$field.is_finite()
-                )&&+
+                $(self.$field.is_finite() )&&+
             }
 
             /// Returns `true` if any values of `self` are `NaN`.
             #[inline]
             pub fn is_nan(self) -> bool {
-                $(
-                    self.$field.is_nan()
-                )||+
+                $(self.$field.is_nan() )||+
             }
         }
 
@@ -99,21 +79,13 @@ macro_rules! impl_matrix {
             /// Returns a `boolean` `Matrix``==` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpeq(&self, rhs: &Self) -> $MatrixN<bool> {
-                $MatrixN::<bool>::new(
-                    $(
-                        self.$field.cmpeq(&rhs.$field),
-                    )*
-                )
+                $MatrixN::<bool>::new($(self.$field.cmpeq(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Matrix``!=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpne(&self, rhs: &Self) -> $MatrixN<bool> {
-                $MatrixN::<bool>::new(
-                    $(
-                        self.$field.cmpne(&rhs.$field),
-                    )*
-                )
+                $MatrixN::<bool>::new($(self.$field.cmpne(&rhs.$field) ),+)
             }
         }
 
@@ -121,59 +93,40 @@ macro_rules! impl_matrix {
             /// Returns a `boolean` `Matrix``>=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpge(&self, rhs: &Self) -> $MatrixN<bool> {
-                $MatrixN::<bool>::new(
-                    $(
-                        self.$field.cmpge(&rhs.$field),
-                    )*
-                )
+                $MatrixN::<bool>::new($(self.$field.cmpge(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Matrix``>` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpgt(&self, rhs: &Self) -> $MatrixN<bool> {
-                $MatrixN::<bool>::new(
-                    $(
-                        self.$field.cmpgt(&rhs.$field),
-                    )*
-                )
+                $MatrixN::<bool>::new($(self.$field.cmpgt(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Matrix``<=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmple(&self, rhs: &Self) -> $MatrixN<bool> {
-                $MatrixN::<bool>::new(
-                    $(
-                        self.$field.cmple(&rhs.$field),
-                    )*
-                )
+                $MatrixN::<bool>::new($(self.$field.cmple(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Matrix``<` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmplt(&self, rhs: &Self) -> $MatrixN<bool> {
-                $MatrixN::<bool>::new(
-                    $(
-                        self.$field.cmplt(&rhs.$field),
-                    )*
-                )
+                $MatrixN::<bool>::new($(self.$field.cmplt(&rhs.$field) ),+)
             }
         }
 
         impl $MatrixN<bool> {
             #[inline]
             pub const fn any(self) -> bool {
-                $(
-                    self.$field.any()
-                )||+
+                $(self.$field.any() )||+
             }
 
             #[inline]
             pub const fn all(self) -> bool {
-                $(
-                    self.$field.all()
-                )&&+
+                $(self.$field.all() )&&+
             }
         }
+
 
         impl<T: DigitNum> Sum for $MatrixN<T> {
             #[inline]
@@ -324,21 +277,6 @@ impl<T: DigitFloat> Matrix2x2<T> {
     }
 }
 
-impl<T: Digit + fmt::Display> fmt::Display for Matrix2x2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {})", self.x_axis, self.y_axis)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix2x2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Mat2))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .finish()
-    }
-}
-
 impl_matrix!(
     /// A 2x3 column major matrix.
     => Matrix2x3 { x_axis, y_axis },
@@ -373,21 +311,6 @@ impl<T: DigitNum> Matrix2x3<T> {
             Vector2::new(self.x_axis.y, self.y_axis.y),
             Vector2::new(self.x_axis.z, self.y_axis.z),
         )
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Matrix2x3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {})", self.x_axis, self.y_axis)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix2x3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Matrix2x3))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .finish()
     }
 }
 
@@ -437,21 +360,6 @@ impl<T: DigitNum> Matrix2x4<T> {
     }
 }
 
-impl<T: Digit + fmt::Display> fmt::Display for Matrix2x4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {})", self.x_axis, self.y_axis)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix2x4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Matrix2x4))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .finish()
-    }
-}
-
 impl_matrix!(
     /// A 3x2 column major matrix.
     => Matrix3x2 {
@@ -490,22 +398,6 @@ impl<T: DigitNum> Matrix3x2<T> {
             Vector3::new(self.x_axis.x, self.y_axis.x, self.z_axis.x),
             Vector3::new(self.x_axis.y, self.y_axis.y, self.z_axis.y),
         )
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Matrix3x2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {})", self.x_axis, self.y_axis, self.z_axis)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix3x2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Matrix3x2))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .field(&self.z_axis)
-            .finish()
     }
 }
 
@@ -691,22 +583,6 @@ impl<T: DigitFloat> Matrix3x3<T> {
     }
 }
 
-impl<T: Digit + fmt::Display> fmt::Display for Matrix3x3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {})", self.x_axis, self.y_axis, self.z_axis)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix3x3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Mat3))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .field(&self.z_axis)
-            .finish()
-    }
-}
-
 impl_matrix!(
     /// A 3x4 column major matrix.
     => Matrix3x4 {
@@ -758,22 +634,6 @@ impl<T: DigitNum> Matrix3x4<T> {
     }
 }
 
-impl<T: Digit + fmt::Display> fmt::Display for Matrix3x4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {})", self.x_axis, self.y_axis, self.z_axis)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix3x4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Matrix3x4))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .field(&self.z_axis)
-            .finish()
-    }
-}
-
 impl_matrix!(
     /// A 4x2 column major matrix.
     => Matrix4x2 {
@@ -819,27 +679,6 @@ impl<T: DigitNum> Matrix4x2<T> {
             Vector4::new(self.x_axis.x, self.y_axis.x, self.z_axis.x, self.w_axis.x),
             Vector4::new(self.x_axis.y, self.y_axis.y, self.z_axis.y, self.w_axis.y),
         )
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Matrix4x2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "({}, {}, {}, {})",
-            self.x_axis, self.y_axis, self.z_axis, self.w_axis
-        )
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix4x2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Matrix4x2))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .field(&self.z_axis)
-            .field(&self.w_axis)
-            .finish()
     }
 }
 
@@ -889,27 +728,6 @@ impl<T: DigitNum> Matrix4x3<T> {
             Vector4::new(self.x_axis.y, self.y_axis.y, self.z_axis.y, self.w_axis.y),
             Vector4::new(self.x_axis.z, self.y_axis.z, self.z_axis.z, self.w_axis.z),
         )
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Matrix4x3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "({}, {}, {}, {})",
-            self.x_axis, self.y_axis, self.z_axis, self.w_axis
-        )
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix4x3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Matrix4x3))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .field(&self.z_axis)
-            .field(&self.w_axis)
-            .finish()
     }
 }
 
@@ -1350,26 +1168,5 @@ impl<T: DigitFloat + Signed> Matrix4x4<T> {
         let y_axis = Vector4::new(xy - wz, T::one() - (xx + zz), yz + wx, T::zero());
         let z_axis = Vector4::new(xz + wy, yz - wx, T::one() - (xx + yy), T::zero());
         (x_axis, y_axis, z_axis)
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Matrix4x4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "({}, {}, {}, {})",
-            self.x_axis, self.y_axis, self.z_axis, self.w_axis
-        )
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Matrix4x4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Mat4))
-            .field(&self.x_axis)
-            .field(&self.y_axis)
-            .field(&self.z_axis)
-            .field(&self.w_axis)
-            .finish()
     }
 }

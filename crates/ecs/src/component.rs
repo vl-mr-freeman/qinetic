@@ -4,6 +4,8 @@ use crate::entity::EntityId;
 use std::any::{type_name, Any, TypeId};
 use std::collections::HashMap;
 
+use qinetic_utils::prelude::*;
+
 /// Data conteiner of the [`World`].
 ///
 /// # Examples
@@ -21,7 +23,7 @@ struct ComponentInfo {
 }
 
 /// Facilities addition and remove [`Component`]s.
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct ComponentRegistry {
     components: HashMap<TypeId, Vec<Option<ComponentInfo>>>,
 }

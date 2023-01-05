@@ -1,19 +1,19 @@
 //! Point functionality.
 
-use crate::vector::{Vector2, Vector3, Vector4};
-use crate::{Digit, DigitFloat, DigitNum};
+use crate::{
+    digit::{Digit, DigitFloat, DigitNum},
+    vector::{Vector2, Vector3, Vector4},
+};
 use num_traits::{clamp, clamp_max as clamp_min, clamp_min as clamp_max, Signed};
-use std::fmt;
+use qinetic_utils::prelude::*;
 use std::ops::*;
 
 macro_rules! impl_point {
     ($(#[$attr:meta])* => $PointN:ident { $($field:ident),+ }, $VectorN:ident, $n:expr) => {
         $(#[$attr])*
-        #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
+        #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, PartialOrd, Neg)]
         pub struct $PointN<T: Digit> {
-            $(
-                pub $field: T
-            ),+
+            $(pub $field: T),+
         }
 
         impl<T: Digit> $PointN<T> {
@@ -32,11 +32,7 @@ macro_rules! impl_point {
             /// Returns a `Point` from elements `if_true` or `if_false`, by `mask`.
             #[inline(always)]
             pub const fn mask(mask: $PointN<bool>, if_true: Self, if_false: Self) -> Self {
-                Self {
-                    $(
-                        $field: if mask.$field { if_true.$field } else { if_false. $field },
-                    )*
-                }
+                Self { $($field: if mask.$field { if_true.$field } else { if_false. $field }),+ }
             }
         }
 
@@ -44,22 +40,13 @@ macro_rules! impl_point {
             /// Returns a `Point` with all elements set to `0`.
             #[inline]
             pub fn origin() -> Self {
-                Self {
-                    $(
-                        $field: T::zero(),
-                    )*
-                }
+                Self { $($field: T::zero() ),+ }
             }
 
             /// Returns a `Point` with dot product of `self` and `rhs`.k
             #[inline]
             pub fn dot(self, other: Self) -> T {
-                Self {
-                    $(
-                        $field: self.$field * other.$field,
-                    )*
-                }
-                .sum()
+                Self { $($field: self.$field * other.$field ),+ }.sum()
             }
 
             #[inline]
@@ -83,11 +70,7 @@ macro_rules! impl_point {
             /// Returns a `Point` with all elements set to negative `1`.
             #[inline]
             pub fn neg_one() -> Self {
-                Self {
-                    $(
-                        $field: -T::one(),
-                    )*
-                }
+                Self { $($field: -T::one() ),+ }
             }
         }
 
@@ -95,11 +78,7 @@ macro_rules! impl_point {
             /// Returns a `Point` with all elements set to `NaN`.
             #[inline]
             pub fn nan() -> Self {
-                Self {
-                    $(
-                        $field: T::nan(),
-                    )*
-                }
+                Self { $($field: T::nan() ),+ }
             }
         }
 
@@ -107,21 +86,13 @@ macro_rules! impl_point {
             /// Returns a `boolean` `Point` of a `==` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpeq(&self, rhs: &Self) -> $PointN<bool> {
-                $PointN::<bool>::new(
-                    $(
-                        self.$field.eq(&rhs.$field),
-                    )*
-                )
+                $PointN::<bool>::new($(self.$field.eq(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Point` of a `!=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpne(&self, rhs: &Self) -> $PointN<bool> {
-                $PointN::<bool>::new(
-                    $(
-                        self.$field.ne(&rhs.$field),
-                    )*
-                )
+                $PointN::<bool>::new($(self.$field.ne(&rhs.$field) ),+)
             }
         }
 
@@ -129,41 +100,25 @@ macro_rules! impl_point {
             /// Returns a `boolean` `Point` of a `>=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpge(&self, rhs: &Self) -> $PointN<bool> {
-                $PointN::<bool>::new(
-                    $(
-                        self.$field.ge(&rhs.$field),
-                    )*
-                )
+                $PointN::<bool>::new($(self.$field.ge(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Point` of a `>` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpgt(&self, rhs: &Self) -> $PointN<bool> {
-                $PointN::<bool>::new(
-                    $(
-                        self.$field.gt(&rhs.$field),
-                    )*
-                )
+                $PointN::<bool>::new($(self.$field.gt(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Point` of a `<=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmple(&self, rhs: &Self) -> $PointN<bool> {
-                $PointN::<bool>::new(
-                    $(
-                        self.$field.le(&rhs.$field),
-                    )*
-                )
+                $PointN::<bool>::new($(self.$field.le(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Point` of a `<` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmplt(&self, rhs: &Self) -> $PointN<bool> {
-                $PointN::<bool>::new(
-                    $(
-                        self.$field.lt(&rhs.$field),
-                    )*
-                )
+                $PointN::<bool>::new($(self.$field.lt(&rhs.$field) ),+)
             }
         }
 
@@ -171,29 +126,21 @@ macro_rules! impl_point {
             /// Returns a `Point` with absolute values of `self`.
             #[inline]
             pub fn abs(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.abs(),
-                    )*
-                }
+                Self { $($field: self.$field.abs() ),+ }
             }
 
             /// Returns a `Point` with representing sign values of `self`.
             #[inline]
             pub fn signum(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.signum(),
-                    )*
-                }
+                Self { $($field: self.$field.signum() ),+ }
             }
         }
 
         impl<T: DigitNum + Signed + PartialOrd> $PointN<T> {
             /// Returns `true` if the absolute difference of all elements between `self` and `rhs` <= `max_abs_diff`.
             #[inline]
-            pub fn abs_diff_eq(&self, rhs: &Self, max_abs_diff: T) -> bool {
-                self.sub(rhs.to_vector()).abs().cmple(&Self::splat(max_abs_diff)).all()
+            pub fn abs_diff_eq(self, rhs: Self, max_abs_diff: T) -> bool {
+                (self - rhs.to_vector()).abs().cmple(&Self::splat(max_abs_diff)).all()
             }
         }
 
@@ -201,31 +148,19 @@ macro_rules! impl_point {
             /// Returns a `Point` with minimum values of `self` and `min`.
             #[inline]
             pub fn min(self, min: Self) -> Self {
-                Self {
-                    $(
-                        $field: clamp_min(self.$field, min.$field),
-                    )*
-                }
+                Self { $($field: clamp_min(self.$field, min.$field) ),+ }
             }
 
             /// Returns a `Point` with maximum values of `self` and `max`.
             #[inline]
             pub fn max(self, max: Self) -> Self {
-                Self {
-                    $(
-                        $field: clamp_max(self.$field, max.$field),
-                    )*
-                }
+                Self { $($field: clamp_max(self.$field, max.$field) ),+ }
             }
 
             /// Returns a `Point` with clamp values of `self` between `min` and `max`.
             #[inline]
             pub fn clamp(self, min: Self, max: Self) -> Self {
-                Self {
-                    $(
-                        $field: clamp(self.$field, min.$field, max.$field),
-                    )*
-                }
+                Self { $($field: clamp(self.$field, min.$field, max.$field) ),+ }
             }
         }
 
@@ -233,144 +168,128 @@ macro_rules! impl_point {
             /// Returns a `Point` with the nearest integer to a number for values of `self`.
             #[inline]
             pub fn round(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.round(),
-                    )*
-                }
+                Self { $($field: self.$field.round() ),+ }
             }
 
             /// Returns a `Point` with the largest integer less than or equal to a number for values of `self`.
             #[inline]
             pub fn floor(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.floor(),
-                    )*
-                }
+                Self { $($field: self.$field.floor() ),+ }
             }
 
             /// Returns a `Point` with containing the smallest integer greater than or equal to a number for values of `self`.
             #[inline]
             pub fn ceil(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.ceil(),
-                    )*
-                }
+                Self { $($field: self.$field.ceil() ),+ }
             }
 
             /// Returns a `Point` with fractional values of `self`.
             #[inline]
             pub fn fract(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.fract(),
-                    )*
-                }
+                Self { $($field: self.$field.fract() ),+ }
             }
 
             /// Returns a `Point` with exponential function for values of `self`.
             #[inline]
             pub fn exp(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.exp(),
-                    )*
-                }
+                Self { $($field: self.$field.exp() ),+ }
             }
 
             /// Returns a `Point` with raised values of `self` to the power of `n`.
             #[inline]
             pub fn powf(self, n: T) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.powf(n),
-                    )*
-                }
+                Self { $($field: self.$field.powf(n) ),+ }
             }
 
             /// Returns a `Point` with reciprocaled values of `self`
             #[inline]
             pub fn recip(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.recip(),
-                    )*
-                }
+                Self { $($field: self.$field.recip() ),+ }
             }
 
             /// Returns `true` if all values of `self` are finite.
             #[inline]
             pub fn is_finite(self) -> bool {
-                $(
-                    self.$field.is_finite()
-                )&&+
+                $(self.$field.is_finite() )&&+
             }
 
             /// Returns `true` if any values of `self` are `NaN`.
             #[inline]
             pub fn is_nan(self) -> bool {
-                $(
-                    self.$field.is_nan()
-                )||+
+                $(self.$field.is_nan() )||+
             }
         }
 
         impl $PointN<bool> {
             #[inline]
             pub const fn any(self) -> bool {
-                $(
-                    self.$field
-                )||+
+                $(self.$field )||+
             }
 
             #[inline]
             pub const fn all(self) -> bool {
-                $(
-                    self.$field
-                )&&+
+                $(self.$field )&&+
             }
         }
 
         crate::impl_operator!(<T: DigitNum> Add<$VectorN<T>> for $PointN<T> {
-            fn add(lhs, rhs) -> $PointN<T> { $PointN::new($(lhs.$field + rhs.$field),+) }
+            fn add(lhs, rhs) -> $PointN<T> {
+                $PointN::new($(lhs.$field + rhs.$field),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> AddAssign<$VectorN<T>> for $PointN<T> {
-            fn add_assign(&mut self, rhs) { $(self.$field += rhs.$field);+ }
+            fn add_assign(&mut self, rhs) {
+                $(self.$field += rhs.$field);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Sub<$VectorN<T>> for $PointN<T> {
-            fn sub(lhs, rhs) -> $PointN<T> { $PointN::new($(lhs.$field - rhs.$field),+) }
+            fn sub(lhs, rhs) -> $PointN<T> {
+                $PointN::new($(lhs.$field - rhs.$field),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> SubAssign<$VectorN<T>> for $PointN<T> {
-            fn sub_assign(&mut self, rhs) { $(self.$field -= rhs.$field);+ }
+            fn sub_assign(&mut self, rhs) {
+                $(self.$field -= rhs.$field);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Mul<T> for $PointN<T> {
-            fn mul(lhs, rhs) -> $PointN<T> { $PointN::new($(lhs.$field * rhs),+) }
+            fn mul(lhs, rhs) -> $PointN<T> {
+                $PointN::new($(lhs.$field * rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> MulAssign<T> for $PointN<T> {
-            fn mul_assign(&mut self, rhs) { $(self.$field *= rhs);+ }
+            fn mul_assign(&mut self, rhs) {
+                $(self.$field *= rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Div<T> for $PointN<T> {
-            fn div(lhs, rhs) -> $PointN<T> { $PointN::new($(lhs.$field / rhs),+) }
+            fn div(lhs, rhs) -> $PointN<T> {
+                $PointN::new($(lhs.$field / rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> DivAssign<T> for $PointN<T> {
-            fn div_assign(&mut self, rhs) { $(self.$field /= rhs);+ }
+            fn div_assign(&mut self, rhs) {
+                $(self.$field /= rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Rem<T> for $PointN<T> {
-            fn rem(lhs, rhs) -> $PointN<T> { $PointN::new($(lhs.$field % rhs),+) }
+            fn rem(lhs, rhs) -> $PointN<T> {
+                $PointN::new($(lhs.$field % rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> RemAssign<T> for $PointN<T> {
-            fn rem_assign(&mut self, rhs) { $(self.$field %= rhs);+ }
+            fn rem_assign(&mut self, rhs) {
+                $(self.$field %= rhs);+
+            }
         });
 
         crate::impl_index_operators!($PointN<T>, $n, T, usize);
@@ -392,28 +311,12 @@ impl<T: DigitNum> Point2<T> {
     #[inline]
     pub fn from_homogeneous(v: Vector3<T>) -> Self {
         let e = v.truncate() * (T::one() / v.z);
-
         Point2::new(e.x, e.y)
     }
 
     #[inline]
     pub fn to_homogeneous(self) -> Vector3<T> {
         Vector3::new(self.x, self.y, T::one())
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Point2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {})", self.x, self.y)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Point2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Point2))
-            .field(&self.x)
-            .field(&self.y)
-            .finish()
     }
 }
 
@@ -435,21 +338,5 @@ impl<T: DigitNum> Point3<T> {
     #[inline]
     pub fn to_homogeneous(self) -> Vector4<T> {
         Vector4::new(self.x, self.y, self.z, T::one())
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Point3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {})", self.x, self.y, self.z)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Point3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Point3))
-            .field(&self.x)
-            .field(&self.y)
-            .field(&self.z)
-            .finish()
     }
 }

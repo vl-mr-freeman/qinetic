@@ -1,19 +1,17 @@
 //! Vector functionality.
 
-use crate::{Digit, DigitFloat, DigitNum};
+use crate::digit::{Digit, DigitFloat, DigitNum};
 use num_traits::{clamp, clamp_max as clamp_min, clamp_min as clamp_max, Signed};
-use std::fmt;
+use qinetic_utils::prelude::*;
 use std::iter::{Product, Sum};
 use std::ops::*;
 
 macro_rules! impl_vector {
     ($(#[$attr:meta])* => $VectorN:ident { $($field:ident),+ }, $n:expr) => {
         $(#[$attr])*
-        #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
+        #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, PartialOrd, Neg)]
         pub struct $VectorN<T: Digit> {
-            $(
-                pub $field: T
-            ),+
+            $(pub $field: T),+
         }
 
         impl<T: Digit> $VectorN<T> {
@@ -32,11 +30,7 @@ macro_rules! impl_vector {
             /// Returns a `Vector` from elements `if_true` or `if_false`, by `mask`.
             #[inline(always)]
             pub const fn mask(mask: $VectorN<bool>, if_true: Self, if_false: Self) -> Self {
-                Self {
-                    $(
-                        $field: if mask.$field { if_true.$field } else { if_false. $field },
-                    )*
-                }
+                Self { $($field: if mask.$field { if_true.$field } else { if_false.$field } ),+ }
             }
         }
 
@@ -44,37 +38,24 @@ macro_rules! impl_vector {
             /// Returns a `Vector` with all elements set to `0`.
             #[inline]
             pub fn zero() -> Self {
-                Self {
-                    $(
-                        $field: T::zero(),
-                    )*
-                }
+                Self { $($field: T::zero() ),+ }
             }
 
             /// Returns a `Vector` with all elements set to positive `1`.
             #[inline]
             pub fn one() -> Self {
-                Self {
-                    $(
-                        $field: T::one(),
-                    )*
-                }
+                Self { $($field: T::one() ),+ }
+            }
+
+            /// Returns a `Vector` with dot product of `self` and `rhs`.
+            #[inline]
+            pub fn dot(self, rhs: Self) -> T {
+                Self { $($field: self.$field * rhs.$field ),+ }.sum()
             }
 
             #[inline]
             fn sum(self) -> T {
                 crate::fold_array!(add, $(self.$field),+ )
-            }
-
-            /// Returns a `Vector` with dot product of `self` and `rhs`.
-            #[inline]
-            pub fn dot(self, other: Self) -> T {
-                Self {
-                    $(
-                        $field: self.$field * other.$field,
-                    )*
-                }
-                .sum()
             }
         }
 
@@ -82,11 +63,7 @@ macro_rules! impl_vector {
             /// Returns a `Vector` with all elements set to negative `1`.
             #[inline]
             pub fn neg_one() -> Self {
-                Self {
-                    $(
-                        $field: -T::one(),
-                    )*
-                }
+                Self { $($field: -T::one() ),+ }
             }
         }
 
@@ -94,11 +71,7 @@ macro_rules! impl_vector {
             /// Returns a `Vector` with all elements set to `NaN`.
             #[inline]
             pub fn nan() -> Self {
-                Self {
-                    $(
-                        $field: T::nan(),
-                    )*
-                }
+                Self { $($field: T::nan() ),+ }
             }
         }
 
@@ -106,21 +79,13 @@ macro_rules! impl_vector {
             /// Returns a `boolean` `Vector``==` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpeq(&self, rhs: &Self) -> $VectorN<bool> {
-                $VectorN::<bool>::new(
-                    $(
-                        self.$field.eq(&rhs.$field),
-                    )*
-                )
+                $VectorN::<bool>::new($(self.$field.eq(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Vector``!=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpne(&self, rhs: &Self) -> $VectorN<bool> {
-                $VectorN::<bool>::new(
-                    $(
-                        self.$field.ne(&rhs.$field),
-                    )*
-                )
+                $VectorN::<bool>::new( $(self.$field.ne(&rhs.$field) ),+)
             }
         }
 
@@ -128,41 +93,25 @@ macro_rules! impl_vector {
             /// Returns a `boolean` `Vector``>=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpge(&self, rhs: &Self) -> $VectorN<bool> {
-                $VectorN::<bool>::new(
-                    $(
-                        self.$field.ge(&rhs.$field),
-                    )*
-                )
+                $VectorN::<bool>::new($(self.$field.ge(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Vector``>` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmpgt(&self, rhs: &Self) -> $VectorN<bool> {
-                $VectorN::<bool>::new(
-                    $(
-                        self.$field.gt(&rhs.$field),
-                    )*
-                )
+                $VectorN::<bool>::new($(self.$field.gt(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Vector``<=` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmple(&self, rhs: &Self) -> $VectorN<bool> {
-                $VectorN::<bool>::new(
-                    $(
-                        self.$field.le(&rhs.$field),
-                    )*
-                )
+                $VectorN::<bool>::new($(self.$field.le(&rhs.$field) ),+)
             }
 
             /// Returns a `boolean` `Vector``<` comparison elements of `self` and `rhs`.
             #[inline]
             pub fn cmplt(&self, rhs: &Self) -> $VectorN<bool> {
-                $VectorN::<bool>::new(
-                    $(
-                        self.$field.lt(&rhs.$field),
-                    )*
-                )
+                $VectorN::<bool>::new($(self.$field.lt(&rhs.$field) ),+)
             }
         }
 
@@ -170,29 +119,21 @@ macro_rules! impl_vector {
             /// Returns a `Vector` with absolute values of `self`.
             #[inline]
             pub fn abs(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.abs(),
-                    )*
-                }
+                Self { $($field: self.$field.abs() ),+ }
             }
 
             /// Returns a `Vector` with representing sign values of `self`.
             #[inline]
             pub fn signum(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.signum(),
-                    )*
-                }
+                Self { $($field: self.$field.signum() ),+ }
             }
         }
 
         impl<T: DigitNum + Signed + PartialOrd> $VectorN<T> {
             /// Returns `true` if the absolute difference of all elements between `self` and `rhs` <= `max_abs_diff`.
             #[inline]
-            pub fn abs_diff_eq(&self, rhs: &Self, max_abs_diff: T) -> bool {
-                self.sub(rhs).abs().cmple(&Self::splat(max_abs_diff)).all()
+            pub fn abs_diff_eq(self, rhs: Self, max_abs_diff: T) -> bool {
+                (self - rhs).abs().cmple(&Self::splat(max_abs_diff)).all()
             }
         }
 
@@ -200,31 +141,19 @@ macro_rules! impl_vector {
             /// Returns a `Vector` with minimum values of `self` and `min`.
             #[inline]
             pub fn min(self, min: Self) -> Self {
-                Self {
-                    $(
-                        $field: clamp_min(self.$field, min.$field),
-                    )*
-                }
+                Self { $($field: clamp_min(self.$field, min.$field) ),+ }
             }
 
             /// Returns a `Vector` with maximum values of `self` and `max`.
             #[inline]
             pub fn max(self, max: Self) -> Self {
-                Self {
-                    $(
-                        $field: clamp_max(self.$field, max.$field),
-                    )*
-                }
+                Self { $($field: clamp_max(self.$field, max.$field) ),+ }
             }
 
             /// Returns a `Vector` with clamp values of `self` between `min` and `max`.
             #[inline]
             pub fn clamp(self, min: Self, max: Self) -> Self {
-                Self {
-                    $(
-                        $field: clamp(self.$field, min.$field, max.$field),
-                    )*
-                }
+                Self { $($field: clamp(self.$field, min.$field, max.$field) ),+ }
             }
         }
 
@@ -235,9 +164,9 @@ macro_rules! impl_vector {
                 let length_sq = self.length_squared();
 
                 if length_sq < min * min {
-                    self.mul(length_sq.sqrt().recip() * min)
+                    self * (length_sq.sqrt().recip() * min)
                 } else if length_sq > max * max {
-                    self.mul(length_sq.sqrt().recip() * max)
+                    self * (length_sq.sqrt().recip() * max)
                 } else {
                     self
                 }
@@ -248,7 +177,7 @@ macro_rules! impl_vector {
                 let length_sq = self.length_squared();
 
                 if length_sq > max * max {
-                    self.mul(length_sq.sqrt().recip() * max)
+                    self * (length_sq.sqrt().recip() * max)
                 } else {
                     self
                 }
@@ -259,7 +188,7 @@ macro_rules! impl_vector {
                 let length_sq = self.length_squared();
 
                 if length_sq < min * min {
-                    self.mul(length_sq.sqrt().recip() * min)
+                    self * (length_sq.sqrt().recip() * min)
                 } else {
                     self
                 }
@@ -268,7 +197,7 @@ macro_rules! impl_vector {
             /// Returns a `Vector` with linear interpolation between `self` and `rhs` based on the value `s`.
             #[inline]
             pub fn lerp(self, rhs: Self, s: T) -> Self {
-                self + (rhs.sub(self) * s)
+                self + ((rhs - self) * s)
             }
 
             /// Returns squared length of `self`.
@@ -286,145 +215,109 @@ macro_rules! impl_vector {
             /// Returns squared Euclidean distance of `self` and `rhs`.
             #[inline]
             pub fn distance_squared(self, rhs: Self) -> T {
-                self.sub(rhs).length_squared()
+                (self - rhs).length_squared()
             }
 
             /// Returns Euclidean distance of `self` and `rhs`.
             #[inline]
             pub fn distance(self, rhs: Self) -> T {
-                self.sub(rhs).length()
+                (self - rhs).length()
             }
 
             /// Returns a `Vector` with the nearest integer to a number for values of `self`.
             #[inline]
             pub fn round(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.round(),
-                    )*
-                }
+                Self { $($field: self.$field.round() ),+ }
             }
 
             /// Returns a `Vector` with the largest integer less than or equal to a number for values of `self`.
             #[inline]
             pub fn floor(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.floor(),
-                    )*
-                }
+                Self { $($field: self.$field.floor() ),+ }
             }
 
             /// Returns a `Vector` with containing the smallest integer greater than or equal to a number for values of `self`.
             #[inline]
             pub fn ceil(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.ceil(),
-                    )*
-                }
+                Self { $($field: self.$field.ceil() ),+ }
             }
 
             /// Returns a `Vector` with fractional values of `self`.
             #[inline]
             pub fn fract(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.fract(),
-                    )*
-                }
+                Self { $($field: self.$field.fract() ),+ }
             }
 
             /// Returns a `Vector` with exponential function for values of `self`.
             #[inline]
             pub fn exp(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.exp(),
-                    )*
-                }
+                Self { $($field: self.$field.exp() ),+ }
             }
 
             /// Returns a `Vector` with raised values of `self` to the power of `n`.
             #[inline]
             pub fn powf(self, n: T) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.powf(n),
-                    )*
-                }
+                Self { $($field: self.$field.powf(n) ),+ }
             }
 
             /// Returns a `Vector` with reciprocaled values of `self`
             #[inline]
             pub fn recip(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.recip(),
-                    )*
-                }
+                Self { $($field: self.$field.recip() ),+ }
             }
 
             /// Returns a `Vector` with normalized length of `self`.
             #[inline]
             pub fn normalize(self) -> Self {
-                self.mul(self.length().recip())
+                self * (self.length().recip())
             }
 
             /// Returns a `Vector` with projection of `self` onto `rhs`.
             #[inline]
             pub fn project_onto(self, rhs: Self) -> Self {
-                rhs.mul(self.dot(rhs).mul(rhs.length_squared().recip()))
+                rhs * (self.dot(rhs) * rhs.length_squared().recip())
             }
 
             /// Returns a `Vector` with normalized projection of `self` onto `rhs`.
             #[inline]
             pub fn project_onto_normalized(self, rhs: Self) -> Self {
-                rhs.mul(self.dot(rhs))
+                rhs * self.dot(rhs)
             }
 
             /// Returns a `Vector` with rejection of `self` from `rhs`.
             #[inline]
             pub fn reject_from(self, rhs: Self) -> Self {
-                self.sub(self.project_onto(rhs))
+                self - self.project_onto(rhs)
             }
 
             /// Returns a `Vector` with normalized rejection of `self` from `rhs`.
             #[inline]
             pub fn reject_from_normalized(self, rhs: Self) -> Self {
-                self.sub(self.project_onto_normalized(rhs))
+                self - self.project_onto_normalized(rhs)
             }
 
             /// Returns `true` if all values of `self` are finite.
             #[inline]
             pub fn is_finite(self) -> bool {
-                $(
-                    self.$field.is_finite()
-                )&&+
+                $(self.$field.is_finite() )&&+
             }
 
             /// Returns `true` if any values of `self` are `NaN`.
             #[inline]
             pub fn is_nan(self) -> bool {
-                $(
-                    self.$field.is_nan()
-                )||+
+                $(self.$field.is_nan() )||+
             }
         }
 
         impl $VectorN<bool> {
             #[inline]
             pub const fn any(self) -> bool {
-                $(
-                    self.$field
-                )||+
+                $(self.$field )||+
             }
 
             #[inline]
             pub const fn all(self) -> bool {
-                $(
-                    self.$field
-                )&&+
+                $(self.$field )&&+
             }
         }
 
@@ -456,97 +349,124 @@ macro_rules! impl_vector {
             }
         }
 
-        impl<T: DigitNum + Signed + Neg> Neg for $VectorN<T> {
-            type Output = Self;
-
-            #[inline]
-            fn neg(self) -> Self {
-                Self {
-                    $(
-                        $field: self.$field.neg(),
-                    )*
-                }
-            }
-        }
-
         crate::impl_operator!(<T: DigitNum> Add<$VectorN<T>> for $VectorN<T> {
-            fn add(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field + rhs.$field),+) }
+            fn add(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field + rhs.$field),+)
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Add<T> for $VectorN<T> {
-            fn add(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field + rhs),+) }
+            fn add(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field + rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> AddAssign<$VectorN<T>> for $VectorN<T> {
-            fn add_assign(&mut self, rhs) { $(self.$field += rhs.$field);+ }
+            fn add_assign(&mut self, rhs) {
+                $(self.$field += rhs.$field);+
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> AddAssign<T> for $VectorN<T> {
-            fn add_assign(&mut self, rhs) { $(self.$field += rhs);+ }
+            fn add_assign(&mut self, rhs) {
+                $(self.$field += rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Sub<$VectorN<T>> for $VectorN<T> {
-            fn sub(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field - rhs.$field),+) }
+            fn sub(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field - rhs.$field),+)
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Sub<T> for $VectorN<T> {
-            fn sub(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field - rhs),+) }
+            fn sub(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field - rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> SubAssign<$VectorN<T>> for $VectorN<T> {
-            fn sub_assign(&mut self, rhs) { $(self.$field -= rhs.$field);+ }
+            fn sub_assign(&mut self, rhs) {
+                $(self.$field -= rhs.$field);+
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> SubAssign<T> for $VectorN<T> {
-            fn sub_assign(&mut self, rhs) { $(self.$field -= rhs);+ }
+            fn sub_assign(&mut self, rhs) {
+                $(self.$field -= rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Mul<$VectorN<T>> for $VectorN<T> {
-            fn mul(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field * rhs.$field),+) }
+            fn mul(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field * rhs.$field),+)
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Mul<T> for $VectorN<T> {
-            fn mul(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field * rhs),+) }
+            fn mul(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field * rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> MulAssign<$VectorN<T>> for $VectorN<T> {
-            fn mul_assign(&mut self, rhs) { $(self.$field *= rhs.$field);+ }
+            fn mul_assign(&mut self, rhs) {
+                $(self.$field *= rhs.$field);+
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> MulAssign<T> for $VectorN<T> {
-            fn mul_assign(&mut self, rhs) { $(self.$field *= rhs);+ }
+            fn mul_assign(&mut self, rhs) {
+                $(self.$field *= rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Div<$VectorN<T>> for $VectorN<T> {
-            fn div(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field / rhs.$field),+) }
+            fn div(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field / rhs.$field),+)
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Div<T> for $VectorN<T> {
-            fn div(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field / rhs),+) }
+            fn div(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field / rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> DivAssign<$VectorN<T>> for $VectorN<T> {
-            fn div_assign(&mut self, rhs) { $(self.$field /= rhs.$field);+ }
+            fn div_assign(&mut self, rhs) {
+                $(self.$field /= rhs.$field);+
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> DivAssign<T> for $VectorN<T> {
-            fn div_assign(&mut self, rhs) { $(self.$field /= rhs);+ }
+            fn div_assign(&mut self, rhs) {
+                $(self.$field /= rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Rem<$VectorN<T>> for $VectorN<T> {
-            fn rem(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field % rhs.$field),+) }
+            fn rem(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field % rhs.$field),+)
+            }
         });
 
         crate::impl_operator!(<T: DigitNum> Rem<T> for $VectorN<T> {
-            fn rem(lhs, rhs) -> $VectorN<T> { $VectorN::new($(lhs.$field % rhs),+) }
+            fn rem(lhs, rhs) -> $VectorN<T> {
+                $VectorN::new($(lhs.$field % rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> RemAssign<$VectorN<T>> for $VectorN<T> {
-            fn rem_assign(&mut self, rhs) { $(self.$field %= rhs.$field);+ }
+            fn rem_assign(&mut self, rhs) {
+                $(self.$field %= rhs.$field);+
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitNum> RemAssign<T> for $VectorN<T> {
-            fn rem_assign(&mut self, rhs) { $(self.$field %= rhs);+ }
+            fn rem_assign(&mut self, rhs) {
+                $(self.$field %= rhs);+
+            }
         });
 
         crate::impl_index_operators!($VectorN<T>, $n, T, usize);
@@ -611,21 +531,6 @@ impl<T: DigitNum + Signed> Vector2<T> {
     #[inline]
     pub fn unit_neg_y() -> Self {
         Self::new(T::zero(), -T::one())
-    }
-}
-
-impl<T: Digit + fmt::Display> fmt::Display for Vector2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {})", self.x, self.y)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Vector2<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Vector2))
-            .field(&self.x)
-            .field(&self.y)
-            .finish()
     }
 }
 
@@ -727,23 +632,7 @@ impl<T: DigitNum + Signed> Vector3<T> {
     }
 }
 
-impl<T: Digit + fmt::Display> fmt::Display for Vector3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {})", self.x, self.y, self.z)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Vector3<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Vector3))
-            .field(&self.x)
-            .field(&self.y)
-            .field(&self.z)
-            .finish()
-    }
-}
-
-impl<T: Digit + Default> From<Vector2<T>> for Vector3<T> {
+impl<T: Digit> From<Vector2<T>> for Vector3<T> {
     #[inline]
     fn from(v: Vector2<T>) -> Self {
         Self::new(v.x, v.y, T::default())
@@ -839,31 +728,14 @@ impl<T: DigitNum + Signed> Vector4<T> {
     }
 }
 
-impl<T: Digit + fmt::Display> fmt::Display for Vector4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {}, {})", self.x, self.y, self.z, self.w)
-    }
-}
-
-impl<T: Digit + fmt::Debug> fmt::Debug for Vector4<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Vector4))
-            .field(&self.x)
-            .field(&self.y)
-            .field(&self.z)
-            .field(&self.w)
-            .finish()
-    }
-}
-
-impl<T: Digit + Default> From<Vector2<T>> for Vector4<T> {
+impl<T: Digit> From<Vector2<T>> for Vector4<T> {
     #[inline]
     fn from(v: Vector2<T>) -> Self {
         Self::new(v.x, v.y, T::default(), T::default())
     }
 }
 
-impl<T: Digit + Default> From<Vector3<T>> for Vector4<T> {
+impl<T: Digit> From<Vector3<T>> for Vector4<T> {
     #[inline]
     fn from(v: Vector3<T>) -> Self {
         Self::new(v.x, v.y, v.z, T::default())

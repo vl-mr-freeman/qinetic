@@ -20,7 +20,7 @@ pub enum CoreStage {
     /// The [`Stage`] that runs before [`CoreStage::Update`].
     PreUpdate,
 
-    /// The [`Stage`] that runs on [`updating`](App::update).
+    /// The [`Stage`] that runs on [App::update].
     #[default]
     Update,
 

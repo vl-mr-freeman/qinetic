@@ -1,3 +1,5 @@
+//! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
+//!
 //! Entity-component-system macros for Qinetic.
 
 #![doc(

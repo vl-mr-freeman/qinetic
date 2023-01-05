@@ -1,5 +1,8 @@
 use qinetic::prelude::*;
 
 fn main() {
-    App::builder().build();
+    App::builder()
+        .with_runner(RunOnce::default())
+        .build()
+        .unwrap();
 }

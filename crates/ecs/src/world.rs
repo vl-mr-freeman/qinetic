@@ -8,6 +8,8 @@ use crate::{
     state::{State, StateRegistry},
 };
 
+use qinetic_utils::prelude::*;
+
 /// A representation of ECS `world`.
 ///
 /// # Examples
@@ -16,7 +18,7 @@ use crate::{
 /// #
 /// let world = World::default();
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct World {
     component_registry: ComponentRegistry,
     entity_registry: EntityRegistry,
@@ -177,20 +179,32 @@ impl World {
 
     /// Returns a immutable [`Event`] by `T` of [`World`], if it's present.
     #[inline]
-    pub fn get_event<T: Event>(&self) -> Option<&T> {
+    pub fn add_event<T: Event>(&self, event: T) -> Option<&T> {
         self.event_registry.get_event::<T>()
     }
 
-    /// Returns a mutable [`Event`] by `T` of [`World`], if it's present.
+    /// Returns a immutable [`Event`] by `T` of [`World`], if it's present.
     #[inline]
-    pub fn get_event_mut<T: Event>(&mut self) -> Option<&mut T> {
-        self.event_registry.get_event_mut::<T>()
+    pub fn remove_event<T: Event>(&self) -> Option<&T> {
+        self.event_registry.get_event::<T>()
     }
 
     /// Returns `true`, if [`Event`] by `T` present.
     #[inline]
     pub fn has_event<T: Event>(&self) -> bool {
         self.event_registry.has_event::<T>()
+    }
+
+    /// Returns a immutable [`Resource`] by `T` of [`World`], if it's present.
+    #[inline]
+    pub fn add_resource<T: Resource>(&self, resource: T) -> Option<&T> {
+        self.resource_registry.get_resource::<T>()
+    }
+
+    /// Returns a immutable [`Resource`] by `T` of [`World`], if it's present.
+    #[inline]
+    pub fn remove_resource<T: Resource>(&self) -> Option<&T> {
+        self.resource_registry.get_resource::<T>()
     }
 
     /// Returns a immutable [`Resource`] by `T` of [`World`], if it's present.
@@ -209,6 +223,18 @@ impl World {
     #[inline]
     pub fn has_resource<T: Resource>(&self) -> bool {
         self.resource_registry.has_resource::<T>()
+    }
+
+    /// Returns a immutable [`State`] by `T` of [`World`], if it's present.
+    #[inline]
+    pub fn add_state<T: State>(&self, state: T) -> Option<&T> {
+        self.state_registry.get_state::<T>()
+    }
+
+    /// Returns a immutable [`State`] by `T` of [`World`], if it's present.
+    #[inline]
+    pub fn remove_state<T: State>(&self) -> Option<&T> {
+        self.state_registry.get_state::<T>()
     }
 
     /// Returns a immutable [`State`] by `T` of [`World`], if it's present.

@@ -1,6 +1,7 @@
 //! Application runner functionality.
 
 use crate::app::App;
+use qinetic_utils::prelude::*;
 use std::any::Any;
 
 /// Runner that calls in [App::run].
@@ -15,6 +16,8 @@ use std::any::Any;
 ///     fn run(&mut self, app: App) {/* something to do */}
 /// }
 /// ```
-pub trait Runner: Any + 'static {
+pub trait Runner: DynClone + Any + 'static {
     fn run(&mut self, app: App);
 }
+
+clone_trait_object!(Runner);

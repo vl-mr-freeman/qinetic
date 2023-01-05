@@ -21,7 +21,7 @@ impl EntityId {
 }
 
 /// Facilities addition and remove [`Entity`]s.
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct EntityRegistry {
     entities: Vec<Option<EntityId>>,
 }

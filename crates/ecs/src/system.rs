@@ -3,6 +3,8 @@
 use crate::world::World;
 use std::any::{type_name, Any};
 
+use qinetic_utils::prelude::*;
+
 /// System of the [`World`].
 pub trait System: Any + Send + Sync + 'static {
     type Data;
@@ -12,7 +14,7 @@ pub trait System: Any + Send + Sync + 'static {
 }
 
 /// Facilities addition and remove [`System`]s.
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct SystemRegistry {}
 
 impl SystemRegistry {

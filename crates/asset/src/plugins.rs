@@ -1,6 +1,7 @@
 //! Asset [`Plugin`]s functionality.
 
 use crate::{
+    resources::AssetResource,
     stages::{AssetStage, AssetStageGroup},
     systems::AssetSystem,
 };
@@ -15,6 +16,9 @@ use qinetic_ecs::prelude::*;
 ///
 /// [`Stage`]s:
 /// * [`AssetStageGroup`]
+///
+/// [`Resource`]s:
+/// * [`AssetResource`]
 ///
 /// [`System`]s:
 /// * [`AssetSystem`]
@@ -36,6 +40,7 @@ pub struct AssetPlugin {}
 impl Plugin for AssetPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
         app_builder
+            .with_resource(AssetResource::default())
             .with_stage_group(AssetStageGroup::default())
             .with_system(AssetStage::default(), AssetSystem::default());
     }

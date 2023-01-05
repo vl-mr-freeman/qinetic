@@ -3,11 +3,13 @@
 use crate::world::World;
 use std::any::type_name;
 
+use qinetic_utils::prelude::*;
+
 /// State of the [`World`].
 pub trait State: Send + Sync + 'static {}
 
 /// Facilities addition and remove [`State`]s.
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct StateRegistry {}
 
 impl StateRegistry {

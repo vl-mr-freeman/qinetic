@@ -10,7 +10,7 @@ use qinetic_ecs::{
     component::Component, event::Event, resource::Resource, state::State, system::System,
     world::World,
 };
-use std::mem;
+use qinetic_utils::prelude::*;
 
 /// A conteiner of application logic.
 ///
@@ -23,8 +23,8 @@ use std::mem;
 ///     .unwrap()
 ///     .run();
 /// ```
-//#[derive(Builder)]
-//#[builder(setter(prefix = "with"))]
+#[derive(Builder)]
+#[builder(setter(prefix = "with"))]
 pub struct App {
     /// Returns a [`AppBuilder`] with `default` configuration.
     ///
@@ -34,37 +34,16 @@ pub struct App {
     /// #
     /// let app_builder = App::builder();
     /// ```
-    //#[builder(setter(custom))]
-    //#[builder(default = "Box::new(RunEmpty)")]
+    #[builder(setter(custom))]
     runner: Box<dyn Runner>,
 
     /// Container of [`Stage`]s in a linear order.
-    //#[builder(setter(skip))]
+    #[builder(setter(skip))]
     schedule: Schedule,
 
     /// The ECS [`World`], provides access to all ECS data.
-    //#[builder(setter(skip))]
+    #[builder(setter(skip))]
     world: World,
-}
-
-#[derive(Default)]
-pub struct AppBuilder {
-    runner: Option<Box<dyn Runner>>,
-}
-
-impl AppBuilder {
-    pub fn with_runner<T: Runner>(&mut self, runner: T) -> &mut Self {
-        self.runner = Some(Box::new(runner));
-        self
-    }
-
-    pub fn build(&self) -> App {
-        App {
-            runner: Box::new(RunEmpty),
-            schedule: Schedule::default(),
-            world: World::default(),
-        }
-    }
 }
 
 impl App {
@@ -93,8 +72,7 @@ impl App {
     ///     .run();
     /// ```
     pub fn run(mut self) {
-        let mut runner = mem::replace(&mut self.runner, Box::new(RunEmpty));
-
+        let mut runner = self.runner.clone();
         runner.run(self);
     }
 
@@ -124,6 +102,12 @@ impl App {
 }
 
 impl AppBuilder {
+    #[inline]
+    pub fn with_runner<T: Runner>(&mut self, runner: T) -> &mut Self {
+        self.runner = Some(Box::new(runner));
+        self
+    }
+
     /// Returns a [`AppBuilder`] with added a single [`Stage`].
     ///
     /// If the [`Stage`] was already present, it's removed from it's previous place and add at the end.
@@ -459,7 +443,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_state<T: State>(&mut self, state: T) -> &mut Self {
-        //self.world_builder.with_state(state);
+        //self.world.add_state(state);
         self
     }
 
@@ -489,10 +473,4 @@ impl AppBuilder {
         //self.world_builder.with_system(system);
         self
     }
-}
-
-struct RunEmpty;
-
-impl Runner for RunEmpty {
-    fn run(&mut self, app: App) {}
 }

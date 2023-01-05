@@ -24,6 +24,7 @@
 )]
 
 pub mod plugins;
+pub mod resources;
 pub mod stages;
 pub mod systems;
 

@@ -1,62 +1,13 @@
 #![warn(missing_docs)]
 
+//! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
+//!
 //! Facilitating optional dynamic linking for Qinetic.
 
 #![doc(
     html_logo_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg",
     html_favicon_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg"
 )]
-
-pub mod prelude {
-    //! Main functionality.
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_ai")]
-    pub use super::ai::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_animation")]
-    pub use super::animation::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_audio")]
-    pub use super::audio::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_log")]
-    pub use super::log::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_network")]
-    pub use super::network::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_physics")]
-    pub use super::physics::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_render")]
-    pub use super::render::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_ui")]
-    pub use super::ui::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_vr")]
-    pub use super::vr::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_ar")]
-    pub use super::ar::prelude::*;
-
-    #[doc(hidden)]
-    pub use super::{
-        app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
-        math::prelude::*, utils::prelude::*, window::prelude::*, DefaultPluginGroup,
-        MinimalPluginGroup, RunLoop, RunOnce,
-    };
-}
 
 pub mod app {
     //! Application functionality.
@@ -180,3 +131,54 @@ pub use default_plugins::*;
 
 mod default_runners;
 pub use default_runners::*;
+
+pub mod prelude {
+    //! Main functionality.
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_ai")]
+    pub use super::ai::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_animation")]
+    pub use super::animation::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_audio")]
+    pub use super::audio::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_log")]
+    pub use super::log::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_network")]
+    pub use super::network::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_physics")]
+    pub use super::physics::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_render")]
+    pub use super::render::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_ui")]
+    pub use super::ui::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_vr")]
+    pub use super::vr::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_ar")]
+    pub use super::ar::prelude::*;
+
+    #[doc(hidden)]
+    pub use super::{
+        app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
+        math::prelude::*, utils::prelude::*, window::prelude::*, DefaultPluginGroup,
+        MinimalPluginGroup, RunLoop, RunOnce,
+    };
+}

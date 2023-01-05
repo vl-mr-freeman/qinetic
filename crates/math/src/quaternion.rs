@@ -1,22 +1,41 @@
 //! Quaternionernion functionality.
 
 use crate::{
+    digit::DigitFloat,
     matrix::{Matrix3x3, Matrix4x4},
     vector::Vector3,
-    DigitFloat,
 };
-use std::fmt;
-use std::iter::{Product, Sum};
+use qinetic_utils::prelude::*;
 use std::ops::*;
 
 macro_rules! impl_quaternion {
     ($(#[$attr:meta])* => $QuaternionN:ident { $($field:ident),+ }, $n:expr) => {
         $(#[$attr])*
-        #[derive(Clone, Copy, PartialEq, PartialOrd, Default)]
+        #[derive(
+            SmartDefault,
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            PartialOrd,
+            Add,
+            AddAssign,
+            Sub,
+            SubAssign,
+            Mul,
+            MulAssign,
+            Div,
+            DivAssign,
+            Sum,
+            Product,
+            Neg
+        )]
+        #[mul(forward)]
+        #[mul_assign(forward)]
+        #[div(forward)]
+        #[div_assign(forward)]
         pub struct $QuaternionN<T: DigitFloat> {
-            $(
-                pub $field: T,
-            )*
+            $(pub $field: T),+
         }
 
         impl<T: DigitFloat> $QuaternionN<T> {
@@ -29,31 +48,19 @@ macro_rules! impl_quaternion {
             /// Returns a `Quaternion` with all elements set to `0`.
             #[inline]
             pub fn zero() -> Self {
-                Self {
-                    $(
-                        $field: T::zero(),
-                    )*
-                }
+                Self { $($field: T::zero() ),+ }
             }
 
             /// Returns a `Quaternion` with all elements set to `1`.
             #[inline]
             pub fn one() -> Self {
-                Self {
-                    $(
-                        $field: T::one(),
-                    )*
-                }
+                Self { $($field: T::one() ),+ }
             }
 
             /// Returns a `Quaternion` with all elements set to negative `1`.
             #[inline]
             pub fn neg_one() -> Self {
-                Self {
-                    $(
-                        $field: -T::one(),
-                    )*
-                }
+                Self { $($field: -T::one() ),+ }
             }
 
             #[inline]
@@ -66,11 +73,7 @@ macro_rules! impl_quaternion {
             /// Returns a `Quaternion` with dot product of `self` and `other`.
             #[inline]
             pub fn dot(self, other: Self) -> T {
-                Self {
-                    $(
-                        $field: self.$field * other.$field,
-                    )*
-                }.sum()
+                Self { $($field: self.$field * other.$field ),+ }.sum()
             }
 
             /// Returns length of `self`.
@@ -104,109 +107,52 @@ macro_rules! impl_quaternion {
             }
         }
 
-        impl<T: DigitFloat> Sum for $QuaternionN<T> {
-            #[inline]
-            fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
-                iter.fold(Self::zero(), Self::add)
-            }
-        }
-
-        impl<'a, T: DigitFloat> Sum<&'a Self> for $QuaternionN<T> {
-            #[inline]
-            fn sum<I: Iterator<Item = &'a Self>>(iter: I) -> Self {
-                iter.fold(Self::zero(), |a, &b| Self::add(a, b))
-            }
-        }
-
-        impl<T: DigitFloat> Product for $QuaternionN<T> {
-            #[inline]
-            fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
-                iter.fold(Self::one(), Self::mul)
-            }
-        }
-
-        impl<'a, T: DigitFloat> Product<&'a Self> for $QuaternionN<T> {
-            #[inline]
-            fn product<I: Iterator<Item = &'a Self>>(iter: I) -> Self {
-                iter.fold(Self::one(), |a, &b| Self::mul(a, b))
-            }
-        }
-
-        impl<T: DigitFloat> Neg for Quaternion<T> {
-            type Output = Self;
-
-            #[inline]
-            fn neg(self) -> Self {
-                Self {
-                    $(
-                        $field: -self.$field,
-                    )*
-                }
-            }
-        }
-
-        crate::impl_operator!(<T: DigitFloat> Add<$QuaternionN<T>> for $QuaternionN<T> {
-            fn add(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field + rhs.$field),+) }
-        });
-
         crate::impl_operator!(<T: DigitFloat> Add<T> for $QuaternionN<T> {
-            fn add(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field + rhs),+) }
-        });
-
-        crate::impl_assign_operator!(<T: DigitFloat> AddAssign<$QuaternionN<T>> for $QuaternionN<T> {
-            fn add_assign(&mut self, rhs) { $(self.$field += rhs.$field);+ }
+            fn add(lhs, rhs) -> $QuaternionN<T> {
+                $QuaternionN::new($(lhs.$field + rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitFloat> AddAssign<T> for $QuaternionN<T> {
-            fn add_assign(&mut self, rhs) { $(self.$field += rhs);+ }
-        });
-
-        crate::impl_operator!(<T: DigitFloat> Sub<$QuaternionN<T>> for $QuaternionN<T> {
-            fn sub(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field - rhs.$field),+) }
+            fn add_assign(&mut self, rhs) {
+                $(self.$field += rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitFloat> Sub<T> for $QuaternionN<T> {
-            fn sub(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field - rhs),+) }
-        });
-
-        crate::impl_assign_operator!(<T: DigitFloat> SubAssign<$QuaternionN<T>> for $QuaternionN<T> {
-            fn sub_assign(&mut self, rhs) { $(self.$field -= rhs.$field);+ }
+            fn sub(lhs, rhs) -> $QuaternionN<T> {
+                $QuaternionN::new($(lhs.$field - rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitFloat> SubAssign<T> for $QuaternionN<T> {
-            fn sub_assign(&mut self, rhs) { $(self.$field -= rhs);+ }
-        });
-
-        crate::impl_operator!(<T: DigitFloat> Mul<$QuaternionN<T>> for $QuaternionN<T> {
-            fn mul(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field * rhs.$field),+) }
+            fn sub_assign(&mut self, rhs) {
+                $(self.$field -= rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitFloat> Mul<T> for $QuaternionN<T> {
-            fn mul(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field * rhs),+) }
-        });
-
-        crate::impl_assign_operator!(<T: DigitFloat> MulAssign<$QuaternionN<T>> for $QuaternionN<T> {
-            fn mul_assign(&mut self, rhs) { $(self.$field *= rhs.$field);+ }
+            fn mul(lhs, rhs) -> $QuaternionN<T> {
+                $QuaternionN::new($(lhs.$field * rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitFloat> MulAssign<T> for $QuaternionN<T> {
-            fn mul_assign(&mut self, rhs) { $(self.$field *= rhs);+ }
-        });
-
-        crate::impl_operator!(<T: DigitFloat> Div<$QuaternionN<T>> for $QuaternionN<T> {
-            fn div(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field / rhs.$field),+) }
+            fn mul_assign(&mut self, rhs) {
+                $(self.$field *= rhs);+
+            }
         });
 
         crate::impl_operator!(<T: DigitFloat> Div<T> for $QuaternionN<T> {
-            fn div(lhs, rhs) -> $QuaternionN<T> { $QuaternionN::new($(lhs.$field / rhs),+) }
-        });
-
-        crate::impl_assign_operator!(<T: DigitFloat> DivAssign<$QuaternionN<T>> for $QuaternionN<T> {
-            fn div_assign(&mut self, rhs) { $(self.$field /= rhs.$field);+ }
+            fn div(lhs, rhs) -> $QuaternionN<T> {
+                $QuaternionN::new($(lhs.$field / rhs),+)
+            }
         });
 
         crate::impl_assign_operator!(<T: DigitFloat> DivAssign<T> for $QuaternionN<T> {
-            fn div_assign(&mut self, rhs) { $(self.$field /= rhs);+ }
+            fn div_assign(&mut self, rhs) {
+                $(self.$field /= rhs);+
+            }
         });
     };
 }
@@ -381,22 +327,5 @@ impl<T: DigitFloat> Quaternion<T> {
             z: -self.z,
             w: self.w,
         }
-    }
-}
-
-impl<T: DigitFloat + fmt::Display> fmt::Display for Quaternion<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {}, {})", self.x, self.y, self.z, self.w)
-    }
-}
-
-impl<T: DigitFloat + fmt::Debug> fmt::Debug for Quaternion<T> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple(stringify!(Quaternion))
-            .field(&self.x)
-            .field(&self.y)
-            .field(&self.z)
-            .field(&self.w)
-            .finish()
     }
 }

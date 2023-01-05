@@ -1,12 +1,11 @@
 //! Application stage functionality.
 
-use downcast_rs::{impl_downcast, DowncastSync};
+use qinetic_utils::prelude::*;
 use std::any::{type_name, TypeId};
 use std::collections::HashMap;
 
 use crate::schedule::*;
 use qinetic_ecs::world::World;
-use qinetic_utils::prelude::*;
 
 /// [`Schedule`]'s step of execution cycle.
 ///
