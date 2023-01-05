@@ -4,6 +4,7 @@ use std::any::{type_name, Any, TypeId};
 use std::collections::HashMap;
 
 use crate::app::*;
+use qinetic_utils::prelude::*;
 
 /// [`App`]'s additional feature.
 ///
@@ -40,9 +41,9 @@ pub trait Plugin: Any + 'static {
 ///     fn build(&mut self, app_builder: &mut AppBuilder) {/* something to do */}
 /// }
 ///
-/// struct MyPlugins;
+/// struct MyPluginGroup;
 ///
-/// impl PluginGroup for MyPlugins {
+/// impl PluginGroup for MyPluginGroup {
 ///     fn configure(&mut self, registry: &mut PluginRegistry) {
 ///         registry.add_plugin(MyPlugin1);
 ///         registry.add_plugin(MyPlugin2);
@@ -87,7 +88,7 @@ pub trait PluginGroup {
 /// # assert!(plugin_registry.has_plugin::<MyPlugin2>());
 /// # assert!(plugin_registry.has_plugin::<MyPlugin3>());
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct PluginRegistry {
     /// [`Plugin`]s by [`TypeId`].
     plugins: HashMap<TypeId, Box<dyn Plugin>>,
@@ -253,16 +254,16 @@ impl PluginRegistry {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {/* something to do */}
     /// }
     ///
-    /// struct MyPlugins;
+    /// struct MyPluginGroup;
     ///
-    /// impl PluginGroup for MyPlugins {
+    /// impl PluginGroup for MyPluginGroup {
     ///     fn configure(&mut self, registry: &mut PluginRegistry) {
     ///         registry.add_plugin(MyPlugin1);
     ///         registry.add_plugin(MyPlugin2);
     ///     }
     /// }
     /// let mut plugin_registry = PluginRegistry::default();
-    /// plugin_registry.add_plugin_group(MyPlugins);
+    /// plugin_registry.add_plugin_group(MyPluginGroup);
     ///
     /// # assert!(plugin_registry.has_plugin::<MyPlugin1>());
     /// # assert!(plugin_registry.has_plugin::<MyPlugin2>());

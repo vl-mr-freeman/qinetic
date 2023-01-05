@@ -1,6 +1,7 @@
 //! Asset [`System`]s functionality.
 
 use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// Asset [`System`].
 ///
@@ -16,7 +17,7 @@ use qinetic_ecs::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Debug)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct AssetSystem {}
 
 impl System for AssetSystem {

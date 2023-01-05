@@ -1,6 +1,7 @@
 //! Input [`Stage`]s functionality.
 
 use qinetic_app::prelude::*;
+use qinetic_utils::prelude::*;
 
 #[allow(unused_imports)]
 use qinetic_core::prelude::*;
@@ -18,7 +19,7 @@ use qinetic_core::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
+#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum InputStage {
     /// The [`Stage`] that runs after [`CoreStage::PreUpdate`].
     PreUpdate,
@@ -49,7 +50,7 @@ pub enum InputStage {
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Debug)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct InputStageGroup {}
 
 impl StageGroup for InputStageGroup {

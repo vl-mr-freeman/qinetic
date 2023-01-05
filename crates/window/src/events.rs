@@ -16,7 +16,7 @@ use qinetic_utils::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(SmartDefault, Debug, Clone, Copy, PartialEq, Eq, Event)]
+#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Event)]
 pub enum WindowEvent {
     /// The [`Event`] that sent whenever a `window` is created.
     #[default]
@@ -48,7 +48,7 @@ pub enum WindowEvent {
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(SmartDefault, Debug, Clone, Copy, PartialEq, Eq, Event)]
+#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Event)]
 pub enum CursorEvent {
     /// The [`Event`] that sent whenever a cursor is moved in `window`.
     Moved,

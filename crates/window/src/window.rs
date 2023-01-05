@@ -3,7 +3,7 @@
 use qinetic_utils::prelude::*;
 
 /// Cross-platform window representation.
-#[derive(SmartDefault, Clone, Debug, PartialEq, Eq, Builder, Getters)]
+#[derive(SmartDefault, Clone, Debug, PartialEq, Eq, Getters, Builder)]
 #[getset(get = "pub")]
 #[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
 pub struct Window {}

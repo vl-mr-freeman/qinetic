@@ -4,10 +4,10 @@ use std::any::TypeId;
 use std::collections::HashMap;
 
 use crate::stage::Stage;
-use derive_builder::Builder;
 use qinetic_ecs::world::World;
+use qinetic_utils::prelude::*;
 
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct Schedule {
     stages: HashMap<TypeId, Box<dyn Stage>>,
     order: Vec<TypeId>,

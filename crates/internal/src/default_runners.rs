@@ -3,7 +3,7 @@
 use qinetic_app::prelude::*;
 use qinetic_utils::prelude::*;
 
-/// [`Runner`] for [`App`] that calls once.
+/// [`Runner`] that calls once.
 ///
 /// # Examples
 /// ```
@@ -25,7 +25,7 @@ impl Runner for RunOnce {
     }
 }
 
-/// [`Runner`] for [`App`] that calls in loop.
+/// [`Runner`] that calls in loop.
 ///
 /// # Examples
 /// ```

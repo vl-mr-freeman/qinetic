@@ -3,7 +3,7 @@
 use crate::{
     component::{Component, ComponentRegistry},
     entity::{EntityId, EntityRegistry},
-    event::{Event, EventRegistry, IntoEvent},
+    event::{Event, EventRegistry},
     resource::{Resource, ResourceRegistry},
     state::{State, StateRegistry},
 };
@@ -14,7 +14,7 @@ use crate::{
 /// ```
 /// # use qinetic_ecs::prelude::*;
 /// #
-/// World::builder().build();
+/// let world = World::default();
 /// ```
 #[derive(Default)]
 pub struct World {
@@ -191,18 +191,6 @@ impl World {
     #[inline]
     pub fn has_event<T: Event>(&self) -> bool {
         self.event_registry.has_event::<T>()
-    }
-
-    pub(crate) fn call_event<T: Event>(&self) {
-        self.event_registry.call_event::<T>();
-    }
-
-    pub(crate) fn bind_event<T: Event, IE: IntoEvent>(&self, into_event: IE) {
-        self.event_registry.bind_event::<T, _>(into_event);
-    }
-
-    pub(crate) fn unbind_event<T: Event>(&self) {
-        self.event_registry.unbind_event::<T>();
     }
 
     /// Returns a immutable [`Resource`] by `T` of [`World`], if it's present.

@@ -115,6 +115,7 @@ impl App {
     /// App::builder()
     ///     .with_runner(MyRunner)
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     pub fn update(&mut self) {
@@ -138,6 +139,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_stage(MyStage, SingleStage::default())
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -165,6 +167,7 @@ impl AppBuilder {
     ///     .with_stage(MyStage1, SingleStage::default())
     ///     .with_stage_after(MyStage2, SingleStage::default())
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -198,6 +201,7 @@ impl AppBuilder {
     ///     .with_stage(MyStage1, SingleStage::default())
     ///     .with_stage_before(MyStage2, SingleStage::default())
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -238,6 +242,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_stage_group(MyStages)
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -260,6 +265,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_plugin(MyPlugin)
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -286,6 +292,7 @@ impl AppBuilder {
     ///     .with_plugin(MyPlugin1)
     ///     .with_plugin_after::<MyPlugin1, _>(MyPlugin2)
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -311,7 +318,8 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_plugin(MyPlugin1)
     ///     .with_plugin_before::<MyPlugin1, _>(MyPlugin2)
-    ///      .build()
+    ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -334,9 +342,9 @@ impl AppBuilder {
     /// #[derive(Plugin)]
     /// struct MyPlugin2;
     ///
-    /// struct MyPlugins;
+    /// struct MyPluginGroup;
     ///
-    /// impl PluginGroup for MyPlugins {
+    /// impl PluginGroup for MyPluginGroup {
     ///     fn configure(&mut self, registry: &mut PluginRegistry) {
     ///         registry.add_plugin(MyPlugin1);
     ///         registry.add_plugin(MyPlugin2);
@@ -344,8 +352,10 @@ impl AppBuilder {
     /// }
     ///
     /// App::builder()
-    ///     .with_plugin_group(MyPlugins)
+    ///
+    ///     .with_p lugin_group(MyPluginGroup)
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -369,6 +379,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_component(MyComponent::default())
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -392,6 +403,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_event(MyEvent::default())
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -415,6 +427,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_resource(MyResource::default())
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -441,6 +454,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_state(MyState::default())
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]
@@ -467,6 +481,7 @@ impl AppBuilder {
     /// App::builder()
     ///     .with_system::<_, MyStage>(MySystem)
     ///     .build()
+    ///     .unwrap()
     ///     .run();
     /// ```
     #[inline]

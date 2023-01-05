@@ -12,6 +12,7 @@
 //!     App::builder()
 //!         .with_plugin_group(DefaultPluginGroup::default())
 //!         .build()
+//!         .unwrap()
 //!         .run();
 //! }
 //! ```

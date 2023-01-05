@@ -3,8 +3,6 @@
 use crate::world::World;
 use std::any::{type_name, Any};
 
-pub trait IntoEvent {}
-
 /// Event of the [`World`].
 pub trait Event: Any + Send + Sync + 'static {}
 
@@ -19,7 +17,7 @@ impl EventRegistry {
         todo!()
     }
 
-    pub(crate) fn bind_event<T: Event, IE: IntoEvent>(&self, into_event: IE) {
+    pub(crate) fn bind_event<T: Event>(&self) {
         todo!()
     }
 

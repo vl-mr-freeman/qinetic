@@ -1,6 +1,7 @@
 //! Input [`Component`]s functionality.
 
 use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// Player controller [`Component`].
 ///
@@ -15,5 +16,5 @@ use qinetic_ecs::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Component)]
+#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct PlayerController {}

@@ -1,6 +1,7 @@
 //! Core [`Component`]s functionality.
 
 use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// Tag [`Component`].
 ///
@@ -15,7 +16,7 @@ use qinetic_ecs::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Debug, PartialEq, Eq, Component)]
+#[derive(SmartDefault, Clone, Debug, PartialEq, Eq, Component)]
 pub struct Tag {
     pub tag: String,
 }
@@ -33,7 +34,7 @@ pub struct Tag {
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Debug, PartialEq, Eq, Component)]
+#[derive(SmartDefault, Clone, Debug, PartialEq, Eq, Component)]
 pub struct Script {
     pub name: String,
 }

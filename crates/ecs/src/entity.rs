@@ -1,10 +1,9 @@
 //! Entity functionality.
 
-use crate::{component::Component, world::World};
-use std::any::{type_name, Any};
+use qinetic_utils::prelude::*;
 
 /// Indentificator for [`Entity`] within a [`World`].
-#[derive(Debug, Copy, Clone, Hash, Ord, PartialOrd, Eq, PartialEq, Default)]
+#[derive(SmartDefault, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct EntityId(usize);
 
 impl EntityId {

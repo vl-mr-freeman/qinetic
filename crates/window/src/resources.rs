@@ -182,7 +182,7 @@ pub enum WindowMonitor {
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Builder, Getters)]
+#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Getters, Builder)]
 #[getset(get = "pub")]
 #[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
 pub struct WindowSizeConstraints {

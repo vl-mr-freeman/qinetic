@@ -1,6 +1,7 @@
 //! Default runners
 
 use qinetic_app::plugin::*;
+use qinetic_utils::prelude::*;
 
 /// Minimal [`PluginGroup`].
 ///
@@ -15,15 +16,15 @@ use qinetic_app::plugin::*;
 /// # use qinetic_internal::prelude::*;
 /// #
 /// App::builder()
-///     .with_plugin_group(MinimalPlugins::default())
+///     .with_plugin_group(MinimalPluginGroup::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default)]
-pub struct MinimalPlugins {}
+#[derive(SmartDefault)]
+pub struct MinimalPluginGroup {}
 
-impl PluginGroup for MinimalPlugins {
+impl PluginGroup for MinimalPluginGroup {
     fn configure(&mut self, registry: &mut PluginRegistry) {
         registry.add_plugin(qinetic_core::prelude::CorePlugin::default());
     }
@@ -47,7 +48,7 @@ impl PluginGroup for MinimalPlugins {
 /// * [`VrPlugin`](../qinetic_vr/prelude/struct.VrPlugin.html) - feature = `vr`
 /// * [`ArPlugin`](../qinetic_ar/prelude/struct.ArPlugin.html) - feature = `ar`
 ///
-/// See also [`MinimalPlugins`] for a slimmed down [`PluginGroup`].
+/// See also [`MinimalPluginGroup`] for a slimmed down [`PluginGroup`].
 ///
 /// # Examples
 /// ```
@@ -60,7 +61,7 @@ impl PluginGroup for MinimalPlugins {
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct DefaultPluginGroup {}
 
 impl PluginGroup for DefaultPluginGroup {

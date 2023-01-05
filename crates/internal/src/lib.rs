@@ -54,7 +54,7 @@ pub mod prelude {
     pub use super::{
         app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
         math::prelude::*, utils::prelude::*, window::prelude::*, DefaultPluginGroup,
-        MinimalPlugins, RunLoop, RunOnce,
+        MinimalPluginGroup, RunLoop, RunOnce,
     };
 }
 

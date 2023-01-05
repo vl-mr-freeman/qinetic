@@ -6,6 +6,7 @@ use crate::{
     systems::AudioSystem,
 };
 use qinetic_app::prelude::*;
+use qinetic_utils::prelude::*;
 
 #[allow(unused_imports)]
 use qinetic_ecs::prelude::*;
@@ -33,7 +34,7 @@ use qinetic_ecs::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Debug)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct AudioPlugin {}
 
 impl Plugin for AudioPlugin {

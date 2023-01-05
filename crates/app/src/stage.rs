@@ -6,6 +6,7 @@ use std::collections::HashMap;
 
 use crate::schedule::*;
 use qinetic_ecs::world::World;
+use qinetic_utils::prelude::*;
 
 /// [`Schedule`]'s step of execution cycle.
 ///
@@ -101,7 +102,7 @@ pub trait StageGroup {
 /// # assert!(stage_registry.has_stage::<MyStage2>());
 /// # assert!(stage_registry.has_stage::<MyStage3>());
 /// ```
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct StageRegistry {
     /// [`Stage`]s by [`TypeId`].
     stages: HashMap<TypeId, Box<dyn Stage>>,
@@ -340,14 +341,14 @@ impl StageRegistry {
     }
 }
 
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct SingleStage {}
 
 impl Stage for SingleStage {
     fn run(&mut self, world: &mut World) {}
 }
 
-#[derive(Default)]
+#[derive(SmartDefault)]
 pub struct ParallelStage {}
 
 impl Stage for ParallelStage {

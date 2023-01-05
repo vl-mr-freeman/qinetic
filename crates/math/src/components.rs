@@ -14,6 +14,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(Transform::default())
 ///     .build()
+///     .unwrap()
 ///     .run();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Component)]

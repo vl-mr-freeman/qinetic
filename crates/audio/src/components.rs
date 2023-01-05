@@ -1,6 +1,7 @@
 //! Audio [`Component`]s functionality.
 
 use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// Sound [`Component`].
 ///
@@ -15,7 +16,7 @@ use qinetic_ecs::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Component)]
+#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Sound {}
 
 /// Listener [`Component`].
@@ -31,5 +32,5 @@ pub struct Sound {}
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Component)]
+#[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Listener {}

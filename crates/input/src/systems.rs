@@ -1,6 +1,7 @@
 //! Input [`System`]s functionality.
 
 use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// Input [`System`].
 ///
@@ -16,7 +17,7 @@ use qinetic_ecs::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Debug)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct InputSystem {}
 
 impl System for InputSystem {

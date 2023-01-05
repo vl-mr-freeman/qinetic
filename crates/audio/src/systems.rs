@@ -1,6 +1,7 @@
 //! Audio [`System`]s functionality.
 
 use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// Audio [`System`].
 ///
@@ -16,7 +17,7 @@ use qinetic_ecs::prelude::*;
 ///     .unwrap()
 ///     .run();
 /// ```
-#[derive(Default, Clone, Debug)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct AudioSystem {}
 
 impl System for AudioSystem {
