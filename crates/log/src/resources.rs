@@ -2,7 +2,16 @@
 
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
+use std::clone::Clone;
+use std::default::Default;
 use std::fs::File;
+use std::option::Option;
+
+#[derive(Add)]
+pub struct Vector {
+    pub x: f32,
+    pub y: f32,
+}
 
 /// Log [`Resource`].
 ///
@@ -19,7 +28,12 @@ use std::fs::File;
 /// ```
 #[derive(SmartDefault, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]
-#[builder(setter(prefix = "with"), default, derive(Debug))]
+#[builder(
+    crate = "crate::resources",
+    setter(prefix = "with"),
+    default,
+    derive(Debug)
+)]
 pub struct LogResource {
     /// Minimum log level, that print.
     #[default(_code = "LogLevel::Info")]

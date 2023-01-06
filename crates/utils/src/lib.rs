@@ -7,14 +7,7 @@
     html_favicon_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg"
 )]
 
-pub extern crate derive_builder;
-pub extern crate derive_more;
-pub extern crate derive_new;
-pub extern crate downcast_rs;
-pub extern crate getset;
 extern crate proc_macro;
-pub extern crate smart_default;
-pub extern crate static_assertions;
 
 pub mod allocator;
 pub mod label;
@@ -30,7 +23,7 @@ pub mod prelude {
     pub use getset::{CopyGetters, Getters, MutGetters, Setters};
 
     #[doc(hidden)]
-    pub use derive_builder::Builder;
+    pub use derive_builder::*;
 
     #[doc(hidden)]
     pub use derive_more::*;

@@ -16,7 +16,12 @@ use qinetic_utils::prelude::*;
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Getters, Builder)]
 #[getset(get = "pub")]
-#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
+#[builder(
+    crate = "crate::theme",
+    setter(prefix = "with"),
+    default,
+    derive(Debug, PartialEq, Eq)
+)]
 pub struct Theme {
     #[default(RGBA8::new(235, 219, 178, 255))]
     text: RGBA8,

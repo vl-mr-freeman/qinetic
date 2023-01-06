@@ -18,7 +18,12 @@ use qinetic_utils::prelude::*;
 /// ```
 #[derive(SmartDefault, Clone, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]
-#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
+#[builder(
+    crate = "crate::resources",
+    setter(prefix = "with"),
+    default,
+    derive(Debug, PartialEq, Eq)
+)]
 pub struct RenderResource {
     /// The requested `internal api`.
     pub api: RenderApi,

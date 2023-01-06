@@ -13,17 +13,18 @@ use qinetic_utils::prelude::*;
 /// # use qinetic_ecs::prelude::*;
 /// #
 /// #[derive(Default, Component)]
-/// struct MyComponent {/* something to do */}
+/// struct MyComponent {/* Something to do */}
 /// ```
 pub trait Component: Any + Send + Sync + 'static {}
 
+#[derive(Clone, Debug)]
 struct ComponentInfo {
     entity_id: EntityId,
     type_id: TypeId,
 }
 
 /// Facilities addition and remove [`Component`]s.
-#[derive(SmartDefault)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct ComponentRegistry {
     components: HashMap<TypeId, Vec<Option<ComponentInfo>>>,
 }

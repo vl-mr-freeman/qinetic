@@ -17,7 +17,12 @@ use qinetic_utils::prelude::*;
 /// ```
 #[derive(SmartDefault, Clone, Debug, PartialEq, Getters, Builder)]
 #[getset(get = "pub")]
-#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq))]
+#[builder(
+    crate = "crate::font",
+    setter(prefix = "with"),
+    default,
+    derive(Debug, PartialEq)
+)]
 pub struct Font {
     #[builder(setter(into))]
     #[default = "notosans.ttf"]

@@ -20,7 +20,12 @@ use crate::{font::Font, theme::Theme};
 /// ```
 #[derive(SmartDefault, Clone, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]
-#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq))]
+#[builder(
+    crate = "crate::resources",
+    setter(prefix = "with"),
+    default,
+    derive(Debug, PartialEq)
+)]
 pub struct UiResource {
     /// The user-interface client opacity.
     #[default = 1.0]

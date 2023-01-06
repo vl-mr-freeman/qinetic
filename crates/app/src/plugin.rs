@@ -15,7 +15,8 @@ use qinetic_utils::prelude::*;
 /// struct MyPlugin;
 ///
 /// impl Plugin for MyPlugin {
-///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+///     fn build(&mut self, app_builder: &mut AppBuilder) {
+///         /* Something to do */
 ///     }
 /// }
 /// ```
@@ -33,14 +34,16 @@ pub trait Plugin: Any + 'static {
 /// struct MyPlugin1;
 ///
 /// impl Plugin for MyPlugin1 {
-///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+///     fn build(&mut self, app_builder: &mut AppBuilder) {
+///         /* Something to do */
 ///     }
 /// }
 ///
 /// struct MyPlugin2;
 ///
 /// impl Plugin for MyPlugin2 {
-///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+///     fn build(&mut self, app_builder: &mut AppBuilder) {
+///         /* Something to do */
 ///     }
 /// }
 ///
@@ -66,21 +69,24 @@ pub trait PluginGroup {
 /// struct MyPlugin1;
 ///
 /// impl Plugin for MyPlugin1 {
-///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+///     fn build(&mut self, app_builder: &mut AppBuilder) {
+///         /* Something to do */
 ///     }
 /// }
 ///
 /// struct MyPlugin2;
 ///
 /// impl Plugin for MyPlugin2 {
-///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+///     fn build(&mut self, app_builder: &mut AppBuilder) {
+///         /* Something to do */
 ///     }
 /// }
 ///
 /// struct MyPlugin3;
 ///
 /// impl Plugin for MyPlugin3 {
-///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+///     fn build(&mut self, app_builder: &mut AppBuilder) {
+///         /* Something to do */
 ///     }
 /// }
 ///
@@ -114,12 +120,10 @@ impl PluginRegistry {
     /// struct MyPlugin;
     ///
     /// impl Plugin for MyPlugin {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) {/* something to do */}
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {/* Something to do */}
     /// }
     ///
-    /// let mut plugin_registry =
-    ///     PluginRegistry::default()
-    ///         .add_plugin(MyPlugin);
+    /// let mut plugin_registry = PluginRegistry::default().add_plugin(MyPlugin);
     ///
     /// # assert!(plugin_registry.has_plugin::<MyPlugin>());
     // ```
@@ -141,14 +145,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
@@ -184,14 +188,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
@@ -225,14 +229,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
@@ -257,14 +261,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
@@ -294,14 +298,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
     ///     }
     /// }
     ///

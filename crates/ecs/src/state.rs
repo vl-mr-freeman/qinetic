@@ -9,7 +9,7 @@ use qinetic_utils::prelude::*;
 pub trait State: Send + Sync + 'static {}
 
 /// Facilities addition and remove [`State`]s.
-#[derive(SmartDefault)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct StateRegistry {}
 
 impl StateRegistry {

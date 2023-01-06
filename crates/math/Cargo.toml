@@ -24,4 +24,3 @@ qinetic_utils = { path = "../utils", version = "0.*" }
 
 # Other.
 num-traits = "0.2"
-derive_builder = "0.12.*"

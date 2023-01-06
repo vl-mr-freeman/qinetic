@@ -14,7 +14,8 @@ use std::any::Any;
 /// struct MyRunner;
 ///
 /// impl Runner for MyRunner {
-///     fn run(&mut self, mut app: App) { /* something to do */
+///     fn run(&mut self, mut app: App) {
+///         /* Something to do */
 ///     }
 /// }
 /// ```

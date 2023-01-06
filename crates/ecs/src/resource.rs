@@ -12,21 +12,17 @@ use qinetic_utils::prelude::*;
 /// # use qinetic_ecs::prelude::*;
 /// #
 /// #[derive(Default, Resource)]
-/// struct MyResource {/* something to do */}
+/// struct MyResource {/* Something to do */}
 /// ```
 pub trait Resource: Any + Send + Sync + 'static {}
 
 /// Facilities addition and remove [`Resource`]s.
-#[derive(SmartDefault)]
-pub struct ResourceRegistry {
-    resources: HashMap<TypeId, Box<dyn Resource>>,
-}
+#[derive(SmartDefault, Clone, Debug)]
+pub struct ResourceRegistry {}
 
 impl ResourceRegistry {
     #[inline]
-    pub fn init_resource<T: Resource>(&mut self, resource: T) {
-        self.resources.insert(TypeId::of::<T>(), Box::new(resource));
-    }
+    pub fn init_resource<T: Resource>(&mut self, resource: T) {}
 
     /// Returns a immutable [`Resource`] by `T`, if it's present.
     #[inline]
@@ -60,9 +56,6 @@ impl ResourceRegistry {
     /// ```
     #[inline]
     pub fn has_resource<T: Resource>(&self) -> bool {
-        self.resources
-            .iter()
-            .position(|r| *r.0 == TypeId::of::<T>())
-            .is_some()
+        todo!()
     }
 }

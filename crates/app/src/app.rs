@@ -21,7 +21,7 @@ use qinetic_utils::prelude::*;
 /// App::builder().build().unwrap().run();
 /// ```
 #[derive(SmartDefault, Builder)]
-#[builder(setter(prefix = "with"), default)]
+#[builder(crate = "crate::app", setter(prefix = "with"), default)]
 pub struct App {
     /// Returns a [`AppBuilder`] with `default` configuration.
     ///
@@ -36,11 +36,11 @@ pub struct App {
     runner: Box<dyn Runner>,
 
     /// Container of [`Stage`]s in a linear order.
-    #[builder(setter(skip))]
+    #[builder(setter(custom))]
     schedule: Schedule,
 
     /// The ECS [`World`], provides access to all ECS data.
-    #[builder(setter(skip))]
+    #[builder(setter(custom))]
     world: World,
 }
 
@@ -68,13 +68,14 @@ impl App {
     /// struct MyRunner;
     ///
     /// impl Runner for MyRunner {
-    ///     fn run(&mut self, mut app: App) { /* Something to do */
+    ///     fn run(&mut self, mut app: App) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
     /// App::builder().with_runner(MyRunner).build().unwrap().run();
     /// ```
-    pub fn run(mut self) {
+    pub fn run(self) {
         let mut runner = self.runner.clone();
         runner.run(self);
     }
@@ -110,7 +111,8 @@ impl AppBuilder {
     /// struct MyRunner;
     ///
     /// impl Runner for MyRunner {
-    ///     fn run(&mut self, mut app: App) { /* Something to do */
+    ///     fn run(&mut self, mut app: App) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
@@ -121,6 +123,28 @@ impl AppBuilder {
     #[inline]
     pub fn with_runner<T: Runner>(&mut self, runner: T) -> &mut Self {
         self.runner = Some(Box::new(runner));
+        self
+    }
+
+    #[inline]
+    pub fn with_world(&mut self, world: World) -> &mut Self {
+        self.world = Some(world);
+        self
+    }
+
+    #[inline]
+    pub fn with_world_fn<F: FnOnce(&mut World)>(&mut self, func: F) -> &mut Self {
+        self
+    }
+
+    #[inline]
+    pub fn with_schedule(&mut self, schedule: Schedule) -> &mut Self {
+        self.schedule = Some(schedule);
+        self
+    }
+
+    #[inline]
+    pub fn with_schedule_fn<F: FnOnce(&mut Schedule)>(&mut self, func: F) -> &mut Self {
         self
     }
 
@@ -260,7 +284,8 @@ impl AppBuilder {
     /// struct MyPlugin;
     ///
     /// impl Plugin for MyPlugin {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
@@ -283,14 +308,16 @@ impl AppBuilder {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
@@ -317,14 +344,16 @@ impl AppBuilder {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
@@ -351,14 +380,16 @@ impl AppBuilder {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///
@@ -391,7 +422,7 @@ impl AppBuilder {
     /// use qinetic_ecs::prelude::*;
     ///
     /// #[derive(Default, Component)]
-    /// struct MyComponent {/* something */}
+    /// struct MyComponent {/* Something to do */}
     ///
     /// AppBuilder::default()
     ///     .with_component(MyComponent::default())
@@ -414,7 +445,7 @@ impl AppBuilder {
     /// use qinetic_ecs::prelude::*;
     ///
     /// #[derive(Default, Event)]
-    /// struct MyEvent {/* something */}
+    /// struct MyEvent {/* Something to do */}
     ///
     /// AppBuilder::default()
     ///     .with_event(MyEvent::default())
@@ -437,7 +468,7 @@ impl AppBuilder {
     /// use qinetic_ecs::prelude::*;
     ///
     /// #[derive(Default, Resource)]
-    /// struct MyResource {/* something */}
+    /// struct MyResource {/* Something to do */}
     ///
     /// AppBuilder::default()
     ///     .with_resource(MyResource::default())
@@ -490,7 +521,8 @@ impl AppBuilder {
     /// impl System for MySystem {
     ///     type Data = ();
     ///
-    ///     fn run(&mut self, data: Self::Data) { /* Something to do */
+    ///     fn run(&mut self, data: Self::Data) {
+    ///         /* Something to do */
     ///     }
     /// }
     ///

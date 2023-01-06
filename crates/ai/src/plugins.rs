@@ -39,10 +39,10 @@ pub struct AiPlugin {}
 
 impl Plugin for AiPlugin {
     fn build(&mut self, app_builder: &mut AppBuilder) {
-        app_builder
-            .with_component(AiController::default())
-            .with_component(AiNavBoundsVolume::default())
-            .with_stage_group(AiStageGroup::default())
-            .with_system(AiStage::default(), AiSystem::default());
+        app_builder.with_schedule_fn(|schedule: &mut Schedule| {
+            schedule
+                .add_stage_group(AiStageGroup::default())
+                .add_system(AiStage::default(), AiSystem::default());
+        });
     }
 }

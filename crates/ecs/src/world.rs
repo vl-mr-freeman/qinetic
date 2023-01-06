@@ -18,7 +18,7 @@ use qinetic_utils::prelude::*;
 /// #
 /// let world = World::default();
 /// ```
-#[derive(SmartDefault)]
+#[derive(SmartDefault, Clone)]
 pub struct World {
     component_registry: ComponentRegistry,
     entity_registry: EntityRegistry,
@@ -50,8 +50,9 @@ impl World {
     /// # assert!(world.has_component::<MyComponent>(EntityId::default()));
     /// ```
     #[inline]
-    pub fn add_component<T: Component>(&mut self, entity_id: EntityId) {
+    pub fn add_component<T: Component>(&mut self, entity_id: EntityId) -> &mut Self {
         self.component_registry.add_component::<T>(entity_id);
+        self
     }
 
     /// Removes a [`Component`] of [`Entity`] by [`EntityId`].

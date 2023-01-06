@@ -22,6 +22,3 @@ qinetic_app_macros = { path = "../app_macros", version = "0.*" }
 # Qinetic.
 qinetic_ecs = { path = "../ecs", version = "0.*" }
 qinetic_utils = { path = "../utils", version = "0.*" }
-
-# Other.
-derive_builder = "0.12.*"

@@ -9,7 +9,7 @@ use qinetic_utils::prelude::*;
 pub trait Event: Any + Send + Sync + 'static {}
 
 /// Facilities addition and remove [`Event`]s.
-#[derive(SmartDefault)]
+#[derive(SmartDefault, Clone, Debug)]
 pub struct EventRegistry {}
 
 impl EventRegistry {

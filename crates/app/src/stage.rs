@@ -17,16 +17,18 @@ use qinetic_ecs::world::World;
 /// struct MyStage;
 ///
 /// impl Stage for MyStage {
-///     fn run(&mut self, world: &mut World) { /* something to do */
+///     fn run(&mut self, world: &mut World) {
+///         /* Something to do */
 ///     }
 /// }
 /// ```
-pub trait Stage: DowncastSync {
+pub trait Stage: DynClone + DowncastSync {
     /// Runs step of execution.
     fn run(&mut self, world: &mut World);
 }
 
-impl_downcast!(Stage);
+impl_downcast!(sync Stage);
+clone_trait_object!(Stage);
 
 qinetic_utils::define_label!(
     /// A strongly-typed class of labels used to identify [`Stage`].
@@ -45,14 +47,16 @@ qinetic_utils::define_label!(
 /// struct MyStage1;
 ///
 /// impl Stage for MyStage1 {
-///     fn run(&mut self, world: &mut World) { /* something to do */
+///     fn run(&mut self, world: &mut World) {
+///         /* Something to do */
 ///     }
 /// }
 ///
 /// struct MyStage2;
 ///
 /// impl Stage for MyStage2 {
-///     fn run(&mut self, world: &mut World) { /* something to do */
+///     fn run(&mut self, world: &mut World) {
+///         /* Something to do */
 ///     }
 /// }
 ///
@@ -79,21 +83,21 @@ pub trait StageGroup {
 /// struct MyStage1;
 ///
 /// impl Stage for MyStage1 {
-///     fn run(&mut self, world: &mut World) { /* something to do */
+///     fn run(&mut self, world: &mut World) { /* Something to do */
 ///     }
 /// }
 ///
 /// struct MyStage2;
 ///
 /// impl Stage for MyStage2 {
-///     fn run(&mut self, world: &mut World) { /* something to do */
+///     fn run(&mut self, world: &mut World) { /* Something to do */
 ///     }
 /// }
 ///
 /// struct MyStage3;
 ///
 /// impl Stage for MyStage3 {
-///     fn run(&mut self, world: &mut World) { /* something to do */
+///     fn run(&mut self, world: &mut World) { /* Something to do */
 ///     }
 /// }
 ///
@@ -128,7 +132,7 @@ impl StageRegistry {
     /// struct MyStage;
     ///
     /// impl Stage for MyStage {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) {/* Something to do */}
     /// }
     ///
     /// let mut stage_registry =
@@ -156,14 +160,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
@@ -207,14 +211,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
@@ -256,14 +260,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
@@ -290,14 +294,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     fn run(&mut self, world: &mut World) { /* Something to do */
     ///     }
     /// }
     ///
@@ -352,14 +356,14 @@ impl StageRegistry {
     }
 }
 
-#[derive(SmartDefault)]
+#[derive(SmartDefault, Clone)]
 pub struct SingleStage {}
 
 impl Stage for SingleStage {
     fn run(&mut self, world: &mut World) {}
 }
 
-#[derive(SmartDefault)]
+#[derive(SmartDefault, Clone)]
 pub struct ParallelStage {}
 
 impl Stage for ParallelStage {

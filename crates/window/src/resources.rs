@@ -21,7 +21,12 @@ use crate::window::*;
 /// ```
 #[derive(SmartDefault, Clone, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]
-#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
+#[builder(
+    crate = "crate::resources",
+    setter(prefix = "with"),
+    default,
+    derive(Debug, PartialEq, Eq)
+)]
 pub struct WindowResource {
     /// The logical width of the [`Window`]'s client area.
     #[default = 1280]
@@ -187,7 +192,12 @@ pub enum WindowMonitor {
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Getters, Builder)]
 #[getset(get = "pub")]
-#[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
+#[builder(
+    crate = "crate::resources",
+    setter(prefix = "with"),
+    default,
+    derive(Debug, PartialEq, Eq)
+)]
 pub struct WindowSizeConstraints {
     /// Minimum logical width of the [`Window`]'s client area.
     min_width: Option<u32>,
