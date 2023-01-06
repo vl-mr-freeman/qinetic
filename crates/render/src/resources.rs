@@ -33,7 +33,7 @@ pub struct RenderResource {
     pub max_frames_in_flight: u32,
 
     /// The requested background `clear color`.
-    #[default(_code = "RGBA::new(0, 0, 0, 255)")]
+    #[default(RGBA::new(0, 0, 0, 255))]
     pub clear_color: RGBA8,
 }
 

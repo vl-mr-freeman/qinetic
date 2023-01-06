@@ -36,11 +36,11 @@ pub struct Vector {
 )]
 pub struct LogResource {
     /// Minimum log level, that print.
-    #[default(_code = "LogLevel::Info")]
+    #[default(LogLevel::Info)]
     pub min_level: LogLevel,
 
     /// Maximum log level, that print.
-    #[default(_code = "LogLevel::Fatal")]
+    #[default(LogLevel::Fatal)]
     pub max_level: LogLevel,
 
     /// File to log.
