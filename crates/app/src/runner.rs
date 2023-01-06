@@ -10,10 +10,12 @@ use std::any::Any;
 /// ```
 /// # use qinetic_app::prelude::*;
 /// #
+/// #[derive(Clone)]
 /// struct MyRunner;
 ///
 /// impl Runner for MyRunner {
-///     fn run(&mut self, app: App) {/* something to do */}
+///     fn run(&mut self, mut app: App) { /* something to do */
+///     }
 /// }
 /// ```
 pub trait Runner: DynClone + Any + 'static {

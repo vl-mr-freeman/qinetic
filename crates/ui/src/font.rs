@@ -3,6 +3,18 @@
 use qinetic_utils::prelude::*;
 
 /// A conteiner of font data.
+///
+/// # Examples
+/// ```
+/// # use qinetic_ui::prelude::*;
+/// # use qinetic_utils::prelude::*;
+/// #
+/// let font = Font::builder()
+///     .with_path("FiraCode.ttf")
+///     .with_size(14.0)
+///     .build()
+///     .unwrap();
+/// ```
 #[derive(SmartDefault, Clone, Debug, PartialEq, Getters, Builder)]
 #[getset(get = "pub")]
 #[builder(setter(prefix = "with"), default, derive(Debug, PartialEq))]
@@ -20,7 +32,7 @@ impl Font {
     ///
     /// # Examples
     /// ```
-    /// # use qinetic_window::prelude::*;
+    /// # use qinetic_ui::prelude::*;
     /// #
     /// let font_builder = Font::builder();
     /// ```

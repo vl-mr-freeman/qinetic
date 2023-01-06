@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_asset::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(AssetStage::default())
+///     .with_stage(AssetStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -51,15 +51,16 @@ pub struct AssetStageGroup {}
 
 impl StageGroup for AssetStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            AssetStage::Loads,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            AssetStage::Events,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                AssetStage::Loads,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                AssetStage::Events,
+                ParallelStage::default(),
+            );
     }
 }

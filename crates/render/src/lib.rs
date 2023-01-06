@@ -7,8 +7,8 @@
 //! Here is a simple render application:
 //! ```
 //! use qinetic_app::prelude::*;
-//! use qinetic_window::prelude::*;
 //! use qinetic_render::prelude::*;
+//! use qinetic_window::prelude::*;
 //!
 //! fn main() {
 //!     App::builder()

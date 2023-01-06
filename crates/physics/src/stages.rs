@@ -12,7 +12,7 @@ use qinetic_utils::prelude::*;
 /// # use qinetic_physics::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(PhysicsStage::default())
+///     .with_stage(PhysicsStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -40,7 +40,7 @@ pub enum PhysicsStage {
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_window::prelude::*;
+/// # use qinetic_physics::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(PhysicsStageGroup::default())
@@ -53,20 +53,21 @@ pub struct PhysicsStageGroup {}
 
 impl StageGroup for PhysicsStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            PhysicsStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::Update,
-            PhysicsStage::Update,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            PhysicsStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                PhysicsStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::Update,
+                PhysicsStage::Update,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                PhysicsStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

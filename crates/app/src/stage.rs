@@ -17,7 +17,8 @@ use qinetic_ecs::world::World;
 /// struct MyStage;
 ///
 /// impl Stage for MyStage {
-///     fn run(&mut self, world: &mut World) {/* something to do */}
+///     fn run(&mut self, world: &mut World) { /* something to do */
+///     }
 /// }
 /// ```
 pub trait Stage: DowncastSync {
@@ -44,21 +45,22 @@ qinetic_utils::define_label!(
 /// struct MyStage1;
 ///
 /// impl Stage for MyStage1 {
-///     fn run(&mut self, world: &mut World) {/* something to do */}
+///     fn run(&mut self, world: &mut World) { /* something to do */
+///     }
 /// }
 ///
 /// struct MyStage2;
 ///
 /// impl Stage for MyStage2 {
-///     fn run(&mut self, world: &mut World) {/* something to do */}
+///     fn run(&mut self, world: &mut World) { /* something to do */
+///     }
 /// }
 ///
-/// struct MyStages;
+/// struct MyStageGroup;
 ///
-/// impl StageGroup for MyStages {
+/// impl StageGroup for MyStageGroup {
 ///     fn configure(&mut self, registry: &mut StageRegistry) {
-///         registry.add_stage(MyStage1);
-///         registry.add_stage(MyStage2);
+///         registry.add_stage(MyStage1).add_stage(MyStage2);
 ///     }
 /// }
 /// ```
@@ -77,25 +79,28 @@ pub trait StageGroup {
 /// struct MyStage1;
 ///
 /// impl Stage for MyStage1 {
-///     fn run(&mut self, world: &mut World) {/* something to do */}
+///     fn run(&mut self, world: &mut World) { /* something to do */
+///     }
 /// }
 ///
 /// struct MyStage2;
 ///
 /// impl Stage for MyStage2 {
-///     fn run(&mut self, world: &mut World) {/* something to do */}
+///     fn run(&mut self, world: &mut World) { /* something to do */
+///     }
 /// }
 ///
 /// struct MyStage3;
 ///
 /// impl Stage for MyStage3 {
-///     fn run(&mut self, world: &mut World) {/* something to do */}
+///     fn run(&mut self, world: &mut World) { /* something to do */
+///     }
 /// }
 ///
-/// let mut stage_registry = StageRegistry::default();
-/// stage_registry.add_stage(MyStage1);
-/// stage_registry.add_stage_after::<MyStage1, _>(MyStage2);
-/// stage_registry.add_stage_before::<MyStage2, _>(MyStage3);
+/// let mut stage_registry = StageRegistry::default()
+///     .add_stage(MyStage1)
+///     .add_stage_after(MyStage1, MyStage2)
+///     .add_stage_before(MyStage2, MyStage3);
 ///
 /// # assert!(stage_registry.has_stage::<MyStage1>());
 /// # assert!(stage_registry.has_stage::<MyStage2>());
@@ -126,8 +131,9 @@ impl StageRegistry {
     ///     fn run(&mut self, world: &mut World) {/* something to do */}
     /// }
     ///
-    /// let mut stage_registry = StageRegistry::default();
-    /// stage_registry.add_stage(MyStage);
+    /// let mut stage_registry =
+    ///     StageRegistry::default()
+    ///         .add_stage(MyStage);
     ///
     /// # assert!(stage_registry.has_stage::<MyStage>());
     // ```
@@ -150,18 +156,20 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     }
     /// }
     ///
-    /// let mut stage_registry = StageRegistry::default();
-    /// stage_registry.add_stage(MyStage1);
-    /// stage_registry.add_stage_after::<MyStage1, _>(MyStage2);
+    /// let mut stage_registry = StageRegistry::default()
+    ///     .add_stage(MyStage1)
+    ///     .add_stage_after(MyStage1, MyStage2);
     ///
     /// # assert!(stage_registry.has_stage::<MyStage1>());
     /// # assert!(stage_registry.has_stage::<MyStage2>());
@@ -199,18 +207,20 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     }
     /// }
     ///
-    /// let mut stage_registry = StageRegistry::default();
-    /// stage_registry.add_stage(MyStage1);
-    /// stage_registry.add_stage_before::<MyStage1, _>(MyStage2);
+    /// let mut stage_registry = StageRegistry::default()
+    ///     .add_stage(MyStage1)
+    ///     .add_stage_before(MyStage1, MyStage2);
     ///
     /// # assert!(stage_registry.has_stage::<MyStage1>());
     /// # assert!(stage_registry.has_stage::<MyStage2>());
@@ -246,18 +256,20 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     }
     /// }
     ///
-    /// let mut stage_registry = StageRegistry::default();
-    /// stage_registry.add_stage(MyStage1);
-    /// stage_registry.add_stage_before::<MyStage1, _>(MyStage2);
+    /// let mut stage_registry = StageRegistry::default()
+    ///     .add_stage(MyStage1)
+    ///     .add_stage_before(MyStage1, MyStage2);
     ///
     /// assert!(stage_registry.has_stage::<MyStage1>());
     /// assert!(stage_registry.has_stage::<MyStage2>());
@@ -278,25 +290,25 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
+    ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) {/* something to do */}
-    /// }
-    ///
-    /// struct MyStages;
-    ///
-    /// impl StageGroup for MyStages {
-    ///     fn configure(&mut self, registry: &mut StageRegistry) {
-    ///         registry.add_stage(MyStage1);
-    ///         registry.add_stage(MyStage2);
+    ///     fn run(&mut self, world: &mut World) { /* something to do */
     ///     }
     /// }
-    /// let mut stage_registry = StageRegistry::default();
-    /// stage_registry.add_stage_group(MyStages);
+    ///
+    /// struct MyStageGroup;
+    ///
+    /// impl StageGroup for MyStageGroup {
+    ///     fn configure(&mut self, registry: &mut StageRegistry) {
+    ///         registry.add_stage(MyStage1).add_stage(MyStage2);
+    ///     }
+    /// }
+    /// let mut stage_registry = StageRegistry::default().add_stage_group(MyStageGroup);
     ///
     /// # assert!(stage_registry.has_stage::<MyStage1>());
     /// # assert!(stage_registry.has_stage::<MyStage2>());

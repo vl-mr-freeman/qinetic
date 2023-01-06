@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_input::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(InputStage::default())
+///     .with_stage(InputStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -42,7 +42,7 @@ pub enum InputStage {
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_ai::prelude::*;
+/// # use qinetic_input::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(InputStageGroup::default())
@@ -55,20 +55,21 @@ pub struct InputStageGroup {}
 
 impl StageGroup for InputStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            InputStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::Update,
-            InputStage::Update,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            InputStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                InputStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::Update,
+                InputStage::Update,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                InputStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

@@ -3,6 +3,9 @@
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
 
+#[allow(unused_imports)]
+use crate::window::*;
+
 /// Window [`Resource`].
 ///
 /// # Examples
@@ -20,32 +23,32 @@ use qinetic_utils::prelude::*;
 #[getset(get = "pub")]
 #[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
 pub struct WindowResource {
-    /// The logical width of the `window`'s client area.
+    /// The logical width of the [`Window`]'s client area.
     #[default = 1280]
     width: u32,
 
-    /// The logical height of the `window`'s client area.
+    /// The logical height of the [`Window`]'s client area.
     #[default = 720]
     height: u32,
 
-    /// The size constraints of the `window`.
+    /// The size constraints of the [`Window`].
     size_constraints: WindowSizeConstraints,
 
-    /// The position of the `window`.
+    /// The position of the [`Window`].
     position: WindowPosition,
 
-    /// The monitor to place the `window`.
+    /// The monitor to place the [`Window`].
     monitor: WindowMonitor,
 
-    /// The title of the `window`.
+    /// The title of the [`Window`].
     #[builder(setter(into))]
     #[default = "Qinetic App"]
     title: String,
 
-    /// The resizable possibility of the `window`.
+    /// The resizable possibility of the [`Window`].
     resizable: bool,
 
-    /// The decorations of the `window`'s clent area.
+    /// The decorations of the [`Window`]'s clent area.
     #[default = true]
     decorations: bool,
 
@@ -68,7 +71,7 @@ impl WindowResource {
     }
 }
 
-/// Defines on which `mode` show `window` on creation.
+/// Defines on which `mode` show [`Window`] on creation.
 ///
 /// # Examples
 /// ```
@@ -80,7 +83,7 @@ impl WindowResource {
 ///         WindowResource::builder()
 ///             .with_mode(WindowMode::default())
 ///             .build()
-///             .unwrap()
+///             .unwrap(),
 ///     )
 ///     .build()
 ///     .unwrap()
@@ -88,21 +91,21 @@ impl WindowResource {
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WindowMode {
-    /// Show `window` on auto mode.
+    /// Show [`Window`] on auto mode.
     #[default]
     Automatic,
 
-    /// Show `window` on minimize mode.
+    /// Show [`Window`] on minimize mode.
     Minimized,
 
-    /// Show `window` on maximize mode.
+    /// Show [`Window`] on maximize mode.
     Maximized,
 
-    /// Show `window` on fullscreen mode.
+    /// Show [`Window`] on fullscreen mode.
     Fullscreen,
 }
 
-/// Defines on which `position` show `window` on creation.
+/// Defines on which `position` show [`Window`] on creation.
 ///
 /// # Examples
 /// ```
@@ -114,7 +117,7 @@ pub enum WindowMode {
 ///         WindowResource::builder()
 ///             .with_position(WindowPosition::default())
 ///             .build()
-///             .unwrap()
+///             .unwrap(),
 ///     )
 ///     .build()
 ///     .unwrap()
@@ -122,18 +125,18 @@ pub enum WindowMode {
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WindowPosition {
-    /// Show `window` on auto position.
+    /// Show [`Window`] on auto position.
     #[default]
     Automatic,
 
-    /// Show `window` on center position.
+    /// Show [`Window`] on center position.
     Center,
 
-    /// Show `window` on specified position.
+    /// Show [`Window`] on specified position.
     At { x: i32, y: i32 },
 }
 
-/// Defines on which `monitor` show `window` on creation.
+/// Defines on which `monitor` show [`Window`] on creation.
 ///
 /// # Examples
 /// ```
@@ -145,7 +148,7 @@ pub enum WindowPosition {
 ///         WindowResource::builder()
 ///             .with_monitor(WindowMonitor::default())
 ///             .build()
-///             .unwrap()
+///             .unwrap(),
 ///     )
 ///     .build()
 ///     .unwrap()
@@ -153,30 +156,30 @@ pub enum WindowPosition {
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WindowMonitor {
-    /// Show `window` on current monitor.
+    /// Show [`Window`] on current monitor.
     #[default]
     Current,
 
-    /// Show `window` on primary monitor.
+    /// Show [`Window`] on primary monitor.
     Primary,
 
-    /// Show `window` on specified monitor.
+    /// Show [`Window`] on specified monitor.
     Index(usize),
 }
 
-/// Constraints for `window` size.
+/// Constraints for [`Window`] size.
 ///
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_window::prelude::*;
 /// #
-///`App::builder()
+/// App::builder()
 ///     .with_resource(
 ///         WindowResource::builder()
 ///             .with_size_constraints(WindowSizeConstraints::default())
 ///             .build()
-///             .unwrap()
+///             .unwrap(),
 ///     )
 ///     .build()
 ///     .unwrap()
@@ -186,15 +189,15 @@ pub enum WindowMonitor {
 #[getset(get = "pub")]
 #[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]
 pub struct WindowSizeConstraints {
-    /// Minimum logical width of the `window`'s client area.
+    /// Minimum logical width of the [`Window`]'s client area.
     min_width: Option<u32>,
 
-    /// Minimum logical height of the `window`'s client area.
+    /// Minimum logical height of the [`Window`]'s client area.
     min_height: Option<u32>,
 
-    /// Maximum logical width of the `window`'s client area.
+    /// Maximum logical width of the [`Window`]'s client area.
     max_width: Option<u32>,
 
-    /// Maximum logical height of the `window`'s client area.
+    /// Maximum logical height of the [`Window`]'s client area.
     max_height: Option<u32>,
 }

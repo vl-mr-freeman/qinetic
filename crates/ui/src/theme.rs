@@ -3,6 +3,17 @@
 use qinetic_utils::prelude::*;
 
 /// A container of theme data.
+///
+/// # Examples
+/// ```
+/// # use qinetic_ui::prelude::*;
+/// # use qinetic_utils::prelude::*;
+/// #
+/// let theme = Theme::builder()
+///     .with_window_bg(RGBA8::new(40, 40, 40, 255))
+///     .build()
+///     .unwrap();
+/// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Getters, Builder)]
 #[getset(get = "pub")]
 #[builder(setter(prefix = "with"), default, derive(Debug, PartialEq, Eq))]

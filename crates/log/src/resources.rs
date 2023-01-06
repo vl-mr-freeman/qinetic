@@ -34,6 +34,21 @@ pub struct LogResource {
     pub file: Option<File>,
 }
 
+impl LogResource {
+    /// Returns a [`LogResourceBuilder`] with `default` configuration.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_log::prelude::*;
+    /// #
+    /// let log_resource_builder = LogResource::builder();
+    /// ```
+    #[inline]
+    pub fn builder() -> LogResourceBuilder {
+        LogResourceBuilder::default()
+    }
+}
+
 /// Level of logging.
 ///
 /// # Examples
@@ -47,7 +62,7 @@ pub struct LogResource {
 ///             .with_min_level(LogLevel::Info)
 ///             .with_max_level(LogLevel::Fatal)
 ///             .build()
-///             .unwrap()
+///             .unwrap(),
 ///     )
 ///     .build()
 ///     .unwrap()

@@ -18,13 +18,10 @@ use qinetic_utils::prelude::*;
 /// ```
 /// # use qinetic_app::prelude::*;
 /// #
-/// App::builder()
-///     .build()
-///     .unwrap()
-///     .run();
+/// App::builder().build().unwrap().run();
 /// ```
-#[derive(Builder)]
-#[builder(setter(prefix = "with"))]
+#[derive(SmartDefault, Builder)]
+#[builder(setter(prefix = "with"), default)]
 pub struct App {
     /// Returns a [`AppBuilder`] with `default` configuration.
     ///
@@ -35,6 +32,7 @@ pub struct App {
     /// let app_builder = App::builder();
     /// ```
     #[builder(setter(custom))]
+    #[default(Box::new(RunEmpty))]
     runner: Box<dyn Runner>,
 
     /// Container of [`Stage`]s in a linear order.
@@ -66,10 +64,15 @@ impl App {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// #
-    /// App::builder()
-    ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    /// #[derive(Clone)]
+    /// struct MyRunner;
+    ///
+    /// impl Runner for MyRunner {
+    ///     fn run(&mut self, mut app: App) { /* Something to do */
+    ///     }
+    /// }
+    ///
+    /// App::builder().with_runner(MyRunner).build().unwrap().run();
     /// ```
     pub fn run(mut self) {
         let mut runner = self.runner.clone();
@@ -82,6 +85,7 @@ impl App {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// #
+    /// #[derive(Clone)]
     /// struct MyRunner;
     ///
     /// impl Runner for MyRunner {
@@ -90,11 +94,7 @@ impl App {
     ///     }
     /// }
     ///
-    /// App::builder()
-    ///     .with_runner(MyRunner)
-    ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    /// App::builder().with_runner(MyRunner).build().unwrap().run();
     /// ```
     pub fn update(&mut self) {
         self.schedule.run(&mut self.world);
@@ -102,6 +102,22 @@ impl App {
 }
 
 impl AppBuilder {
+    /// Returns a [`AppBuilder`] with [`Runner`].
+    ///
+    /// # Examples
+    /// ```
+    /// #[derive(Clone)]
+    /// struct MyRunner;
+    ///
+    /// impl Runner for MyRunner {
+    ///     fn run(&mut self, mut app: App) { /* Something to do */
+    ///     }
+    /// }
+    ///
+    /// # use qinetic_app::prelude::*;
+    /// #
+    /// AppBuilder::default().with_runner(MyRunner).build().unwrap();
+    /// ```
     #[inline]
     pub fn with_runner<T: Runner>(&mut self, runner: T) -> &mut Self {
         self.runner = Some(Box::new(runner));
@@ -120,11 +136,10 @@ impl AppBuilder {
     /// #[derive(StageLabel)]
     /// struct MyStage;
     ///
-    /// App::builder()
+    /// AppBuilder::default()
     ///     .with_stage(MyStage, SingleStage::default())
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_stage<T: Stage>(&mut self, label: impl StageLabel, stage: T) -> &mut Self {
@@ -147,9 +162,9 @@ impl AppBuilder {
     /// #[derive(StageLabel)]
     /// struct MyStage2;
     ///
-    /// App::builder()
+    /// AppBuilder::default()
     ///     .with_stage(MyStage1, SingleStage::default())
-    ///     .with_stage_after(MyStage2, SingleStage::default())
+    ///     .with_stage_after(MyStage1, MyStage2, SingleStage::default())
     ///     .build()
     ///     .unwrap()
     ///     .run();
@@ -181,12 +196,11 @@ impl AppBuilder {
     /// #[derive(StageLabel)]
     /// struct MyStage2;
     ///
-    /// App::builder()
+    /// AppBuilder::default()
     ///     .with_stage(MyStage1, SingleStage::default())
-    ///     .with_stage_before(MyStage2, SingleStage::default())
+    ///     .with_stage_before(MyStage1, MyStage2, SingleStage::default())
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_stage_before<T: Stage>(
@@ -214,20 +228,20 @@ impl AppBuilder {
     /// #[derive(StageLabel)]
     /// struct MyStage2;
     ///
-    /// struct MyStages;
+    /// struct MyStageGroup;
     ///
-    /// impl StageGroup for MyStages {
+    /// impl StageGroup for MyStageGroup {
     ///     fn configure(&mut self, registry: &mut StageRegistry) {
-    ///         registry.add_stage(MyStage1, SingleStage::default());
-    ///         registry.add_stage(MyStage2, SingleStage::default());
+    ///         registry
+    ///             .add_stage(MyStage1, SingleStage::default())
+    ///             .add_stage(MyStage2, SingleStage::default());
     ///     }
     /// }
     ///
-    /// App::builder()
-    ///     .with_stage_group(MyStages)
+    /// AppBuilder::default()
+    ///     .with_stage_group(MyStageGroup)
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_stage_group<T: StageGroup>(&mut self, group: T) -> &mut Self {
@@ -243,14 +257,14 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// #
-    /// #[derive(Plugin)]
     /// struct MyPlugin;
     ///
-    /// App::builder()
-    ///     .with_plugin(MyPlugin)
-    ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    /// impl Plugin for MyPlugin {
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     }
+    /// }
+    ///
+    /// AppBuilder::default().with_plugin(MyPlugin).build().unwrap();
     /// ```
     #[inline]
     pub fn with_plugin<T: Plugin>(&mut self, plugin: T) -> &mut Self {
@@ -266,18 +280,25 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// #
-    /// #[derive(Plugin)]
     /// struct MyPlugin1;
     ///
-    /// #[derive(Plugin)]
+    /// impl Plugin for MyPlugin1 {
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     }
+    /// }
+    ///
     /// struct MyPlugin2;
     ///
-    /// App::builder()
+    /// impl Plugin for MyPlugin2 {
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     }
+    /// }
+    ///
+    /// AppBuilder::default()
     ///     .with_plugin(MyPlugin1)
     ///     .with_plugin_after::<MyPlugin1, _>(MyPlugin2)
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_plugin_after<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
@@ -293,18 +314,25 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     ///
-    /// #[derive(Plugin)]
     /// struct MyPlugin1;
     ///
-    /// #[derive(Plugin)]
+    /// impl Plugin for MyPlugin1 {
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     }
+    /// }
+    ///
     /// struct MyPlugin2;
     ///
-    /// App::builder()
+    /// impl Plugin for MyPlugin2 {
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     }
+    /// }
+    ///
+    /// AppBuilder::default()
     ///     .with_plugin(MyPlugin1)
     ///     .with_plugin_before::<MyPlugin1, _>(MyPlugin2)
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_plugin_before<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
@@ -320,27 +348,32 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// #
-    /// #[derive(Plugin)]
     /// struct MyPlugin1;
     ///
-    /// #[derive(Plugin)]
+    /// impl Plugin for MyPlugin1 {
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     }
+    /// }
+    ///
     /// struct MyPlugin2;
+    ///
+    /// impl Plugin for MyPlugin2 {
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     }
+    /// }
     ///
     /// struct MyPluginGroup;
     ///
     /// impl PluginGroup for MyPluginGroup {
     ///     fn configure(&mut self, registry: &mut PluginRegistry) {
-    ///         registry.add_plugin(MyPlugin1);
-    ///         registry.add_plugin(MyPlugin2);
+    ///         registry.add_plugin(MyPlugin1).add_plugin(MyPlugin2);
     ///     }
     /// }
     ///
-    /// App::builder()
-    ///
-    ///     .with_p lugin_group(MyPluginGroup)
+    /// AppBuilder::default()
+    ///     .with_plugin_group(MyPluginGroup)
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_plugin_group<T: PluginGroup>(&mut self, group: T) -> &mut Self {
@@ -356,15 +389,14 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// use qinetic_ecs::prelude::*;
-    ///  
+    ///
     /// #[derive(Default, Component)]
     /// struct MyComponent {/* something */}
     ///
-    /// App::builder()
+    /// AppBuilder::default()
     ///     .with_component(MyComponent::default())
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_component<T: Component>(&mut self, component: T) -> &mut Self {
@@ -384,11 +416,10 @@ impl AppBuilder {
     /// #[derive(Default, Event)]
     /// struct MyEvent {/* something */}
     ///
-    /// App::builder()
+    /// AppBuilder::default()
     ///     .with_event(MyEvent::default())
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_event<T: Event>(&mut self, event: T) -> &mut Self {
@@ -404,15 +435,14 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// use qinetic_ecs::prelude::*;
-    ///  
+    ///
     /// #[derive(Default, Resource)]
     /// struct MyResource {/* something */}
     ///
-    /// App::builder()
+    /// AppBuilder::default()
     ///     .with_resource(MyResource::default())
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
@@ -428,18 +458,17 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// use qinetic_ecs::prelude::*;
-    ///  
+    ///
     /// #[derive(Default, State)]
     /// enum MyState {
     ///     #[default]
     ///     State,
     /// }
     ///
-    /// App::builder()
+    /// AppBuilder::default()
     ///     .with_state(MyState::default())
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_state<T: State>(&mut self, state: T) -> &mut Self {
@@ -455,22 +484,34 @@ impl AppBuilder {
     /// ```
     /// # use qinetic_app::prelude::*;
     /// use qinetic_ecs::prelude::*;
-    ///  
-    /// #[derive(System)]
+    ///
     /// struct MySystem;
     ///
-    /// #[derive(Stage)]
+    /// impl System for MySystem {
+    ///     type Data = ();
+    ///
+    ///     fn run(&mut self, data: Self::Data) { /* Something to do */
+    ///     }
+    /// }
+    ///
+    /// #[derive(StageLabel)]
     /// struct MyStage;
     ///
-    /// App::builder()
-    ///     .with_system::<_, MyStage>(MySystem)
+    /// AppBuilder::default()
+    ///     .with_system(MyStage, MySystem)
     ///     .build()
-    ///     .unwrap()
-    ///     .run();
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn with_system<T: System>(&mut self, stage: impl StageLabel, system: T) -> &mut Self {
         //self.world_builder.with_system(system);
         self
     }
+}
+
+#[derive(Clone)]
+struct RunEmpty;
+
+impl Runner for RunEmpty {
+    fn run(&mut self, app: App) {}
 }

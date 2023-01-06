@@ -7,9 +7,13 @@ pub(crate) use fold_array;
 
 macro_rules! impl_operator {
     // Unary operator.
-    (<$T:ident: $Constraint:ident> $Op:ident for $Lhs:ty {
-        fn $op:ident($x:ident) -> $Output:ty { $body:expr }
-    }) => {
+    (
+        <
+        $T:ident :
+        $Constraint:ident >
+        $Op:ident for
+        $Lhs:ty { fn $op:ident($x:ident) -> $Output:ty { $body:expr } }
+    ) => {
         impl<$T: $Constraint> $Op for $Lhs {
             type Output = $Output;
 
@@ -31,9 +35,14 @@ macro_rules! impl_operator {
         }
     };
     // Right operand is a scalar.
-    (<$T:ident: $Constraint:ident> $Op:ident<$Rhs:ident> for $Lhs:ty {
-        fn $op:ident($lhs:ident, $rhs:ident) -> $Output:ty { $body:expr }
-    }) => {
+    (
+        <
+        $T:ident :
+        $Constraint:ident >
+        $Op:ident <
+        $Rhs:ident > for
+        $Lhs:ty { fn $op:ident($lhs:ident, $rhs:ident) -> $Output:ty { $body:expr } }
+    ) => {
         impl<$T: $Constraint> $Op<$Rhs> for $Lhs {
             type Output = $Output;
 
@@ -55,9 +64,14 @@ macro_rules! impl_operator {
         }
     };
     // Right operand is a compound type
-    (<$T:ident: $Constraint:ident> $Op:ident<$Rhs:ty> for $Lhs:ty {
-        fn $op:ident($lhs:ident, $rhs:ident) -> $Output:ty { $body:expr }
-    }) => {
+    (
+        <
+        $T:ident :
+        $Constraint:ident >
+        $Op:ident <
+        $Rhs:ty > for
+        $Lhs:ty { fn $op:ident($lhs:ident, $rhs:ident) -> $Output:ty { $body:expr } }
+    ) => {
         impl<$T: $Constraint> $Op<$Rhs> for $Lhs {
             type Output = $Output;
 
@@ -99,9 +113,12 @@ macro_rules! impl_operator {
         }
     };
     // Left operand is a scalar
-    ($Op:ident<$Rhs:ident<$T:ident>> for $Lhs:ty {
-        fn $op:ident($lhs:ident, $rhs:ident) -> $Output:ty { $body:expr }
-    }) => {
+    (
+        $Op:ident <
+        $Rhs:ident <
+        $T:ident >> for
+        $Lhs:ty { fn $op:ident($lhs:ident, $rhs:ident) -> $Output:ty { $body:expr } }
+    ) => {
         impl $Op<$Rhs<$T>> for $Lhs {
             type Output = $Output;
             fn $op(self, other: $Rhs<$T>) -> $Output {
@@ -337,7 +354,7 @@ macro_rules! impl_matrix_tuple_conversions {
 pub(crate) use impl_matrix_tuple_conversions;
 
 macro_rules! impl_index_operators {
-    ($VectorN:ident<$T:ident>, $n:expr, $Output:ty, $I:ty) => {
+    ($VectorN:ident < $T:ident > , $n:expr, $Output:ty, $I:ty) => {
         impl<$T: Digit> Index<$I> for $VectorN<$T> {
             type Output = $Output;
 
@@ -361,7 +378,7 @@ macro_rules! impl_index_operators {
 pub(crate) use impl_index_operators;
 
 macro_rules! impl_matrix_index_operators {
-    ($ArrayN:ident <$T:ident: $Constraint:ident>, $n:expr, $Output:ty, $V:ident, $I:ty) => {
+    ($ArrayN:ident < $T:ident : $Constraint:ident > , $n:expr, $Output:ty, $V:ident, $I:ty) => {
         impl<$T: $Constraint> Index<$I> for $ArrayN<$T> {
             type Output = $Output;
 

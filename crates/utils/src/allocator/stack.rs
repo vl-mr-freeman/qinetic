@@ -6,7 +6,7 @@
 /// ```
 /// # use qinetic_utils::prelude::*;
 /// #
-/// let stack_allocator = StackAllocator::with_capacity(std::mem::size_of<u32> * 1024);
+/// let stack_allocator = StackAllocator::with_capacity(std::mem::size_of::<u32>() * 1024);
 /// ```
 pub struct StackAllocator {
     /// Size of allocated `memory`.
@@ -40,7 +40,7 @@ impl StackAllocator {
     /// ```
     /// # use qinetic_utils::prelude::*;
     /// #
-    /// let stack_allocator = StackAllocator::with_capacity(std::mem::size_of<u32> * 1024);
+    /// let stack_allocator = StackAllocator::with_capacity(std::mem::size_of::<u32>() * 1024);
     /// ```
     pub fn with_capacity(capacity: usize) -> Self {
         Self {

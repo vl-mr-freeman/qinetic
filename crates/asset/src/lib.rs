@@ -34,6 +34,7 @@ pub mod prelude {
     #[doc(hidden)]
     pub use crate::{
         plugins::AssetPlugin,
+        resources::{AssetResource, AssetResourceBuilder, AssetResourceBuilderError},
         stages::{AssetStage, AssetStageGroup},
         systems::AssetSystem,
     };

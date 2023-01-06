@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_animation::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(AnimationStage::default())
+///     .with_stage(AnimationStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -55,20 +55,21 @@ pub struct AnimationStageGroup {}
 
 impl StageGroup for AnimationStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            AnimationStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::Update,
-            AnimationStage::Update,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            AnimationStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                AnimationStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::Update,
+                AnimationStage::Update,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                AnimationStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

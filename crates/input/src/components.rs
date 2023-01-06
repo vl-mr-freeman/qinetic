@@ -8,7 +8,7 @@ use qinetic_utils::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_player::prelude::*;
+/// # use qinetic_input::prelude::*;
 /// #
 /// App::builder()
 ///     .with_component(PlayerController::default())

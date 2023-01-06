@@ -15,6 +15,9 @@ keywords = ["qinetic"]
 [lib]
 crate-type = ["dylib"]
 
+[toolchain]
+channel = "nightly"
+
 [dependencies]
 # Qinetic.
 qinetic_internal = { path = "../internal", version = "0.*" }

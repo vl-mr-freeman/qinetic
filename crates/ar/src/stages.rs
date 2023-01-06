@@ -11,10 +11,10 @@ use qinetic_core::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_ai::prelude::*;
+/// # use qinetic_ar::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(ArStage::default())
+///     .with_stage(ArStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -42,7 +42,7 @@ pub enum ArStage {
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_animation::prelude::*;
+/// # use qinetic_ar::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(ArStageGroup::default())
@@ -55,16 +55,17 @@ pub struct ArStageGroup {}
 
 impl StageGroup for ArStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            ArStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(CoreStage::Update, ArStage::Update, ParallelStage::default());
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            ArStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                ArStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(CoreStage::Update, ArStage::Update, ParallelStage::default())
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                ArStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

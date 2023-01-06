@@ -15,6 +15,9 @@ keywords = ["qinetic"]
 [lib]
 proc-macro = true
 
+[toolchain]
+channel = "nightly"
+
 [dependencies]
 qinetic_utils = { path = "../utils", version = "0.*" }
 

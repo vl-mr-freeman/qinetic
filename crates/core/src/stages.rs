@@ -10,7 +10,7 @@ use qinetic_utils::prelude::*;
 /// # use qinetic_core::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(CoreStage::default())
+///     .with_stage(CoreStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -51,8 +51,9 @@ pub struct CoreStageGroup {}
 
 impl StageGroup for CoreStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage(CoreStage::PreUpdate, ParallelStage::default());
-        registry.add_stage(CoreStage::Update, ParallelStage::default());
-        registry.add_stage(CoreStage::PostUpdate, ParallelStage::default());
+        registry
+            .add_stage(CoreStage::PreUpdate, ParallelStage::default())
+            .add_stage(CoreStage::Update, ParallelStage::default())
+            .add_stage(CoreStage::PostUpdate, ParallelStage::default());
     }
 }

@@ -8,7 +8,7 @@ use qinetic_utils::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_window::prelude::*;
+/// # use qinetic_network::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(NetworkStageGroup::default())

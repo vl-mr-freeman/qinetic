@@ -9,10 +9,10 @@ use qinetic_utils::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_ui:prelude::*;
-///`#
+/// # use qinetic_ui::prelude::*;
+/// #
 /// App::builder()
-///     .with_stage(Uitage::default())
+///     .with_stage(UiStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -40,7 +40,7 @@ pub enum UiStage {
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_window::prelude::*;
+/// # use qinetic_ui::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(UiStageGroup::default())
@@ -53,16 +53,17 @@ pub struct UiStageGroup {}
 
 impl StageGroup for UiStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            UiStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(CoreStage::Update, UiStage::Update, ParallelStage::default());
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            UiStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                UiStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(CoreStage::Update, UiStage::Update, ParallelStage::default())
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                UiStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

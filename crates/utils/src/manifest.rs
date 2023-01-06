@@ -8,10 +8,10 @@ use toml::map::Map;
 /// Manifest for `Cargo.toml` file.
 ///
 /// # Examples
-/// ```
-/// # use qinetic_utils::prelude::*;
+/// ```no_run
+/// # use qinetic_utils::manifest::Manifest;
 /// #
-/// Manifest::get_path("qinetic_utils")
+/// Manifest::get_path("qinetic_utils");
 /// ```
 pub struct Manifest {
     manifest: Map<String, toml::Value>,
@@ -21,8 +21,8 @@ impl Manifest {
     /// Returns a [`Path`] for the `crate` with `name`.
     ///
     /// # Examples
-    /// ```
-    /// # use qinetic_utils::prelude::*;
+    /// ```no_run
+    /// # use qinetic_utils::manifest::Manifest;
     /// #
     /// Manifest::get_path("qinetic_utils");
     /// ```

@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_ai::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(AiStage::default())
+///     .with_stage(AiStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -55,16 +55,17 @@ pub struct AiStageGroup {}
 
 impl StageGroup for AiStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            AiStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(CoreStage::Update, AiStage::Update, ParallelStage::default());
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            AiStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                AiStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(CoreStage::Update, AiStage::Update, ParallelStage::default())
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                AiStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_vr::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(VrStage::default())
+///     .with_stage(VrStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -55,16 +55,17 @@ pub struct VrStageGroup {}
 
 impl StageGroup for VrStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            VrStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(CoreStage::Update, VrStage::Update, ParallelStage::default());
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            VrStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                VrStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(CoreStage::Update, VrStage::Update, ParallelStage::default())
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                VrStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

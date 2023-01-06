@@ -17,13 +17,12 @@ use qinetic_ecs::prelude::*;
 /// ```
 /// # use qinetic_app::prelude::*;
 /// # use qinetic_math::prelude::*;
-///`#
+/// #
 /// App::builder()
 ///     .with_plugin(MathPlugin::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
-///
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct MathPlugin {}

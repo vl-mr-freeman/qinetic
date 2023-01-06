@@ -44,6 +44,7 @@ pub mod prelude {
             WindowResourceBuilderError, WindowSizeConstraints,
         },
         stages::{WindowStage, WindowStageGroup},
+        systems::WindowSystem,
         window::*,
     };
 }

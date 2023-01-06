@@ -13,6 +13,9 @@ license = "MIT"
 keywords = ["gamedev", "graphics", "game", "engine", "qinetic"]
 categories = ["game-engines"]
 
+[toolchain]
+channel = "nighntly"
+
 [package.metadata.docs.rs]
 all-features = true
 

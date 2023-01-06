@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_render::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(RenderStage::default())
+///     .with_stage(RenderStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -42,7 +42,7 @@ pub enum RenderStage {
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_window::prelude::*;
+/// # use qinetic_render::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(RenderStageGroup::default())
@@ -55,20 +55,21 @@ pub struct RenderStageGroup {}
 
 impl StageGroup for RenderStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            RenderStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::Update,
-            RenderStage::Update,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            RenderStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                RenderStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::Update,
+                RenderStage::Update,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                RenderStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

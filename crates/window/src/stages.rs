@@ -11,10 +11,10 @@ use qinetic_core::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_window:prelude::*;
+/// # use qinetic_window::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(WindowStage::default())
+///     .with_stage(WindowStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -55,20 +55,21 @@ pub struct WindowStageGroup {}
 
 impl StageGroup for WindowStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            WindowStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::Update,
-            WindowStage::Update,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            WindowStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                WindowStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::Update,
+                WindowStage::Update,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                WindowStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

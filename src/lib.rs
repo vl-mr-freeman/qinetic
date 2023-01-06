@@ -10,6 +10,7 @@
 //!
 //! fn main() {
 //!     App::builder()
+//!         .with_runner(RunOnce::default())
 //!         .with_plugin_group(DefaultPluginGroup::default())
 //!         .build()
 //!         .unwrap()

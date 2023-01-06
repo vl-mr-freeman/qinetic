@@ -12,11 +12,15 @@ repository = "https://github.com/vl-mr-freeman/qinetic"
 license = "MIT"
 keywords = ["qinetic"]
 
+[toolchain]
+channel = "nightly"
+
 [dependencies]
 # Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }
 qinetic_ecs = { path = "../ecs", version = "0.* "}
 qinetic_core = { path = "../core", version = "0.*" }
 qinetic_utils = { path = "../utils", version = "0.*" }
+qinetic_window = { path = "../window", version = "0.*" }
 
 derive_builder = "0.12.*"

@@ -32,6 +32,21 @@ pub struct RenderResource {
     pub clear_color: RGBA8,
 }
 
+impl RenderResource {
+    /// Returns a [`RenderResourceBuilder`] with `default` configuration.
+    ///
+    /// # Examples
+    /// ```
+    /// # use qinetic_render::prelude::*;
+    /// #
+    /// let render_resource_builder = RenderResource::builder();
+    /// ```
+    #[inline]
+    pub fn builder() -> RenderResourceBuilder {
+        RenderResourceBuilder::default()
+    }
+}
+
 /// Defines which `internal api` use.
 ///
 /// # Examples
@@ -44,7 +59,7 @@ pub struct RenderResource {
 ///         RenderResource::builder()
 ///             .with_api(RenderApi::default())
 ///             .build()
-///             .unwrap()
+///             .unwrap(),
 ///     )
 ///     .build()
 ///     .unwrap()

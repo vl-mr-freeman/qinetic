@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_audio::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(AudioStage::default())
+///     .with_stage(AudioStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -55,20 +55,21 @@ pub struct AudioStageGroup {}
 
 impl StageGroup for AudioStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            AudioStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::Update,
-            AudioStage::Update,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            AudioStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                AudioStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::Update,
+                AudioStage::Update,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                AudioStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

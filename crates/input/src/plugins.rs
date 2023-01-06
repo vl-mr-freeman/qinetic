@@ -25,7 +25,7 @@ use qinetic_ecs::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_input::prelude::*:
+/// # use qinetic_input::prelude::*;
 /// #
 /// App::builder()
 ///     .with_plugin(InputPlugin::default())

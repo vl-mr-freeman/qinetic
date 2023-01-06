@@ -14,7 +14,7 @@ use qinetic_core::prelude::*;
 /// # use qinetic_network::prelude::*;
 /// #
 /// App::builder()
-///     .with_stage(NetworkStage::default())
+///     .with_stage(NetworkStage::default(), ParallelStage::default())
 ///     .build()
 ///     .unwrap()
 ///     .run();
@@ -42,7 +42,7 @@ pub enum NetworkStage {
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_window::prelude::*;
+/// # use qinetic_network::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(NetworkStageGroup::default())
@@ -55,20 +55,21 @@ pub struct NetworkStageGroup {}
 
 impl StageGroup for NetworkStageGroup {
     fn configure(&mut self, registry: &mut StageRegistry) {
-        registry.add_stage_after(
-            CoreStage::PreUpdate,
-            NetworkStage::PreUpdate,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::Update,
-            NetworkStage::Update,
-            ParallelStage::default(),
-        );
-        registry.add_stage_after(
-            CoreStage::PostUpdate,
-            NetworkStage::PostUpdate,
-            ParallelStage::default(),
-        );
+        registry
+            .add_stage_after(
+                CoreStage::PreUpdate,
+                NetworkStage::PreUpdate,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::Update,
+                NetworkStage::Update,
+                ParallelStage::default(),
+            )
+            .add_stage_after(
+                CoreStage::PostUpdate,
+                NetworkStage::PostUpdate,
+                ParallelStage::default(),
+            );
     }
 }

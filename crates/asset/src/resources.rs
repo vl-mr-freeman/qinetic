@@ -8,7 +8,7 @@ use qinetic_utils::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_physics::prelude::*;
+/// # use qinetic_asset::prelude::*;
 /// #
 /// App::builder()
 ///     .with_resource(AssetResource::default())

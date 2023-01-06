@@ -6,7 +6,7 @@
 /// ```
 /// # use qinetic_utils::prelude::*;
 /// #
-/// let linear_allocator = LinearAllocator::with_capacity(std::mem::size_of<u32> * 1024);
+/// let linear_allocator = LinearAllocator::with_capacity(std::mem::size_of::<u32>() * 1024);
 /// ```
 pub struct LinearAllocator {
     /// Size of allocated `memory`.
@@ -40,7 +40,7 @@ impl LinearAllocator {
     /// ```
     /// # use qinetic_utils::prelude::*;
     /// #
-    /// let linear_allocator = LinearAllocator::with_capacity(std::mem::size_of<u32> * 1024);
+    /// let linear_allocator = LinearAllocator::with_capacity(std::mem::size_of::<u32>() * 1024);
     /// ```
     pub fn with_capacity(capacity: usize) -> Self {
         Self {

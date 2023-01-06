@@ -113,7 +113,9 @@ impl World {
     /// world.add_component::<MyComponent>(EntityId::default());
     ///
     /// # assert!(world.has_component::<MyComponent>(EntityId::default()));
-    /// let component = world.get_component::<MyComponent>(EntityId::default()).unwrap();
+    /// let component = world
+    ///     .get_component::<MyComponent>(EntityId::default())
+    ///     .unwrap();
     /// ```
     #[inline]
     pub fn get_component<T: Component>(&self, entity_id: EntityId) -> Option<&T> {
@@ -137,7 +139,9 @@ impl World {
     /// #
     /// # assert!(world.has_component::<MyComponent>(EntityId::default()));
     /// #
-    /// let component = world.get_component_mut::<MyComponent>(EntityId::default()).unwrap();
+    /// let component = world
+    ///     .get_component_mut::<MyComponent>(EntityId::default())
+    ///     .unwrap();
     /// // component.something = ...
     /// ```
     #[inline]
@@ -154,9 +158,7 @@ impl World {
     /// #[derive(Default, Entity)]
     /// struct MyEntity {/* someting to do */}
     ///
-    /// let mut world = World::builder()
-    ///     .build()
-    ///     .add_entity::<MyEntity>();
+    /// let mut world = World::builder().build().add_entity::<MyEntity>();
     /// #
     /// # assert!(world.)
     /// ```

@@ -8,7 +8,7 @@ use qinetic_utils::prelude::*;
 /// # Examples
 /// ```
 /// # use qinetic_app::prelude::*;
-/// # use qinetic_window::prelude::*;
+/// # use qinetic_render::prelude::*;
 /// #
 /// App::builder()
 ///     .with_stage_group(RenderStageGroup::default())

@@ -12,6 +12,9 @@ repository = "https://github.com/vl-mr-freeman/qinetic"
 license = "MIT"
 keywords = ["qinetic"]
 
+[toolchain]
+channel = "nightly"
+
 [dependencies]
 # Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }

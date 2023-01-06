@@ -36,5 +36,6 @@ pub mod prelude {
         components::{Script, Tag},
         plugins::CorePlugin,
         stages::{CoreStage, CoreStageGroup},
+        systems::CoreSystem,
     };
 }

@@ -12,6 +12,9 @@ repository = "https://github.com/vl-mr-freeman/qinetic"
 license = "MIT"
 keywords = ["qinetic"]
 
+[toolchain]
+channel = "nightly"
+
 [dependencies]
 # Qinetic macros.
 qinetic_ecs_macros = { path = "../ecs_macros", version = "0.*" }

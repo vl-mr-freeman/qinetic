@@ -30,5 +30,8 @@ pub mod prelude {
     //! Main log functionality.
 
     #[doc(hidden)]
-    pub use crate::{plugins::LogPlugin, resources::LogResource};
+    pub use crate::{
+        plugins::LogPlugin,
+        resources::{LogLevel, LogResource, LogResourceBuilder, LogResourceBuilderError},
+    };
 }

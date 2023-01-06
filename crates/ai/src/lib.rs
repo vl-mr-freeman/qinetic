@@ -6,8 +6,8 @@
 //!
 //! Here is a simple artificial intelligence application:
 //! ```
-//! use qinetic_app::prelude::*;
 //! use qinetic_ai::prelude::*;
+//! use qinetic_app::prelude::*;
 //!
 //! fn main() {
 //!     App::builder()

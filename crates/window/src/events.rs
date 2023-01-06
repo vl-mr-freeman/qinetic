@@ -3,6 +3,9 @@
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
 
+#[allow(unused_imports)]
+use crate::window::*;
+
 /// Window [`Event`].
 ///
 /// # Examples
@@ -18,20 +21,20 @@ use qinetic_utils::prelude::*;
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Event)]
 pub enum WindowEvent {
-    /// The [`Event`] that sent whenever a `window` is created.
+    /// The [`Event`] that sent whenever a [`Window`] is created.
     #[default]
     Created,
 
-    /// The [`Event`] that sent whenever a `window` is destroyed.
+    /// The [`Event`] that sent whenever a [`Window`] is destroyed.
     Destroyed,
 
-    /// The [`Event`] that sent whenever a `window` is resized.
+    /// The [`Event`] that sent whenever a [`Window`] is resized.
     Resized,
 
-    /// The [`Event`] that sent whenever a `window` is focused.
+    /// The [`Event`] that sent whenever a [`Window`] is focused.
     Focused,
 
-    /// The [`Event`] that sent whenever a `window` is moved.
+    /// The [`Event`] that sent whenever a [`Window`] is moved.
     Moved,
 }
 
@@ -50,13 +53,13 @@ pub enum WindowEvent {
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Event)]
 pub enum CursorEvent {
-    /// The [`Event`] that sent whenever a cursor is moved in `window`.
+    /// The [`Event`] that sent whenever a cursor is moved in [`Window`].
     Moved,
 
-    /// The [`Event`] that sent whenever a cursor is entered to `window`.
+    /// The [`Event`] that sent whenever a cursor is entered to [`Window`].
     #[default]
     Entered,
 
-    /// The [`Event`] that sent whenever a cursor is leaves from `window`.
+    /// The [`Event`] that sent whenever a cursor is leaves from [`Window`].
     Left,
 }
