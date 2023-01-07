@@ -84,6 +84,8 @@ impl PluginGroup for DefaultPluginGroup {
         registry.add_plugin(qinetic_input::prelude::InputPlugin::default());
         #[cfg(feature = "qinetic_render")]
         registry.add_plugin(qinetic_render::prelude::RenderPlugin::default());
+        #[cfg(feature = "qinetic_pbr")]
+        registry.add_plugin(qinetic_pbr::prelude::PbrPlugin::default());
         #[cfg(feature = "qinetic_ui")]
         registry.add_plugin(qinetic_ui::prelude::UiPlugin::default());
         #[cfg(feature = "qinetic_vr")]
