@@ -1,19 +1,19 @@
 //! [![](https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_logo.svg)](https://github.com/vl-mr-freeman/qinetic)
 //!
-//! Render functionality for Qinetic.
+//! Physically based render functionality for Qinetic.
 //!
 //! # Examples
 //!
-//! Here is a simple render application:
+//! Here is a simple physically based render pplication:
 //! ```
 //! use qinetic_app::prelude::*;
+//! use qinetic_pbr::prelude::*;
 //! use qinetic_render::prelude::*;
-//! use qinetic_window::prelude::*;
 //!
 //! fn main() {
 //!     App::builder()
-//!         .with_plugin(WindowPlugin::default())
 //!         .with_plugin(RenderPlugin::default())
+//!         .with_plugin(PbrPlugin::default())
 //!         .build()
 //!         .unwrap()
 //!         .run();
@@ -36,10 +36,10 @@ pub mod prelude {
 
     #[doc(hidden)]
     pub use crate::{
-        components::{Camera, Mesh},
-        plugins::RenderPlugin,
-        resources::{RenderApi, RenderResource, RenderResourceBuilder, RenderResourceBuilderError},
-        stages::{RenderStage, RenderStageGroup},
-        systems::RenderSystem,
+        components::{AreaLight, DirectionalLight, PointLight, SpotLight},
+        plugins::PbrPlugin,
+        resources::{PbrResource, PbrResourceBuilder, PbrResourceBuilderError},
+        stages::{PbrStage, PbrStageGroup},
+        systems::PbrSystem,
     };
 }
