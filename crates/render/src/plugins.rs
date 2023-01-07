@@ -1,7 +1,7 @@
 //! Render [`Plugin`]s functionality.
 
 use crate::{
-    components::{Camera, Mesh},
+    components::{AreaLight, Camera, DirectionalLight, Mesh, PointLight, SpotLight},
     resources::RenderResource,
     stages::{RenderStage, RenderStageGroup},
     systems::RenderSystem,
@@ -48,6 +48,10 @@ impl Plugin for RenderPlugin {
             .with_resource(RenderResource::default())
             .with_component(Mesh::default())
             .with_component(Camera::default())
+            .with_component(PointLight::default())
+            .with_component(AreaLight::default())
+            .with_component(SpotLight::default())
+            .with_component(DirectionalLight::default())
             .with_stage_group(RenderStageGroup::default())
             .with_system(RenderStage::default(), RenderSystem::default());
     }

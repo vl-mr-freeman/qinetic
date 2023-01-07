@@ -36,7 +36,7 @@ pub mod prelude {
 
     #[doc(hidden)]
     pub use crate::{
-        components::{Camera, Mesh},
+        components::{AreaLight, Camera, DirectionalLight, Mesh, PointLight, SpotLight},
         plugins::RenderPlugin,
         resources::{RenderApi, RenderResource, RenderResourceBuilder, RenderResourceBuilderError},
         stages::{RenderStage, RenderStageGroup},

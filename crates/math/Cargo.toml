@@ -23,4 +23,4 @@ qinetic_core = { path = "../core", version = "0.*" }
 qinetic_utils = { path = "../utils", version = "0.*" }
 
 # Other.
-num-traits = "0.2"
+num-traits = "0.2.*"
