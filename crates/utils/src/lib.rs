@@ -50,4 +50,7 @@ pub mod prelude {
 
     #[doc(hidden)]
     pub use rgb::*;
+
+    #[doc(hidden)]
+    pub use derivative::Derivative;
 }
