@@ -32,8 +32,7 @@ use qinetic_ecs::prelude::*;
 /// App::builder()
 ///     .with_plugin(VrPlugin::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct VrPlugin {}

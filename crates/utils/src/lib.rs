@@ -53,4 +53,7 @@ pub mod prelude {
 
     #[doc(hidden)]
     pub use derivative::Derivative;
+
+    #[doc(hidden)]
+    pub use thiserror::Error;
 }

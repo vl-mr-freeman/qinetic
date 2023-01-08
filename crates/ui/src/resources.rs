@@ -15,8 +15,7 @@ use crate::{font::Font, theme::Theme};
 /// App::builder()
 ///     .with_resource(UiResource::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]

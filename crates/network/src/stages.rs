@@ -16,8 +16,7 @@ use qinetic_core::prelude::*;
 /// App::builder()
 ///     .with_stage(NetworkStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum NetworkStage {
@@ -47,8 +46,7 @@ pub enum NetworkStage {
 /// App::builder()
 ///     .with_stage_group(NetworkStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct NetworkStageGroup {}

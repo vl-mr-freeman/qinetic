@@ -16,8 +16,7 @@ use qinetic_core::prelude::*;
 /// App::builder()
 ///     .with_stage(AudioStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum AudioStage {
@@ -47,8 +46,7 @@ pub enum AudioStage {
 /// App::builder()
 ///     .with_stage_group(AudioStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct AudioStageGroup {}

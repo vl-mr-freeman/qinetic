@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_stage(PhysicsStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum PhysicsStage {
@@ -45,8 +44,7 @@ pub enum PhysicsStage {
 /// App::builder()
 ///     .with_stage_group(PhysicsStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct PhysicsStageGroup {}

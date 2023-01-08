@@ -16,8 +16,7 @@ use qinetic_core::prelude::*;
 /// App::builder()
 ///     .with_stage(RenderStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum RenderStage {
@@ -47,8 +46,7 @@ pub enum RenderStage {
 /// App::builder()
 ///     .with_stage_group(RenderStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct RenderStageGroup {}

@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(VrController::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct VrController {}
@@ -29,8 +28,7 @@ pub struct VrController {}
 /// App::builder()
 ///     .with_component(VrTracker::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct VrTracker {}

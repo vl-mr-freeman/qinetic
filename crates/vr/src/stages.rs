@@ -16,8 +16,7 @@ use qinetic_core::prelude::*;
 /// App::builder()
 ///     .with_stage(VrStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum VrStage {
@@ -47,8 +46,7 @@ pub enum VrStage {
 /// App::builder()
 ///     .with_stage_group(VrStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct VrStageGroup {}

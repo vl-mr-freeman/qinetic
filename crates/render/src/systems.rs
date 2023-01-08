@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 ///     .with_stage_group(RenderStageGroup::default())
 ///     .with_system(RenderStage::default(), RenderSystem::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct RenderSystem {}

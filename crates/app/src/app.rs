@@ -20,8 +20,8 @@ use qinetic_utils::prelude::*;
 /// #
 /// App::builder().build().unwrap().run();
 /// ```
-#[derive(SmartDefault, Builder)]
-#[builder(crate = "crate::app", setter(prefix = "with"), default)]
+#[derive(SmartDefault)]
+//#[builder(crate = "crate::app", setter(prefix = "with"), default)]
 pub struct App {
     /// Returns a [`AppBuilder`] with `default` configuration.
     ///
@@ -31,17 +31,31 @@ pub struct App {
     /// #
     /// let app_builder = App::builder();
     /// ```
-    #[builder(setter(custom))]
+    //#[builder(setter(custom))]
     #[default(Box::new(RunEmpty))]
     runner: Box<dyn Runner>,
 
     /// Container of [`Stage`]s in a linear order.
-    #[builder(setter(custom))]
+    //#[builder(setter(custom))]
     schedule: Schedule,
 
     /// The ECS [`World`], provides access to all ECS data.
-    #[builder(setter(custom))]
+    //#[builder(setter(custom))]
     world: World,
+}
+
+#[derive(SmartDefault)]
+pub struct AppBuilder {
+    runner: Option<Box<dyn Runner>>,
+
+    schedule: Schedule,
+
+    world: World,
+}
+
+#[derive(Clone, Copy, Debug)]
+pub enum AppBuilderError {
+    UnvaliableField,
 }
 
 impl App {
@@ -103,6 +117,10 @@ impl App {
 }
 
 impl AppBuilder {
+    pub fn build(&mut self) -> Result<App, AppBuilderError> {
+        Ok(App::default())
+    }
+
     /// Returns a [`AppBuilder`] with [`Runner`].
     ///
     /// # Examples
@@ -123,28 +141,6 @@ impl AppBuilder {
     #[inline]
     pub fn with_runner<T: Runner>(&mut self, runner: T) -> &mut Self {
         self.runner = Some(Box::new(runner));
-        self
-    }
-
-    #[inline]
-    pub fn with_world(&mut self, world: World) -> &mut Self {
-        self.world = Some(world);
-        self
-    }
-
-    #[inline]
-    pub fn with_world_fn<F: FnOnce(&mut World)>(&mut self, func: F) -> &mut Self {
-        self
-    }
-
-    #[inline]
-    pub fn with_schedule(&mut self, schedule: Schedule) -> &mut Self {
-        self.schedule = Some(schedule);
-        self
-    }
-
-    #[inline]
-    pub fn with_schedule_fn<F: FnOnce(&mut Schedule)>(&mut self, func: F) -> &mut Self {
         self
     }
 

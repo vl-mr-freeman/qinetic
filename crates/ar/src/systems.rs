@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 ///     .with_stage_group(ArStageGroup::default())
 ///     .with_system(ArStage::default(), ArSystem::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct ArSystem {}

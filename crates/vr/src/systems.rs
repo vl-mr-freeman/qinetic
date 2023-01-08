@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 ///     .with_stage_group(VrStageGroup::default())
 ///     .with_system(VrStage::default(), VrSystem::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct VrSystem {}

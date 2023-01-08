@@ -16,8 +16,7 @@ use qinetic_core::prelude::*;
 /// App::builder()
 ///     .with_stage(PbrStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum PbrStage {
@@ -47,8 +46,7 @@ pub enum PbrStage {
 /// App::builder()
 ///     .with_stage_group(PbrStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct PbrStageGroup {}

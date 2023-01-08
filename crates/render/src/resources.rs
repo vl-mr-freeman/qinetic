@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_resource(RenderResource::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]
@@ -67,8 +66,7 @@ impl RenderResource {
 ///             .unwrap(),
 ///     )
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RenderApi {

@@ -33,12 +33,6 @@ pub mod ecs {
     pub use qinetic_ecs::*;
 }
 
-pub mod input {
-    //! Input functionality.
-
-    pub use qinetic_input::*;
-}
-
 pub mod math {
     //! Math functionality.
 
@@ -51,6 +45,14 @@ pub mod utils {
     pub use qinetic_utils::*;
 }
 
+#[cfg(feature = "qinetic_input")]
+pub mod input {
+    //! Input functionality.
+
+    pub use qinetic_input::*;
+}
+
+#[cfg(feature = "qinetic_window")]
 pub mod window {
     //! Window functionality.
 
@@ -136,6 +138,14 @@ pub mod prelude {
     //! Main functionality.
 
     #[doc(hidden)]
+    #[cfg(feature = "qinetic_input")]
+    pub use super::input::prelude::*;
+
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_window")]
+    pub use super::window::prelude::*;
+
+    #[doc(hidden)]
     #[cfg(feature = "qinetic_ai")]
     pub use super::ai::prelude::*;
 
@@ -177,8 +187,7 @@ pub mod prelude {
 
     #[doc(hidden)]
     pub use super::{
-        app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, input::prelude::*,
-        math::prelude::*, utils::prelude::*, window::prelude::*, DefaultPluginGroup,
-        MinimalPluginGroup, RunLoop, RunOnce,
+        app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, math::prelude::*,
+        utils::prelude::*, DefaultPluginGroup, MinimalPluginGroup, RunLoop, RunOnce,
     };
 }

@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 ///     .with_stage_group(AudioStageGroup::default())
 ///     .with_system(AudioStage::default(), AudioSystem::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct AudioSystem {}

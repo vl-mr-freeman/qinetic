@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(PlayerController::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct PlayerController {}

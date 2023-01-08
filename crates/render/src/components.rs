@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(Mesh::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Mesh {}
@@ -29,8 +28,7 @@ pub struct Mesh {}
 /// App::builder()
 ///     .with_component(Camera::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Camera {}

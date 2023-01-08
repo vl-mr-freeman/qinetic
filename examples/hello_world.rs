@@ -4,5 +4,6 @@ fn main() {
     App::builder()
         .with_runner(RunOnce::default())
         .build()
-        .unwrap();
+        .unwrap()
+        .run();
 }

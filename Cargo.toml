@@ -41,7 +41,10 @@ default = [
 	"physics",
 	"render",
 	"pbr",
-	"log"
+	"log",
+	"input",
+	"winit",
+	"wayland",
 ]
 
 # Force dynamic linking, which improves iterative compile times.
@@ -60,6 +63,12 @@ pbr = ["qinetic_internal/qinetic_pbr"]
 ui = ["qinetic_internal/qinetic_ui"]
 vr = ["qinetic_internal/qinetic_vr"]
 ar = ["qinetic_internal/qinetic_ar"]
+input = ["qinetic_internal/input"]
+winit = ["qinetic_internal/qinetic_winit"]
+
+# Window backend.
+wayland = ["qinetic_internal/wayland"]
+x11 = ["qinetic_internal/x11"]
 
 [dependencies]
 # Qinetic.

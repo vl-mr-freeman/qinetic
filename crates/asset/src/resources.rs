@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_resource(AssetResource::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]

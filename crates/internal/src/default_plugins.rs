@@ -18,8 +18,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_plugin_group(MinimalPluginGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault)]
 pub struct MinimalPluginGroup {}
@@ -58,38 +57,56 @@ impl PluginGroup for MinimalPluginGroup {
 /// App::builder()
 ///     .with_plugin_group(DefaultPluginGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault)]
 pub struct DefaultPluginGroup {}
 
 impl PluginGroup for DefaultPluginGroup {
     fn configure(&mut self, registry: &mut PluginRegistry) {
-        registry.add_plugin(qinetic_core::prelude::CorePlugin::default());
+        registry
+            .add_plugin(qinetic_core::prelude::CorePlugin::default())
+            .add_plugin(qinetic_asset::prelude::AssetPlugin::default());
+
         #[cfg(feature = "qinetic_log")]
         registry.add_plugin(qinetic_log::prelude::LogPlugin::default());
-        registry.add_plugin(qinetic_asset::prelude::AssetPlugin::default());
+
         #[cfg(feature = "qinetic_network")]
         registry.add_plugin(qinetic_network::prelude::NetworkPlugin::default());
+
         #[cfg(feature = "qinetic_ai")]
         registry.add_plugin(qinetic_ai::prelude::AiPlugin::default());
+
         #[cfg(feature = "qinetic_animation")]
         registry.add_plugin(qinetic_animation::prelude::AnimationPlugin::default());
+
         #[cfg(feature = "qinetic_audio")]
         registry.add_plugin(qinetic_audio::prelude::AudioPlugin::default());
+
         #[cfg(feature = "qinetic_physics")]
         registry.add_plugin(qinetic_physics::prelude::PhysicsPlugin::default());
+
+        #[cfg(feature = "qinetic_window")]
         registry.add_plugin(qinetic_window::prelude::WindowPlugin::default());
+
+        #[cfg(feature = "qinetic_winit")]
+        registry.add_plugin(qinetic_winit::prelude::WinitPlugin::default());
+
+        #[cfg(feature = "qinetic_input")]
         registry.add_plugin(qinetic_input::prelude::InputPlugin::default());
+
         #[cfg(feature = "qinetic_render")]
         registry.add_plugin(qinetic_render::prelude::RenderPlugin::default());
+
         #[cfg(feature = "qinetic_pbr")]
         registry.add_plugin(qinetic_pbr::prelude::PbrPlugin::default());
+
         #[cfg(feature = "qinetic_ui")]
         registry.add_plugin(qinetic_ui::prelude::UiPlugin::default());
+
         #[cfg(feature = "qinetic_vr")]
         registry.add_plugin(qinetic_vr::prelude::VrPlugin::default());
+
         #[cfg(feature = "qinetic_ar")]
         registry.add_plugin(qinetic_ar::prelude::ArPlugin::default());
     }

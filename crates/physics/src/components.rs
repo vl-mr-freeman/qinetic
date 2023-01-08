@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(BoxCollider::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct BoxCollider {}
@@ -29,8 +28,7 @@ pub struct BoxCollider {}
 /// App::builder()
 ///     .with_component(CapsuleCollider::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct CapsuleCollider {}
@@ -45,8 +43,7 @@ pub struct CapsuleCollider {}
 /// App::builder()
 ///     .with_component(MeshCollider::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct MeshCollider {}
@@ -61,8 +58,7 @@ pub struct MeshCollider {}
 /// App::builder()
 ///     .with_component(SphereCollider::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct SphereCollider {}
@@ -77,8 +73,7 @@ pub struct SphereCollider {}
 /// App::builder()
 ///     .with_component(Rigidbody::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Rigidbody {}
@@ -93,8 +88,7 @@ pub struct Rigidbody {}
 /// App::builder()
 ///     .with_component(Softbody::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Softbody {}
@@ -109,8 +103,7 @@ pub struct Softbody {}
 /// App::builder()
 ///     .with_component(Cloth::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Cloth {}

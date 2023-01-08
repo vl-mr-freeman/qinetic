@@ -23,7 +23,12 @@
     html_favicon_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg"
 )]
 
+pub mod button;
 pub mod components;
+pub mod events;
+pub mod gamepad;
+pub mod keyboard;
+pub mod mouse;
 pub mod plugins;
 pub mod stages;
 pub mod systems;
@@ -33,7 +38,11 @@ pub mod prelude {
 
     #[doc(hidden)]
     pub use crate::{
+        button::*,
         components::PlayerController,
+        gamepad::*,
+        keyboard::*,
+        mouse::*,
         plugins::InputPlugin,
         stages::{InputStage, InputStageGroup},
         systems::InputSystem,

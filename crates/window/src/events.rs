@@ -16,8 +16,7 @@ use crate::window::*;
 /// App::builder()
 ///     .with_event(WindowEvent::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Event)]
 pub enum WindowEvent {
@@ -48,8 +47,7 @@ pub enum WindowEvent {
 /// App::builder()
 ///     .with_event(CursorEvent::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Event)]
 pub enum CursorEvent {

@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 ///     .with_stage_group(AnimationStageGroup::default())
 ///     .with_system(AnimationStage::default(), AnimationSystem::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct AnimationSystem {}

@@ -23,8 +23,7 @@ pub struct Vector {
 /// App::builder()
 ///     .with_resource(LogResource::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]

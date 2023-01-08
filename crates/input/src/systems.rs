@@ -1,5 +1,6 @@
 //! Input [`System`]s functionality.
 
+pub use crate::keyboard::KeyboardSystem;
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
 
@@ -14,8 +15,7 @@ use qinetic_utils::prelude::*;
 ///     .with_stage_group(InputStageGroup::default())
 ///     .with_system(InputStage::default(), InputSystem::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct InputSystem {}

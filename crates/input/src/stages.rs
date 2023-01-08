@@ -16,8 +16,7 @@ use qinetic_core::prelude::*;
 /// App::builder()
 ///     .with_stage(InputStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum InputStage {
@@ -32,7 +31,7 @@ pub enum InputStage {
     PostUpdate,
 }
 
-/// Artificial intelligence [`StageGroup`].
+/// Input [`StageGroup`].
 ///
 /// Includes:
 /// * [`InputStage::PreUpdate`]
@@ -47,8 +46,7 @@ pub enum InputStage {
 /// App::builder()
 ///     .with_stage_group(InputStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct InputStageGroup {}

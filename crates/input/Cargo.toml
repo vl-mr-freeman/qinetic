@@ -15,6 +15,17 @@ keywords = ["qinetic"]
 [toolchain]
 channel = "nightly"
 
+[features]
+default = [
+	"keyboard",
+	"mouse",
+	"gamepad",
+]
+
+keyboard = []
+mouse = []
+gamepad = []
+
 [dependencies]
 # Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }

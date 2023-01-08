@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(Tag::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug, PartialEq, Eq, Component)]
 pub struct Tag {
@@ -31,8 +30,7 @@ pub struct Tag {
 /// App::builder()
 ///     .with_component(Script::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug, PartialEq, Eq, Component)]
 pub struct Script {

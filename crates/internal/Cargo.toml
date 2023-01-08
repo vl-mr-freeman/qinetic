@@ -15,16 +15,19 @@ keywords = ["qinetic"]
 [toolchain]
 channel = "nightly"
 
+[features]
+input = ["qinetic_winit/input", "qinetic_input"]
+wayland = ["qinetic_winit/wayland"]
+x11 = ["qinetic_winit/x11"]
+
 [dependencies]
 # Qinetic.
 qinetic_app = { path = "../app", version = "0.*" }
 qinetic_asset = { path = "../asset", version = "0.*" }
 qinetic_core = { path = "../core", version = "0.*" }
 qinetic_ecs = { path = "../ecs", version = "0.*" }
-qinetic_input = { path = "../input", version = "0.*" }
 qinetic_math = { path = "../math", version = "0.*" }
 qinetic_utils = { path = "../utils", version = "0.*"}
-qinetic_window = { path = "../window", version = "0.*" }
 
 # Qinetic option.
 qinetic_ai = { path = "../ai", optional = true, version = "0.*" }
@@ -38,3 +41,6 @@ qinetic_pbr = { path = "../pbr", optional = true, version = "0.*" }
 qinetic_ui = { path = "../ui", optional = true, version = "0.*" }
 qinetic_ar = { path = "../ar", optional = true, version = "0.*" }
 qinetic_vr = { path = "../vr", optional = true, version = "0.*" }
+qinetic_input = { path = "../input", optional = true, version = "0.*" }
+qinetic_winit = { path = "../winit", optional = true, version = "0.*" }
+qinetic_window = { path = "../window", optional = true, version = "0.*" }

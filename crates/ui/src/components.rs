@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(RectTransform::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Component)]
 pub struct RectTransform {
@@ -51,8 +50,7 @@ pub struct RectTransform {
 /// App::builder()
 ///     .with_component(Button::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Button {}
@@ -67,8 +65,7 @@ pub struct Button {}
 /// App::builder()
 ///     .with_component(Image::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Image {}
@@ -83,8 +80,7 @@ pub struct Image {}
 /// App::builder()
 ///     .with_component(Text::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Text {}
@@ -99,8 +95,7 @@ pub struct Text {}
 /// App::builder()
 ///     .with_component(Slider::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Slider {}
@@ -115,8 +110,7 @@ pub struct Slider {}
 /// App::builder()
 ///     .with_component(Scrollbar::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Scrollbar {}

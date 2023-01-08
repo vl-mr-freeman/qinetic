@@ -14,8 +14,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_stage(UiStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum UiStage {
@@ -45,8 +44,7 @@ pub enum UiStage {
 /// App::builder()
 ///     .with_stage_group(UiStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct UiStageGroup {}

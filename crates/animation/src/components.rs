@@ -13,8 +13,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_component(SkeletalMesh::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct SkeletalMesh {}
@@ -29,8 +28,7 @@ pub struct SkeletalMesh {}
 /// App::builder()
 ///     .with_component(AnimationClip::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct AnimationClip {}
@@ -45,8 +43,7 @@ pub struct AnimationClip {}
 /// App::builder()
 ///     .with_component(Animator::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Component)]
 pub struct Animator {}

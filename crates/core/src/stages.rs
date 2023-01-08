@@ -12,8 +12,7 @@ use qinetic_utils::prelude::*;
 /// App::builder()
 ///     .with_stage(CoreStage::default(), ParallelStage::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, StageLabel)]
 pub enum CoreStage {
@@ -43,8 +42,7 @@ pub enum CoreStage {
 /// App::builder()
 ///     .with_stage_group(CoreStageGroup::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug)]
 pub struct CoreStageGroup {}

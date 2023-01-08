@@ -16,8 +16,7 @@ use crate::window::*;
 /// App::builder()
 ///     .with_resource(WindowResource::default())
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Debug, Getters, Builder, Resource)]
 #[getset(get = "pub")]
@@ -91,8 +90,7 @@ impl WindowResource {
 ///             .unwrap(),
 ///     )
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WindowMode {
@@ -125,8 +123,7 @@ pub enum WindowMode {
 ///             .unwrap(),
 ///     )
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WindowPosition {
@@ -156,8 +153,7 @@ pub enum WindowPosition {
 ///             .unwrap(),
 ///     )
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WindowMonitor {
@@ -187,8 +183,7 @@ pub enum WindowMonitor {
 ///             .unwrap(),
 ///     )
 ///     .build()
-///     .unwrap()
-///     .run();
+///     .unwrap();
 /// ```
 #[derive(SmartDefault, Clone, Copy, Debug, PartialEq, Eq, Getters, Builder)]
 #[getset(get = "pub")]
