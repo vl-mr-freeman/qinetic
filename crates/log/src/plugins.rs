@@ -1,12 +1,11 @@
 //! Log [`Plugin`]s functionality.
 
-use crate::resources::LogResource;
-
 use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
 #[allow(unused_imports)]
 use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
+use crate::resources::LogResource;
 
 /// Log [`Plugin`].
 ///

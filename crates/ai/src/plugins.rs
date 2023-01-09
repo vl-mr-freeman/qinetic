@@ -1,15 +1,15 @@
 //! Artificial intelligence [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     components::{AiController, AiNavBoundsVolume},
     stages::{AiStage, AiStageGroup},
     systems::AiSystem,
 };
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// Artificial intelligence [`Plugin`].
 ///

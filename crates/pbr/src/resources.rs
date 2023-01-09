@@ -35,7 +35,5 @@ impl PbrResource {
     /// let pbr_resource_builder = PbrResource::builder();
     /// ```
     #[inline]
-    pub fn builder() -> PbrResourceBuilder {
-        PbrResourceBuilder::default()
-    }
+    pub fn builder() -> PbrResourceBuilder { PbrResourceBuilder::default() }
 }

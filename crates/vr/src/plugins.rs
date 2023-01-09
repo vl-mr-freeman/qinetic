@@ -1,16 +1,15 @@
 //! Virtual reality [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     components::{VrController, VrTracker},
     stages::{VrStage, VrStageGroup},
     systems::VrSystem,
 };
-
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// Virtual reality [`Plugin`].
 ///

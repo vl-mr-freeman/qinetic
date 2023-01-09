@@ -23,9 +23,7 @@ impl ButtonState {
     /// assert!(state.is_pressed());
     /// ```
     #[inline(always)]
-    pub const fn is_pressed(&self) -> bool {
-        matches!(self, ButtonState::Pressed)
-    }
+    pub const fn is_pressed(&self) -> bool { matches!(self, ButtonState::Pressed) }
 
     /// Returns `true` if `button` is `released`.
     ///
@@ -36,7 +34,5 @@ impl ButtonState {
     /// assert!(state.is_released());
     /// ```
     #[inline(always)]
-    pub const fn is_released(&self) -> bool {
-        matches!(self, ButtonState::Released)
-    }
+    pub const fn is_released(&self) -> bool { matches!(self, ButtonState::Released) }
 }

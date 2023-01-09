@@ -17,11 +17,7 @@ use syn::Path;
 
 /// Generates an impl for [`StageLabel`] trait.
 #[proc_macro_derive(StageLabel)]
-pub fn derive_stage(input: TokenStream) -> TokenStream {
-    stage_label::derive(input)
-}
+pub fn derive_stage(input: TokenStream) -> TokenStream { stage_label::derive(input) }
 
 /// Returns a [`Path`] of `qinetic_app`.
-pub(crate) fn path() -> Path {
-    Manifest::get_path("qinetic_app")
-}
+pub(crate) fn path() -> Path { Manifest::get_path("qinetic_app") }

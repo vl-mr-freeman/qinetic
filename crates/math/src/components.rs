@@ -1,8 +1,9 @@
 //! Math [`Component`]s functionality.
 
-use crate::vector::Vector3;
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
+
+use crate::vector::Vector3;
 
 /// Transform [`Component`].
 ///

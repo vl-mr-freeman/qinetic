@@ -1,8 +1,9 @@
 //! Keyboard functionality.
 
-use crate::button::ButtonState;
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
+
+use crate::button::ButtonState;
 
 /// Keyboard [`System`].
 ///
@@ -73,9 +74,7 @@ impl KeyboardEvent {
     /// let keyboard_event_builder = KeyboardEvent::builder();
     /// ```
     #[inline]
-    pub fn builder() -> KeyboardEventBuilder {
-        KeyboardEventBuilder::default()
-    }
+    pub fn builder() -> KeyboardEventBuilder { KeyboardEventBuilder::default() }
 }
 
 /// The `keycode` of a [`KeyboardEvent`].
@@ -447,7 +446,5 @@ impl ScanCode {
     /// let scancode = ScanCode::new(10);
     /// ```
     #[inline(always)]
-    pub const fn new(scancode: u32) -> Self {
-        Self { scancode }
-    }
+    pub const fn new(scancode: u32) -> Self { Self { scancode } }
 }

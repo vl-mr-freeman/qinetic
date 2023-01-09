@@ -1,12 +1,14 @@
 //! Point functionality.
 
+use std::ops::*;
+
+use num_traits::{clamp, clamp_max as clamp_min, clamp_min as clamp_max, Signed};
+use qinetic_utils::prelude::*;
+
 use crate::{
     digit::{Digit, DigitFloat, DigitNum},
     vector::{Vector2, Vector3, Vector4},
 };
-use num_traits::{clamp, clamp_max as clamp_min, clamp_min as clamp_max, Signed};
-use qinetic_utils::prelude::*;
-use std::ops::*;
 
 macro_rules! impl_point {
     ($(#[$attr:meta])* => $PointN:ident { $($field:ident),+ }, $VectorN:ident, $n:expr) => {
@@ -315,9 +317,7 @@ impl<T: DigitNum> Point2<T> {
     }
 
     #[inline]
-    pub fn to_homogeneous(self) -> Vector3<T> {
-        Vector3::new(self.x, self.y, T::one())
-    }
+    pub fn to_homogeneous(self) -> Vector3<T> { Vector3::new(self.x, self.y, T::one()) }
 }
 
 impl_point!(
@@ -336,7 +336,5 @@ impl<T: DigitNum> Point3<T> {
     }
 
     #[inline]
-    pub fn to_homogeneous(self) -> Vector4<T> {
-        Vector4::new(self.x, self.y, self.z, T::one())
-    }
+    pub fn to_homogeneous(self) -> Vector4<T> { Vector4::new(self.x, self.y, self.z, T::one()) }
 }

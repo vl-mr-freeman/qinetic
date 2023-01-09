@@ -121,6 +121,7 @@ macro_rules! impl_operator {
     ) => {
         impl $Op<$Rhs<$T>> for $Lhs {
             type Output = $Output;
+
             fn $op(self, other: $Rhs<$T>) -> $Output {
                 let ($lhs, $rhs) = (self, other);
                 $body
@@ -129,6 +130,7 @@ macro_rules! impl_operator {
 
         impl<'a> $Op<&'a $Rhs<$T>> for $Lhs {
             type Output = $Output;
+
             fn $op(self, other: &'a $Rhs<$T>) -> $Output {
                 let ($lhs, $rhs) = (self, other);
                 $body

@@ -19,10 +19,16 @@ pub mod prelude {
     //! Main entity-component-system functionality.
 
     #[doc(hidden)]
-    pub use crate::{
-        component::*, entity::*, event::*, resource::*, state::*, system::*, world::*,
-    };
+    pub use qinetic_ecs_macros::*;
 
     #[doc(hidden)]
-    pub use qinetic_ecs_macros::*;
+    pub use crate::{
+        component::*,
+        entity::*,
+        event::*,
+        resource::*,
+        state::*,
+        system::*,
+        world::*,
+    };
 }

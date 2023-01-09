@@ -1,10 +1,9 @@
 //! Animation [`Stage`]s functionality.
 
 use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
 #[allow(unused_imports)]
 use qinetic_core::prelude::*;
+use qinetic_utils::prelude::*;
 
 /// Animation [`Stage`].
 ///

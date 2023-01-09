@@ -36,7 +36,12 @@ pub mod prelude {
 
     #[doc(hidden)]
     pub use crate::{
-        components::Transform, matrix::*, plugins::MathPlugin, point::*, quaternion::*, vector::*,
+        components::Transform,
+        matrix::*,
+        plugins::MathPlugin,
+        point::*,
+        quaternion::*,
+        vector::*,
     };
 }
 

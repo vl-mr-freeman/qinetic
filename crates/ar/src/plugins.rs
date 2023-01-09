@@ -1,16 +1,15 @@
 //! Augmented reality [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     components::{ArController, ArTracker},
     stages::{ArStage, ArStageGroup},
     systems::ArSystem,
 };
-
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// Augmented reality [`Plugin`].
 ///

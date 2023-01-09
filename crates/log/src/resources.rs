@@ -1,11 +1,9 @@
 //! Log [`Resource`]s functionality.
 
+use std::fs::File;
+
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
-use std::clone::Clone;
-use std::default::Default;
-use std::fs::File;
-use std::option::Option;
 
 #[derive(Add)]
 pub struct Vector {
@@ -57,9 +55,7 @@ impl LogResource {
     /// let log_resource_builder = LogResource::builder();
     /// ```
     #[inline]
-    pub fn builder() -> LogResourceBuilder {
-        LogResourceBuilder::default()
-    }
+    pub fn builder() -> LogResourceBuilder { LogResourceBuilder::default() }
 }
 
 /// Level of logging.

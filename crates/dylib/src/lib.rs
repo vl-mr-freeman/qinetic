@@ -17,7 +17,7 @@
 //! release build to avoid having to ship additional files with your game.
 //!
 //! ```
-//! features = ["dynamic"]
+//! features = ["dynamic"] 
 //! ```
 
 #![doc(

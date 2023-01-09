@@ -1,10 +1,14 @@
 //! Vector functionality.
 
-use crate::digit::{Digit, DigitFloat, DigitNum};
+use std::{
+    iter::{Product, Sum},
+    ops::*,
+};
+
 use num_traits::{clamp, clamp_max as clamp_min, clamp_min as clamp_max, Signed};
 use qinetic_utils::prelude::*;
-use std::iter::{Product, Sum};
-use std::ops::*;
+
+use crate::digit::{Digit, DigitFloat, DigitNum};
 
 macro_rules! impl_vector {
     ($(#[$attr:meta])* => $VectorN:ident { $($field:ident),+ }, $n:expr) => {
@@ -487,65 +491,47 @@ crate::impl_tuple_conversions!(Vector2<T: Digit> { x, y }, (T, T));
 impl<T: Digit> Vector2<T> {
     /// Returns a `Vector`, provides the `z` value.
     #[inline]
-    pub fn extend(self, z: T) -> Vector3<T> {
-        Vector3::new(self.x, self.y, z)
-    }
+    pub fn extend(self, z: T) -> Vector3<T> { Vector3::new(self.x, self.y, z) }
 }
 
 impl<T: DigitNum + PartialOrd> Vector2<T> {
     /// Returns the horizontal minimum of `self`.
     #[inline]
-    pub fn min_element(self) -> T {
-        clamp_min(self.x, self.y)
-    }
+    pub fn min_element(self) -> T { clamp_min(self.x, self.y) }
 
     /// Returns the horizontal maximum of `self`.
     #[inline]
-    pub fn max_element(self) -> T {
-        clamp_max(self.x, self.y)
-    }
+    pub fn max_element(self) -> T { clamp_max(self.x, self.y) }
 }
 
 impl<T: DigitNum> Vector2<T> {
     /// Returns a `Vector` with pointing along the positive [`x`](Vector2::x).
     #[inline]
-    pub fn unit_x() -> Self {
-        Self::new(T::one(), T::zero())
-    }
+    pub fn unit_x() -> Self { Self::new(T::one(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the positive [`y`](Vector2::y).
     #[inline]
-    pub fn unit_y() -> Self {
-        Self::new(T::zero(), T::one())
-    }
+    pub fn unit_y() -> Self { Self::new(T::zero(), T::one()) }
 }
 
 impl<T: DigitNum + Signed> Vector2<T> {
     /// Returns a `Vector` with pointing along the negative [`x`](Vector2::x).
     #[inline]
-    pub fn unit_neg_x() -> Self {
-        Self::new(-T::one(), T::zero())
-    }
+    pub fn unit_neg_x() -> Self { Self::new(-T::one(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the negative [`y`](Vector2::y).
     #[inline]
-    pub fn unit_neg_y() -> Self {
-        Self::new(T::zero(), -T::one())
-    }
+    pub fn unit_neg_y() -> Self { Self::new(T::zero(), -T::one()) }
 }
 
 impl<T: Digit> From<Vector3<T>> for Vector2<T> {
     #[inline]
-    fn from(v: Vector3<T>) -> Self {
-        Self::new(v.x, v.y)
-    }
+    fn from(v: Vector3<T>) -> Self { Self::new(v.x, v.y) }
 }
 
 impl<T: Digit> From<Vector4<T>> for Vector2<T> {
     #[inline]
-    fn from(v: Vector4<T>) -> Self {
-        Self::new(v.x, v.y)
-    }
+    fn from(v: Vector4<T>) -> Self { Self::new(v.x, v.y) }
 }
 
 impl_vector!(
@@ -557,29 +543,21 @@ crate::impl_tuple_conversions!(Vector3<T: Digit> { x, y, z }, (T, T, T));
 impl<T: Digit> Vector3<T> {
     /// Returns a `Vector`, dropping the `z` value.
     #[inline]
-    pub fn truncate(self) -> Vector2<T> {
-        Vector2::new(self.x, self.y)
-    }
+    pub fn truncate(self) -> Vector2<T> { Vector2::new(self.x, self.y) }
 
     /// Returns a `Vector`, provides the `w` value.
     #[inline]
-    pub fn extend(self, w: T) -> Vector4<T> {
-        Vector4::new(self.x, self.y, self.z, w)
-    }
+    pub fn extend(self, w: T) -> Vector4<T> { Vector4::new(self.x, self.y, self.z, w) }
 }
 
 impl<T: DigitNum + PartialOrd> Vector3<T> {
     /// Returns the horizontal minimum of `self`.
     #[inline]
-    pub fn min_element(self) -> T {
-        clamp_min(self.x, clamp_min(self.y, self.z))
-    }
+    pub fn min_element(self) -> T { clamp_min(self.x, clamp_min(self.y, self.z)) }
 
     /// Returns the horizontal maximum of `self`.
     #[inline]
-    pub fn max_element(self) -> T {
-        clamp_max(self.x, clamp_max(self.y, self.z))
-    }
+    pub fn max_element(self) -> T { clamp_max(self.x, clamp_max(self.y, self.z)) }
 }
 
 impl<T: DigitNum> Vector3<T> {
@@ -595,55 +573,39 @@ impl<T: DigitNum> Vector3<T> {
 
     /// Returns a `Vector` with pointing along the positive [`x`](Vector3::x).
     #[inline]
-    pub fn unit_x() -> Self {
-        Self::new(T::one(), T::zero(), T::zero())
-    }
+    pub fn unit_x() -> Self { Self::new(T::one(), T::zero(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the positive [`y`](Vector3::y).
     #[inline]
-    pub fn unit_y() -> Self {
-        Self::new(T::zero(), T::one(), T::zero())
-    }
+    pub fn unit_y() -> Self { Self::new(T::zero(), T::one(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the positive [`z`](Vector3::z).
     #[inline]
-    pub fn unit_z() -> Self {
-        Self::new(T::zero(), T::zero(), T::one())
-    }
+    pub fn unit_z() -> Self { Self::new(T::zero(), T::zero(), T::one()) }
 }
 
 impl<T: DigitNum + Signed> Vector3<T> {
     /// Returns a `Vector` with pointing along the negative [`x`](Vector3::x).
     #[inline]
-    pub fn unit_neg_x() -> Self {
-        Self::new(-T::one(), T::zero(), T::zero())
-    }
+    pub fn unit_neg_x() -> Self { Self::new(-T::one(), T::zero(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the negative [`y`](Vector3::y).
     #[inline]
-    pub fn unit_neg_y() -> Self {
-        Self::new(T::zero(), -T::one(), T::zero())
-    }
+    pub fn unit_neg_y() -> Self { Self::new(T::zero(), -T::one(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the negative [`z`](Vector3::z).
     #[inline]
-    pub fn unit_neg_z() -> Self {
-        Self::new(T::zero(), T::zero(), -T::one())
-    }
+    pub fn unit_neg_z() -> Self { Self::new(T::zero(), T::zero(), -T::one()) }
 }
 
 impl<T: Digit> From<Vector2<T>> for Vector3<T> {
     #[inline]
-    fn from(v: Vector2<T>) -> Self {
-        Self::new(v.x, v.y, T::default())
-    }
+    fn from(v: Vector2<T>) -> Self { Self::new(v.x, v.y, T::default()) }
 }
 
 impl<T: Digit> From<Vector4<T>> for Vector3<T> {
     #[inline]
-    fn from(v: Vector4<T>) -> Self {
-        Self::new(v.x, v.y, v.z)
-    }
+    fn from(v: Vector4<T>) -> Self { Self::new(v.x, v.y, v.z) }
 }
 
 impl_vector!(
@@ -657,9 +619,7 @@ crate::impl_tuple_conversions!(Vector4<T: Digit> { x, y, z, w }, (T, T, T, T));
 impl<T: Digit> Vector4<T> {
     /// Returns a `Vector`, dropping the `w` value.
     #[inline]
-    pub fn truncate(self) -> Vector3<T> {
-        Vector3::new(self.x, self.y, self.w)
-    }
+    pub fn truncate(self) -> Vector3<T> { Vector3::new(self.x, self.y, self.w) }
 }
 
 impl<T: DigitNum + PartialOrd> Vector4<T> {
@@ -679,65 +639,45 @@ impl<T: DigitNum + PartialOrd> Vector4<T> {
 impl<T: DigitNum> Vector4<T> {
     /// Returns a `Vector` with pointing along the positive [`x`](Vector4::x).
     #[inline]
-    pub fn unit_x() -> Self {
-        Self::new(T::one(), T::zero(), T::zero(), T::zero())
-    }
+    pub fn unit_x() -> Self { Self::new(T::one(), T::zero(), T::zero(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the positive [`y`](Vector4::y).
     #[inline]
-    pub fn unit_y() -> Self {
-        Self::new(T::zero(), T::one(), T::zero(), T::zero())
-    }
+    pub fn unit_y() -> Self { Self::new(T::zero(), T::one(), T::zero(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the positive [`z`](Vector4::z).
     #[inline]
-    pub fn unit_z() -> Self {
-        Self::new(T::zero(), T::zero(), T::one(), T::zero())
-    }
+    pub fn unit_z() -> Self { Self::new(T::zero(), T::zero(), T::one(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the positive [`w`](Vector4::w).
     #[inline]
-    pub fn unit_w() -> Self {
-        Self::new(T::zero(), T::zero(), T::zero(), T::one())
-    }
+    pub fn unit_w() -> Self { Self::new(T::zero(), T::zero(), T::zero(), T::one()) }
 }
 
 impl<T: DigitNum + Signed> Vector4<T> {
     /// Returns a `Vector` with pointing along the negative [`x`](Vector4::x).
     #[inline]
-    pub fn unit_neg_x() -> Self {
-        Self::new(-T::one(), T::zero(), T::zero(), T::zero())
-    }
+    pub fn unit_neg_x() -> Self { Self::new(-T::one(), T::zero(), T::zero(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the negative [`y`](Vector4::y).
     #[inline]
-    pub fn unit_neg_y() -> Self {
-        Self::new(T::zero(), -T::one(), T::zero(), T::zero())
-    }
+    pub fn unit_neg_y() -> Self { Self::new(T::zero(), -T::one(), T::zero(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the negative [`z`](Vector4::z).
     #[inline]
-    pub fn unit_neg_z() -> Self {
-        Self::new(T::zero(), T::zero(), -T::one(), T::zero())
-    }
+    pub fn unit_neg_z() -> Self { Self::new(T::zero(), T::zero(), -T::one(), T::zero()) }
 
     /// Returns a `Vector` with pointing along the negative [`w`](Vector4::w).
     #[inline]
-    pub fn unit_neg_w() -> Self {
-        Self::new(T::zero(), T::zero(), T::zero(), -T::one())
-    }
+    pub fn unit_neg_w() -> Self { Self::new(T::zero(), T::zero(), T::zero(), -T::one()) }
 }
 
 impl<T: Digit> From<Vector2<T>> for Vector4<T> {
     #[inline]
-    fn from(v: Vector2<T>) -> Self {
-        Self::new(v.x, v.y, T::default(), T::default())
-    }
+    fn from(v: Vector2<T>) -> Self { Self::new(v.x, v.y, T::default(), T::default()) }
 }
 
 impl<T: Digit> From<Vector3<T>> for Vector4<T> {
     #[inline]
-    fn from(v: Vector3<T>) -> Self {
-        Self::new(v.x, v.y, v.z, T::default())
-    }
+    fn from(v: Vector3<T>) -> Self { Self::new(v.x, v.y, v.z, T::default()) }
 }

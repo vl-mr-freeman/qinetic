@@ -35,7 +35,13 @@ pub mod prelude {
     #[doc(hidden)]
     pub use crate::{
         components::{
-            BoxCollider, CapsuleCollider, Cloth, MeshCollider, Rigidbody, Softbody, SphereCollider,
+            BoxCollider,
+            CapsuleCollider,
+            Cloth,
+            MeshCollider,
+            Rigidbody,
+            Softbody,
+            SphereCollider,
         },
         plugins::PhysicsPlugin,
         resources::{PhysicsResource, PhysicsResourceBuilder, PhysicsResourceBuilderError},

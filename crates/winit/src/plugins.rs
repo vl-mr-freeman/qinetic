@@ -1,15 +1,15 @@
 //! Winit [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     runners::WinitRunner,
     stages::{WinitStage, WinitStageGroup},
     systems::WinitSystem,
 };
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// Winit [`Plugin`].
 ///

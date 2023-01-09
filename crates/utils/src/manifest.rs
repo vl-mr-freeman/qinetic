@@ -1,7 +1,8 @@
 //! Manifest to parse `Cargo.toml`.
 
-use proc_macro::TokenStream;
 use std::{env, path::PathBuf};
+
+use proc_macro::TokenStream;
 use syn::{parse::Parse, Path};
 use toml::map::Map;
 

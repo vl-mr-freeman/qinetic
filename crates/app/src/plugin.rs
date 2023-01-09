@@ -1,10 +1,13 @@
 //! Application plugin functionality.
 
-use std::any::{type_name, Any, TypeId};
-use std::collections::HashMap;
+use std::{
+    any::{type_name, Any, TypeId},
+    collections::HashMap,
+};
+
+use qinetic_utils::prelude::*;
 
 use crate::app::*;
-use qinetic_utils::prelude::*;
 
 /// [`App`]'s additional feature.
 ///
@@ -16,7 +19,7 @@ use qinetic_utils::prelude::*;
 ///
 /// impl Plugin for MyPlugin {
 ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 /// ```
@@ -35,7 +38,7 @@ pub trait Plugin: Any + 'static {
 ///
 /// impl Plugin for MyPlugin1 {
 ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 ///
@@ -43,7 +46,7 @@ pub trait Plugin: Any + 'static {
 ///
 /// impl Plugin for MyPlugin2 {
 ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 ///
@@ -70,7 +73,7 @@ pub trait PluginGroup {
 ///
 /// impl Plugin for MyPlugin1 {
 ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 ///
@@ -78,7 +81,7 @@ pub trait PluginGroup {
 ///
 /// impl Plugin for MyPlugin2 {
 ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 ///
@@ -86,7 +89,7 @@ pub trait PluginGroup {
 ///
 /// impl Plugin for MyPlugin3 {
 ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 ///
@@ -145,14 +148,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
@@ -166,11 +169,13 @@ impl PluginRegistry {
     pub fn add_plugin_after<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
         let i = self.index_of::<Target>();
         let i = match i {
-            Some(i) => i + 1,
-            None => panic!(
-                "Failed to add Plugin after, it's does not present in registry: {}.",
-                type_name::<Target>()
-            ),
+            | Some(i) => i + 1,
+            | None => {
+                panic!(
+                    "Failed to add Plugin after, it's does not present in registry: {}.",
+                    type_name::<Target>()
+                )
+            },
         };
         self.order.insert(i, TypeId::of::<T>());
         self.upsert(plugin, i);
@@ -188,14 +193,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
@@ -209,11 +214,13 @@ impl PluginRegistry {
     pub fn add_plugin_before<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
         let i = self.index_of::<Target>();
         let i = match i {
-            Some(i) => i,
-            None => panic!(
-                "Failed to add Plugin before, it's does not present in registry: {}.",
-                type_name::<Target>()
-            ),
+            | Some(i) => i,
+            | None => {
+                panic!(
+                    "Failed to add Plugin before, it's does not present in registry: {}.",
+                    type_name::<Target>()
+                )
+            },
         };
         self.order.insert(i, TypeId::of::<T>());
         self.upsert(plugin, i);
@@ -229,14 +236,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
@@ -247,9 +254,7 @@ impl PluginRegistry {
     /// assert!(plugin_registry.has_plugin::<MyPlugin1>());
     /// assert!(plugin_registry.has_plugin::<MyPlugin2>());
     /// ```
-    pub fn has_plugin<T: Plugin>(&mut self) -> bool {
-        self.index_of::<T>().is_some()
-    }
+    pub fn has_plugin<T: Plugin>(&mut self) -> bool { self.index_of::<T>().is_some() }
 
     /// Returns a [`PluginRegistry`] with added [`Plugin`]s of the [`PluginGroup`] at the end.
     /// If the [`Plugin`] of the [`PluginGroup`] was already present, it's removed from its previous place and add at the end.
@@ -261,14 +266,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
@@ -298,14 +303,14 @@ impl PluginRegistry {
     /// struct MyPlugin1;
     ///
     /// impl Plugin for MyPlugin1 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyPlugin2;
     ///
     /// impl Plugin for MyPlugin2 {
-    ///     fn build(&mut self, app_builder: &mut AppBuilder) { /* Something to do */
+    ///     fn build(&mut self, app_builder: &mut AppBuilder) { // Something to do
     ///     }
     /// }
     ///

@@ -9,7 +9,5 @@ pub struct EventLoop {}
 impl EventLoop {}
 
 impl Default for EventLoop {
-    fn default() -> Self {
-        Self {}
-    }
+    fn default() -> Self { Self {} }
 }

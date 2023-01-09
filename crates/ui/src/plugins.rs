@@ -1,17 +1,16 @@
 //! User-interface [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     components::{Button, Image, RectTransform, Scrollbar, Slider, Text},
     resources::UiResource,
     stages::{UiStage, UiStageGroup},
     systems::UiSystem,
 };
-
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// User-interface [`Plugin`]
 ///

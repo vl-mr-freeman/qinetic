@@ -1,8 +1,9 @@
 //! Mouse functionality.
 
-use crate::button::ButtonState;
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
+
+use crate::button::ButtonState;
 
 /// Mouse [`System`].
 ///
@@ -70,9 +71,7 @@ impl MouseButtonEvent {
     /// let mouse_button_event_builder = MouseButtonEvent::builder();
     /// ```
     #[inline]
-    pub fn builder() -> MouseButtonEventBuilder {
-        MouseButtonEventBuilder::default()
-    }
+    pub fn builder() -> MouseButtonEventBuilder { MouseButtonEventBuilder::default() }
 }
 
 /// The `button` of a [`MouseEvent`].
@@ -134,9 +133,7 @@ impl MouseMotionEvent {
     /// let mouse_motion_event_builder = MouseMotionEvent::builder();
     /// ```
     #[inline]
-    pub fn builder() -> MouseMotionEventBuilder {
-        MouseMotionEventBuilder::default()
-    }
+    pub fn builder() -> MouseMotionEventBuilder { MouseMotionEventBuilder::default() }
 }
 
 /// Mouse wheel [`Event`].
@@ -181,7 +178,5 @@ impl MouseWheelEvent {
     /// let mouse_wheel_event_builder = MouseWheelEvent::builder();
     /// ```
     #[inline]
-    pub fn builder() -> MouseWheelEventBuilder {
-        MouseWheelEventBuilder::default()
-    }
+    pub fn builder() -> MouseWheelEventBuilder { MouseWheelEventBuilder::default() }
 }

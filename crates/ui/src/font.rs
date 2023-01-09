@@ -42,7 +42,5 @@ impl Font {
     /// let font_builder = Font::builder();
     /// ```
     #[inline]
-    pub fn builder() -> FontBuilder {
-        FontBuilder::default()
-    }
+    pub fn builder() -> FontBuilder { FontBuilder::default() }
 }

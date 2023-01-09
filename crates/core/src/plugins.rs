@@ -1,16 +1,15 @@
 //! Core [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     components::{Script, Tag},
     stages::{CoreStage, CoreStageGroup},
     systems::CoreSystem,
 };
-
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// Core [`Plugin`].
 ///

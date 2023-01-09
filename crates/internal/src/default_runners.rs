@@ -19,9 +19,7 @@ use qinetic_utils::prelude::*;
 pub struct RunOnce {}
 
 impl Runner for RunOnce {
-    fn run(&mut self, mut app: App) {
-        app.update();
-    }
+    fn run(&mut self, mut app: App) { app.update(); }
 }
 
 /// [`Runner`] that calls in loop.

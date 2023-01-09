@@ -49,9 +49,7 @@ impl Gamepad {
     /// let gamepad_builder = Gamepad::builder();
     /// ```
     #[inline]
-    pub fn builder() -> GamepadBuilder {
-        GamepadBuilder::default()
-    }
+    pub fn builder() -> GamepadBuilder { GamepadBuilder::default() }
 }
 
 /// [`Gamepad`] [`Event`].

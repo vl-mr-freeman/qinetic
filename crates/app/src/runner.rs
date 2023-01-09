@@ -1,8 +1,10 @@
 //! Application runner functionality.
 
-use crate::app::App;
-use qinetic_utils::prelude::*;
 use std::any::Any;
+
+use qinetic_utils::prelude::*;
+
+use crate::app::App;
 
 /// Runner that calls in [App::run].
 ///
@@ -15,7 +17,7 @@ use std::any::Any;
 ///
 /// impl Runner for MyRunner {
 ///     fn run(&mut self, mut app: App) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 /// ```

@@ -1,11 +1,14 @@
 //! Application stage functionality.
 
+use std::{
+    any::{type_name, TypeId},
+    collections::HashMap,
+};
+
+use qinetic_ecs::world::World;
 use qinetic_utils::prelude::*;
-use std::any::{type_name, TypeId};
-use std::collections::HashMap;
 
 use crate::schedule::*;
-use qinetic_ecs::world::World;
 
 /// [`Schedule`]'s step of execution cycle.
 ///
@@ -18,7 +21,7 @@ use qinetic_ecs::world::World;
 ///
 /// impl Stage for MyStage {
 ///     fn run(&mut self, world: &mut World) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 /// ```
@@ -48,7 +51,7 @@ qinetic_utils::define_label!(
 ///
 /// impl Stage for MyStage1 {
 ///     fn run(&mut self, world: &mut World) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 ///
@@ -56,7 +59,7 @@ qinetic_utils::define_label!(
 ///
 /// impl Stage for MyStage2 {
 ///     fn run(&mut self, world: &mut World) {
-///         /* Something to do */
+///         // Something to do
 ///     }
 /// }
 ///
@@ -83,21 +86,21 @@ pub trait StageGroup {
 /// struct MyStage1;
 ///
 /// impl Stage for MyStage1 {
-///     fn run(&mut self, world: &mut World) { /* Something to do */
+///     fn run(&mut self, world: &mut World) { // Something to do
 ///     }
 /// }
 ///
 /// struct MyStage2;
 ///
 /// impl Stage for MyStage2 {
-///     fn run(&mut self, world: &mut World) { /* Something to do */
+///     fn run(&mut self, world: &mut World) { // Something to do
 ///     }
 /// }
 ///
 /// struct MyStage3;
 ///
 /// impl Stage for MyStage3 {
-///     fn run(&mut self, world: &mut World) { /* Something to do */
+///     fn run(&mut self, world: &mut World) { // Something to do
 ///     }
 /// }
 ///
@@ -160,14 +163,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///
@@ -184,18 +187,16 @@ impl StageRegistry {
         label: impl StageLabel,
         stage: T,
     ) -> &mut Self {
-        /*
-        let i = self.index_of::<Target>();
-        let i = match i {
-            Some(i) => i + 1,
-            None => panic!(
-                "Failed to add Stage after, it's does not present in registry: {}.",
-                type_name::<Target>()
-            ),
-        };
-        self.order.insert(i, TypeId::of::<T>());
-        self.upsert(stage, i);
-        */
+        // let i = self.index_of::<Target>();
+        // let i = match i {
+        // Some(i) => i + 1,
+        // None => panic!(
+        // "Failed to add Stage after, it's does not present in registry: {}.",
+        // type_name::<Target>()
+        // ),
+        // };
+        // self.order.insert(i, TypeId::of::<T>());
+        // self.upsert(stage, i);
         self
     }
 
@@ -211,14 +212,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///
@@ -235,18 +236,16 @@ impl StageRegistry {
         label: impl StageLabel,
         stage: T,
     ) -> &mut Self {
-        /*
-        let i = self.index_of::<Target>();
-        let i = match i {
-            Some(i) => i + 1,
-            None => panic!(
-                "Failed to add Stage after, it's does not present in registry: {}.",
-                type_name::<Target>()
-            ),
-        };
-        self.order.insert(i, TypeId::of::<T>());
-        self.upsert(stage, i);
-        */
+        // let i = self.index_of::<Target>();
+        // let i = match i {
+        // Some(i) => i + 1,
+        // None => panic!(
+        // "Failed to add Stage after, it's does not present in registry: {}.",
+        // type_name::<Target>()
+        // ),
+        // };
+        // self.order.insert(i, TypeId::of::<T>());
+        // self.upsert(stage, i);
         self
     }
 
@@ -260,14 +259,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///
@@ -278,9 +277,7 @@ impl StageRegistry {
     /// assert!(stage_registry.has_stage::<MyStage1>());
     /// assert!(stage_registry.has_stage::<MyStage2>());
     /// ```
-    pub fn has_stage<T: Stage>(&mut self) -> bool {
-        self.index_of::<T>().is_some()
-    }
+    pub fn has_stage<T: Stage>(&mut self) -> bool { self.index_of::<T>().is_some() }
 
     /// Returns a [`StageRegistry`] with added [`Stage`]s of the [`StageGroup`] at the end.
     ///
@@ -294,14 +291,14 @@ impl StageRegistry {
     /// struct MyStage1;
     ///
     /// impl Stage for MyStage1 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///
     /// struct MyStage2;
     ///
     /// impl Stage for MyStage2 {
-    ///     fn run(&mut self, world: &mut World) { /* Something to do */
+    ///     fn run(&mut self, world: &mut World) { // Something to do
     ///     }
     /// }
     ///

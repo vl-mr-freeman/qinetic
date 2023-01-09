@@ -15,8 +15,7 @@ keywords = ["qinetic"]
 [lib]
 crate-type = ["dylib"]
 
-[toolchain]
-channel = "nightly"
+
 
 [dependencies]
 # Qinetic.

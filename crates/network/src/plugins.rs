@@ -1,15 +1,14 @@
 //! Network [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     stages::{NetworkStage, NetworkStageGroup},
     systems::NetworkSystem,
 };
-
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// Network [`Plugin`]
 ///

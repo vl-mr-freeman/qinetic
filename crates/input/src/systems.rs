@@ -1,8 +1,9 @@
 //! Input [`System`]s functionality.
 
-pub use crate::keyboard::KeyboardSystem;
 use qinetic_ecs::prelude::*;
 use qinetic_utils::prelude::*;
+
+pub use crate::keyboard::KeyboardSystem;
 
 /// Input [`System`].
 ///

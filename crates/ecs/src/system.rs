@@ -1,9 +1,10 @@
 //! System functionality.
 
-use crate::world::World;
 use std::any::{type_name, Any};
 
 use qinetic_utils::prelude::*;
+
+use crate::world::World;
 
 /// System of the [`World`].
 pub trait System: Any + Send + Sync + 'static {

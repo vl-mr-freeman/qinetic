@@ -1,7 +1,9 @@
 //! Resource functionality.
 
-use std::any::{type_name, Any, TypeId};
-use std::collections::HashMap;
+use std::{
+    any::{type_name, Any, TypeId},
+    collections::HashMap,
+};
 
 use qinetic_utils::prelude::*;
 
@@ -12,7 +14,9 @@ use qinetic_utils::prelude::*;
 /// # use qinetic_ecs::prelude::*;
 /// #
 /// #[derive(Default, Resource)]
-/// struct MyResource {/* Something to do */}
+/// struct MyResource {
+///     // Something to do
+/// }
 /// ```
 pub trait Resource: Any + Send + Sync + 'static {}
 
@@ -26,15 +30,11 @@ impl ResourceRegistry {
 
     /// Returns a immutable [`Resource`] by `T`, if it's present.
     #[inline]
-    pub fn get_resource<T: Resource>(&self) -> Option<&T> {
-        todo!()
-    }
+    pub fn get_resource<T: Resource>(&self) -> Option<&T> { todo!() }
 
     /// Returns a mutable [`Resource`] by `T`, if it's present.
     #[inline]
-    pub fn get_resource_mut<T: Resource>(&mut self) -> Option<&mut T> {
-        todo!()
-    }
+    pub fn get_resource_mut<T: Resource>(&mut self) -> Option<&mut T> { todo!() }
 
     /// Returns `true`, if [`Resource`] by `T` present.
     ///
@@ -55,7 +55,5 @@ impl ResourceRegistry {
     /// assert!(!resource_registry.has_resource::<MyResource2>());
     /// ```
     #[inline]
-    pub fn has_resource<T: Resource>(&self) -> bool {
-        todo!()
-    }
+    pub fn has_resource<T: Resource>(&self) -> bool { todo!() }
 }

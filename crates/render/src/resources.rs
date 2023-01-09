@@ -46,9 +46,7 @@ impl RenderResource {
     /// let render_resource_builder = RenderResource::builder();
     /// ```
     #[inline]
-    pub fn builder() -> RenderResourceBuilder {
-        RenderResourceBuilder::default()
-    }
+    pub fn builder() -> RenderResourceBuilder { RenderResourceBuilder::default() }
 }
 
 /// Defines which `internal api` use.

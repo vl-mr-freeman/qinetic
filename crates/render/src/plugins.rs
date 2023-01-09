@@ -1,17 +1,16 @@
 //! Render [`Plugin`]s functionality.
 
+use qinetic_app::prelude::*;
+#[allow(unused_imports)]
+use qinetic_ecs::prelude::*;
+use qinetic_utils::prelude::*;
+
 use crate::{
     components::{Camera, Mesh},
     resources::RenderResource,
     stages::{RenderStage, RenderStageGroup},
     systems::RenderSystem,
 };
-
-use qinetic_app::prelude::*;
-use qinetic_utils::prelude::*;
-
-#[allow(unused_imports)]
-use qinetic_ecs::prelude::*;
 
 /// Render [`Plugin`]
 ///

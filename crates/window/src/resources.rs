@@ -70,9 +70,7 @@ impl WindowResource {
     /// let window_resource_builder = WindowResource::builder();
     /// ```
     #[inline]
-    pub fn builder() -> WindowResourceBuilder {
-        WindowResourceBuilder::default()
-    }
+    pub fn builder() -> WindowResourceBuilder { WindowResourceBuilder::default() }
 }
 
 /// Defines on which `mode` show [`Window`] on creation.

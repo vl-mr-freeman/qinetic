@@ -85,16 +85,18 @@ pub fn derive_label(
     let ident = input.ident.clone();
 
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
-    let mut where_clause = where_clause.cloned().unwrap_or_else(|| syn::WhereClause {
-        where_token: Default::default(),
-        predicates: Default::default(),
+    let mut where_clause = where_clause.cloned().unwrap_or_else(|| {
+        syn::WhereClause {
+            where_token: Default::default(),
+            predicates: Default::default(),
+        }
     });
     where_clause
         .predicates
         .push(syn::parse2(quote! { Self: 'static }).unwrap());
 
     let as_str = match input.data {
-        syn::Data::Struct(d) => {
+        | syn::Data::Struct(d) => {
             // see if the user tried to ignore fields incorrectly
             if let Some(attr) = d
                 .fields
@@ -120,8 +122,8 @@ pub fn derive_label(
                 }
                 .into();
             }
-        }
-        syn::Data::Enum(d) => {
+        },
+        | syn::Data::Enum(d) => {
             // check if the user put #[label(ignore_fields)] in the wrong place
             if let Some(attr) = input.attrs.iter().find(|a| is_ignore(a, attr_name)) {
                 let err_msg = format!("`#[{attr_name}(ignore_fields)]` can only be applied to enum variants or struct declarations");
@@ -150,13 +152,13 @@ pub fn derive_label(
                     #(#arms),*
                 }
             }
-        }
-        syn::Data::Union(_) => {
+        },
+        | syn::Data::Union(_) => {
             return quote_spanned! {
                 input.span() => compile_error!("Unions cannot be used as labels.");
             }
             .into();
-        }
+        },
     };
 
     (quote! {

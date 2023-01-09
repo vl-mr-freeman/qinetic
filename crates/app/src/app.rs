@@ -1,16 +1,21 @@
 //! Application functionality.
 
+use qinetic_ecs::{
+    component::Component,
+    event::Event,
+    resource::Resource,
+    state::State,
+    system::System,
+    world::World,
+};
+use qinetic_utils::prelude::*;
+
 use crate::{
     plugin::{Plugin, PluginGroup},
     runner::Runner,
     schedule::Schedule,
     stage::{Stage, StageGroup, StageLabel},
 };
-use qinetic_ecs::{
-    component::Component, event::Event, resource::Resource, state::State, system::System,
-    world::World,
-};
-use qinetic_utils::prelude::*;
 
 /// A conteiner of application logic.
 ///
@@ -68,9 +73,7 @@ impl App {
     /// let app_builder = App::builder();
     /// ```
     #[inline]
-    pub fn builder() -> AppBuilder {
-        AppBuilder::default()
-    }
+    pub fn builder() -> AppBuilder { AppBuilder::default() }
 
     /// Starts a [`App`] by calling the [runner function](AppBuilder::with_runner).
     ///
@@ -83,7 +86,7 @@ impl App {
     ///
     /// impl Runner for MyRunner {
     ///     fn run(&mut self, mut app: App) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -104,22 +107,16 @@ impl App {
     /// struct MyRunner;
     ///
     /// impl Runner for MyRunner {
-    ///     fn run(&mut self, mut app: App) {
-    ///         app.update();
-    ///     }
+    ///     fn run(&mut self, mut app: App) { app.update(); }
     /// }
     ///
     /// App::builder().with_runner(MyRunner).build().unwrap().run();
     /// ```
-    pub fn update(&mut self) {
-        self.schedule.run(&mut self.world);
-    }
+    pub fn update(&mut self) { self.schedule.run(&mut self.world); }
 }
 
 impl AppBuilder {
-    pub fn build(&mut self) -> Result<App, AppBuilderError> {
-        Ok(App::default())
-    }
+    pub fn build(&mut self) -> Result<App, AppBuilderError> { Ok(App::default()) }
 
     /// Returns a [`AppBuilder`] with [`Runner`].
     ///
@@ -130,7 +127,7 @@ impl AppBuilder {
     ///
     /// impl Runner for MyRunner {
     ///     fn run(&mut self, mut app: App) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -163,7 +160,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_stage<T: Stage>(&mut self, label: impl StageLabel, stage: T) -> &mut Self {
-        //self.stage_registry.add_stage(label, stage);
+        // self.stage_registry.add_stage(label, stage);
         self
     }
 
@@ -196,7 +193,7 @@ impl AppBuilder {
         label: impl StageLabel,
         stage: T,
     ) -> &mut Self {
-        //self.stage_registry.add_stage_after(target, label, stage);
+        // self.stage_registry.add_stage_after(target, label, stage);
         self
     }
 
@@ -229,7 +226,7 @@ impl AppBuilder {
         label: impl StageLabel,
         stage: T,
     ) -> &mut Self {
-        //self.stage_registry.add_stage_before(target, label, stage);
+        // self.stage_registry.add_stage_before(target, label, stage);
         self
     }
 
@@ -265,7 +262,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_stage_group<T: StageGroup>(&mut self, group: T) -> &mut Self {
-        //self.stage_registry.add_stage_group(group);
+        // self.stage_registry.add_stage_group(group);
         self
     }
 
@@ -281,7 +278,7 @@ impl AppBuilder {
     ///
     /// impl Plugin for MyPlugin {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -289,7 +286,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_plugin<T: Plugin>(&mut self, plugin: T) -> &mut Self {
-        //self.plugin_registry.add_plugin(plugin);
+        // self.plugin_registry.add_plugin(plugin);
         self
     }
 
@@ -305,7 +302,7 @@ impl AppBuilder {
     ///
     /// impl Plugin for MyPlugin1 {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -313,7 +310,7 @@ impl AppBuilder {
     ///
     /// impl Plugin for MyPlugin2 {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -325,7 +322,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_plugin_after<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
-        //self.plugin_registry.add_plugin_after::<Target, _>(plugin);
+        // self.plugin_registry.add_plugin_after::<Target, _>(plugin);
         self
     }
 
@@ -341,7 +338,7 @@ impl AppBuilder {
     ///
     /// impl Plugin for MyPlugin1 {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -349,7 +346,7 @@ impl AppBuilder {
     ///
     /// impl Plugin for MyPlugin2 {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -361,7 +358,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_plugin_before<Target: Plugin, T: Plugin>(&mut self, plugin: T) -> &mut Self {
-        //self.plugin_registry.add_plugin_before::<Target, _>(plugin);
+        // self.plugin_registry.add_plugin_before::<Target, _>(plugin);
         self
     }
 
@@ -377,7 +374,7 @@ impl AppBuilder {
     ///
     /// impl Plugin for MyPlugin1 {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -385,7 +382,7 @@ impl AppBuilder {
     ///
     /// impl Plugin for MyPlugin2 {
     ///     fn build(&mut self, app_builder: &mut AppBuilder) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -404,7 +401,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_plugin_group<T: PluginGroup>(&mut self, group: T) -> &mut Self {
-        //self.plugin_registry.add_plugin_group(group);
+        // self.plugin_registry.add_plugin_group(group);
         self
     }
 
@@ -418,7 +415,9 @@ impl AppBuilder {
     /// use qinetic_ecs::prelude::*;
     ///
     /// #[derive(Default, Component)]
-    /// struct MyComponent {/* Something to do */}
+    /// struct MyComponent {
+    ///     // Something to do
+    /// }
     ///
     /// AppBuilder::default()
     ///     .with_component(MyComponent::default())
@@ -427,7 +426,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_component<T: Component>(&mut self, component: T) -> &mut Self {
-        //self.world_builder.with_component(component);
+        // self.world_builder.with_component(component);
         self
     }
 
@@ -441,7 +440,9 @@ impl AppBuilder {
     /// use qinetic_ecs::prelude::*;
     ///
     /// #[derive(Default, Event)]
-    /// struct MyEvent {/* Something to do */}
+    /// struct MyEvent {
+    ///     // Something to do
+    /// }
     ///
     /// AppBuilder::default()
     ///     .with_event(MyEvent::default())
@@ -450,7 +451,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_event<T: Event>(&mut self, event: T) -> &mut Self {
-        //self.world_builder.with_event(event);
+        // self.world_builder.with_event(event);
         self
     }
 
@@ -464,7 +465,9 @@ impl AppBuilder {
     /// use qinetic_ecs::prelude::*;
     ///
     /// #[derive(Default, Resource)]
-    /// struct MyResource {/* Something to do */}
+    /// struct MyResource {
+    ///     // Something to do
+    /// }
     ///
     /// AppBuilder::default()
     ///     .with_resource(MyResource::default())
@@ -473,7 +476,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_resource<T: Resource>(&mut self, resource: T) -> &mut Self {
-        //self.world_builder.with_resource(resource);
+        // self.world_builder.with_resource(resource);
         self
     }
 
@@ -499,7 +502,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_state<T: State>(&mut self, state: T) -> &mut Self {
-        //self.world.add_state(state);
+        // self.world.add_state(state);
         self
     }
 
@@ -518,7 +521,7 @@ impl AppBuilder {
     ///     type Data = ();
     ///
     ///     fn run(&mut self, data: Self::Data) {
-    ///         /* Something to do */
+    ///         // Something to do
     ///     }
     /// }
     ///
@@ -532,7 +535,7 @@ impl AppBuilder {
     /// ```
     #[inline]
     pub fn with_system<T: System>(&mut self, stage: impl StageLabel, system: T) -> &mut Self {
-        //self.world_builder.with_system(system);
+        // self.world_builder.with_system(system);
         self
     }
 }

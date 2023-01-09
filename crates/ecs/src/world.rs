@@ -1,5 +1,7 @@
 //! World functionality.
 
+use qinetic_utils::prelude::*;
+
 use crate::{
     component::{Component, ComponentRegistry},
     entity::{EntityId, EntityRegistry},
@@ -7,8 +9,6 @@ use crate::{
     resource::{Resource, ResourceRegistry},
     state::{State, StateRegistry},
 };
-
-use qinetic_utils::prelude::*;
 
 /// A representation of ECS `world`.
 ///
@@ -18,20 +18,39 @@ use qinetic_utils::prelude::*;
 /// #
 /// let world = World::default();
 /// ```
-#[derive(SmartDefault, Clone)]
+#[derive(SmartDefault, Clone, Debug, CopyGetters)]
+#[getset(get_copy = "pub")]
 pub struct World {
+    id: WorldId,
+
+    #[getset(skip)]
     component_registry: ComponentRegistry,
+
+    #[getset(skip)]
     entity_registry: EntityRegistry,
+
+    #[getset(skip)]
     event_registry: EventRegistry,
+
+    #[getset(skip)]
     resource_registry: ResourceRegistry,
+
+    #[getset(skip)]
     state_registry: StateRegistry,
+}
+
+/// Identificator for [`World`].
+#[derive(
+    SmartDefault, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord, CopyGetters, new,
+)]
+#[getset(get_copy = "pub")]
+pub struct WorldId {
+    id: usize,
 }
 
 impl World {
     /// Returns a [`World`] with `default` configuration.
-    pub fn new() -> Self {
-        World::default()
-    }
+    pub fn new() -> Self { World::default() }
 
     /// Adds a [`Component`] to [`Entity`] by [`EntityId`].
     ///
@@ -40,7 +59,9 @@ impl World {
     /// # use qinetic_ecs::prelude::*;
     /// #
     /// #[derive(Default, Component)]
-    /// struct MyComponent {/* someting to do */}
+    /// struct MyComponent {
+    ///     // someting to do
+    /// }
     ///
     /// let mut world = World::builder()
     ///     .with_component(MyComponent::default())
@@ -62,7 +83,9 @@ impl World {
     /// # use qinetic_ecs::prelude::*;
     /// #
     /// #[derive(Default, Component)]
-    /// struct MyComponent {/* someting to do */}
+    /// struct MyComponent {
+    ///     // someting to do
+    /// }
     ///
     /// let mut world = World::builder()
     ///     .with_component(MyComponent::default())
@@ -83,7 +106,9 @@ impl World {
     /// # use qinetic_ecs::prelude::*;
     /// #
     /// #[derive(Default, Component)]
-    /// struct MyComponent {/* someting to do */}
+    /// struct MyComponent {
+    ///     // someting to do
+    /// }
     ///
     /// let mut world = World::builder()
     ///     .with_component(MyComponent::default())
@@ -105,7 +130,9 @@ impl World {
     /// # use qinetic_ecs::prelude::*;
     /// #
     /// #[derive(Default, Component)]
-    /// struct MyComponent {/* someting to do */}
+    /// struct MyComponent {
+    ///     // someting to do
+    /// }
     ///
     /// let mut world = World::builder()
     ///     .with_component(MyComponent::default())
@@ -130,7 +157,9 @@ impl World {
     /// # use qinetic_ecs::prelude::*;
     /// #
     /// #[derive(Default, Component)]
-    /// struct MyComponent {/* someting to do */}
+    /// struct MyComponent {
+    ///     // someting to do
+    /// }
     ///
     /// let mut world = World::builder()
     ///     .with_component(MyComponent::default())
@@ -157,28 +186,24 @@ impl World {
     /// # use qinetic_ecs::prelude::*;
     /// #
     /// #[derive(Default, Entity)]
-    /// struct MyEntity {/* someting to do */}
+    /// struct MyEntity {
+    ///     // someting to do
+    /// }
     ///
     /// let mut world = World::builder().build().add_entity::<MyEntity>();
     /// #
     /// # assert!(world.)
     /// ```
     #[inline]
-    pub fn add_entity(&mut self) -> EntityId {
-        self.entity_registry.add_entity()
-    }
+    pub fn add_entity(&mut self) -> EntityId { self.entity_registry.add_entity() }
 
     /// Removes a [`Entity`] by [`EntityId`].
     #[inline]
-    pub fn remove_entity(&mut self, id: EntityId) {
-        self.entity_registry.remove_entity(id);
-    }
+    pub fn remove_entity(&mut self, id: EntityId) { self.entity_registry.remove_entity(id); }
 
     /// Returns `true`, if [`Entity`] by [`EntityId`] present.
     #[inline]
-    pub fn has_entity(&self, id: EntityId) -> bool {
-        self.entity_registry.has_entity(id)
-    }
+    pub fn has_entity(&self, id: EntityId) -> bool { self.entity_registry.has_entity(id) }
 
     /// Returns a immutable [`Event`] by `T` of [`World`], if it's present.
     #[inline]
@@ -188,15 +213,11 @@ impl World {
 
     /// Returns a immutable [`Event`] by `T` of [`World`], if it's present.
     #[inline]
-    pub fn remove_event<T: Event>(&self) -> Option<&T> {
-        self.event_registry.get_event::<T>()
-    }
+    pub fn remove_event<T: Event>(&self) -> Option<&T> { self.event_registry.get_event::<T>() }
 
     /// Returns `true`, if [`Event`] by `T` present.
     #[inline]
-    pub fn has_event<T: Event>(&self) -> bool {
-        self.event_registry.has_event::<T>()
-    }
+    pub fn has_event<T: Event>(&self) -> bool { self.event_registry.has_event::<T>() }
 
     /// Returns a immutable [`Resource`] by `T` of [`World`], if it's present.
     #[inline]
@@ -224,9 +245,7 @@ impl World {
 
     /// Returns `true`, if [`Resource`] by `T` present.
     #[inline]
-    pub fn has_resource<T: Resource>(&self) -> bool {
-        self.resource_registry.has_resource::<T>()
-    }
+    pub fn has_resource<T: Resource>(&self) -> bool { self.resource_registry.has_resource::<T>() }
 
     /// Returns a immutable [`State`] by `T` of [`World`], if it's present.
     #[inline]
@@ -236,15 +255,11 @@ impl World {
 
     /// Returns a immutable [`State`] by `T` of [`World`], if it's present.
     #[inline]
-    pub fn remove_state<T: State>(&self) -> Option<&T> {
-        self.state_registry.get_state::<T>()
-    }
+    pub fn remove_state<T: State>(&self) -> Option<&T> { self.state_registry.get_state::<T>() }
 
     /// Returns a immutable [`State`] by `T` of [`World`], if it's present.
     #[inline]
-    pub fn get_state<T: State>(&self) -> Option<&T> {
-        self.state_registry.get_state::<T>()
-    }
+    pub fn get_state<T: State>(&self) -> Option<&T> { self.state_registry.get_state::<T>() }
 
     /// Returns a mutable [`State`] by `T` of [`World`], if it's present.
     #[inline]
@@ -254,7 +269,5 @@ impl World {
 
     /// Returns `true`, if [`State`] by `T` present.
     #[inline]
-    pub fn has_state<T: State>(&self) -> bool {
-        self.state_registry.has_state::<T>()
-    }
+    pub fn has_state<T: State>(&self) -> bool { self.state_registry.has_state::<T>() }
 }

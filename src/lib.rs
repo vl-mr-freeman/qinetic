@@ -23,8 +23,7 @@
     html_favicon_url = "https://raw.githubusercontent.com/vl-mr-freeman/qinetic/master/assets/qinetic_icon.svg"
 )]
 
-pub use qinetic_internal::*;
-
 #[cfg(feature = "dynamic")]
 #[allow(unused_imports)]
 use qinetic_dylib;
+pub use qinetic_internal::*;

@@ -138,56 +138,52 @@ pub mod prelude {
     //! Main functionality.
 
     #[doc(hidden)]
-    #[cfg(feature = "qinetic_input")]
-    pub use super::input::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_window")]
-    pub use super::window::prelude::*;
-
-    #[doc(hidden)]
     #[cfg(feature = "qinetic_ai")]
     pub use super::ai::prelude::*;
-
     #[doc(hidden)]
     #[cfg(feature = "qinetic_animation")]
     pub use super::animation::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_audio")]
-    pub use super::audio::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_log")]
-    pub use super::log::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_network")]
-    pub use super::network::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_physics")]
-    pub use super::physics::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_render")]
-    pub use super::render::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_ui")]
-    pub use super::ui::prelude::*;
-
-    #[doc(hidden)]
-    #[cfg(feature = "qinetic_vr")]
-    pub use super::vr::prelude::*;
-
     #[doc(hidden)]
     #[cfg(feature = "qinetic_ar")]
     pub use super::ar::prelude::*;
-
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_audio")]
+    pub use super::audio::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_input")]
+    pub use super::input::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_log")]
+    pub use super::log::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_network")]
+    pub use super::network::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_physics")]
+    pub use super::physics::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_render")]
+    pub use super::render::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_ui")]
+    pub use super::ui::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_vr")]
+    pub use super::vr::prelude::*;
+    #[doc(hidden)]
+    #[cfg(feature = "qinetic_window")]
+    pub use super::window::prelude::*;
     #[doc(hidden)]
     pub use super::{
-        app::prelude::*, asset::prelude::*, core::prelude::*, ecs::prelude::*, math::prelude::*,
-        utils::prelude::*, DefaultPluginGroup, MinimalPluginGroup, RunLoop, RunOnce,
+        app::prelude::*,
+        asset::prelude::*,
+        core::prelude::*,
+        ecs::prelude::*,
+        math::prelude::*,
+        utils::prelude::*,
+        DefaultPluginGroup,
+        MinimalPluginGroup,
+        RunLoop,
+        RunOnce,
     };
 }

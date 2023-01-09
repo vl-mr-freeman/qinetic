@@ -1,15 +1,19 @@
 //! Matrix functionality.
 
-use crate::digit::{Digit, DigitFloat, DigitNum};
+use std::{
+    iter::{Product, Sum},
+    ops::*,
+};
+
+use num_traits::Signed;
+use qinetic_utils::prelude::*;
+
 use crate::{
+    digit::{Digit, DigitFloat, DigitNum},
     point::{Point2, Point3},
     quaternion::Quaternion,
     vector::{Vector2, Vector3, Vector4},
 };
-use num_traits::Signed;
-use qinetic_utils::prelude::*;
-use std::iter::{Product, Sum};
-use std::ops::*;
 
 macro_rules! impl_matrix {
     ($(#[$attr:meta])* => $MatrixN:ident { $($field:ident),+ }, $VectorN:ident, $n:expr) => {
@@ -225,9 +229,7 @@ impl_mv_operator!(Matrix2x2, Vector2 { x: 0, y: 1 });
 impl<T: DigitNum> Matrix2x2<T> {
     /// Returns a `Matrix` with all diagonal elements are `1`, and all off-diagonal elements are `0`.
     #[inline]
-    pub fn identity() -> Self {
-        Self::new(Vector2::unit_x(), Vector2::unit_y())
-    }
+    pub fn identity() -> Self { Self::new(Vector2::unit_x(), Vector2::unit_y()) }
 
     /// Returns a `Matrix` with its diagonal set to `diagonal` and all other entries set to `0`.
     #[inline]
@@ -290,9 +292,7 @@ impl_mv_operator!(Matrix2x3, Vector3 { x: 0, y: 1, z: 2 });
 impl<T: DigitNum> Matrix2x3<T> {
     /// Returns a `Matrix` with all diagonal elements are `1`, and all off-diagonal elements are `0`.
     #[inline]
-    pub fn identity() -> Self {
-        Self::new(Vector3::unit_x(), Vector3::unit_y())
-    }
+    pub fn identity() -> Self { Self::new(Vector3::unit_x(), Vector3::unit_y()) }
 
     /// Returns a `Matrix` with its diagonal set to `diagonal` and all other entries set to `0`.
     #[inline]
@@ -335,9 +335,7 @@ impl_mv_operator!(
 impl<T: DigitNum> Matrix2x4<T> {
     /// Returns a `Matrix` with all diagonal elements are `1`, and all off-diagonal elements are `0`.
     #[inline]
-    pub fn identity() -> Self {
-        Self::new(Vector4::unit_x(), Vector4::unit_y())
-    }
+    pub fn identity() -> Self { Self::new(Vector4::unit_x(), Vector4::unit_y()) }
 
     /// Returns a `Matrix` with its diagonal set to `diagonal` and all other entries set to `0`.
     #[inline]
@@ -377,9 +375,7 @@ impl_mv_operator!(Matrix3x2, Vector2 { x: 0, y: 1 });
 impl<T: DigitNum> Matrix3x2<T> {
     /// Returns a `Matrix` with all diagonal elements are `1`, and all off-diagonal elements are `0`.
     #[inline]
-    pub fn identity() -> Self {
-        Self::new(Vector2::unit_x(), Vector2::unit_y(), Vector2::zero())
-    }
+    pub fn identity() -> Self { Self::new(Vector2::unit_x(), Vector2::unit_y(), Vector2::zero()) }
 
     /// Returns a `Matrix` with its diagonal set to `diagonal` and all other entries set to `0`.
     #[inline]
@@ -418,9 +414,7 @@ impl_mv_operator!(Matrix3x3, Vector3 { x: 0, y: 1, z: 2 });
 impl<T: DigitNum> Matrix3x3<T> {
     /// Returns a `Matrix` with all diagonal elements are `1`, and all off-diagonal elements are `0`.
     #[inline]
-    pub fn identity() -> Self {
-        Self::new(Vector3::unit_x(), Vector3::unit_y(), Vector3::unit_z())
-    }
+    pub fn identity() -> Self { Self::new(Vector3::unit_x(), Vector3::unit_y(), Vector3::unit_z()) }
 
     /// Returns a `Matrix` with its diagonal set to `diagonal` and all other entries set to `0`.
     #[inline]
@@ -608,9 +602,7 @@ impl_mv_operator!(
 impl<T: DigitNum> Matrix3x4<T> {
     /// Returns a `Matrix` with all diagonal elements are `1`, and all off-diagonal elements are `0`.
     #[inline]
-    pub fn identity() -> Self {
-        Self::new(Vector4::unit_x(), Vector4::unit_y(), Vector4::unit_z())
-    }
+    pub fn identity() -> Self { Self::new(Vector4::unit_x(), Vector4::unit_y(), Vector4::unit_z()) }
 
     /// Returns a `Matrix` with its diagonal set to `diagonal` and all other entries set to `0`.
     #[inline]

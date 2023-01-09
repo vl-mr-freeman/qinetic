@@ -17,8 +17,8 @@ pub mod prelude {
     //! Main application functionality.
 
     #[doc(hidden)]
-    pub use crate::{app::*, plugin::*, runner::*, schedule::*, stage::*};
+    pub use qinetic_app_macros::*;
 
     #[doc(hidden)]
-    pub use qinetic_app_macros::*;
+    pub use crate::{app::*, plugin::*, runner::*, schedule::*, stage::*};
 }

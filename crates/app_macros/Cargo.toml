@@ -15,8 +15,7 @@ keywords = ["qinetic"]
 [lib]
 proc-macro = true
 
-[toolchain]
-channel = "nightly"
+
 
 [dependencies]
 # Qinetic macros.

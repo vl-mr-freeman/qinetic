@@ -1,12 +1,14 @@
 //! Quaternionernion functionality.
 
+use std::ops::*;
+
+use qinetic_utils::prelude::*;
+
 use crate::{
     digit::DigitFloat,
     matrix::{Matrix3x3, Matrix4x4},
     vector::Vector3,
 };
-use qinetic_utils::prelude::*;
-use std::ops::*;
 
 macro_rules! impl_quaternion {
     ($(#[$attr:meta])* => $QuaternionN:ident { $($field:ident),+ }, $n:expr) => {

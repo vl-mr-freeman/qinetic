@@ -22,7 +22,5 @@ impl Window {
     /// #
     /// let window_builder = Window::builder();
     /// ```
-    pub fn builder() -> WindowBuilder {
-        WindowBuilder::default()
-    }
+    pub fn builder() -> WindowBuilder { WindowBuilder::default() }
 }

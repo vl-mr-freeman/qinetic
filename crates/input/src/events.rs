@@ -6,8 +6,14 @@ use qinetic_ecs::prelude::*;
 pub use crate::{
     keyboard::KeyboardEvent,
     mouse::{
-        MouseButtonEvent, MouseButtonEventBuilder, MouseButtonEventBuilderError, MouseMotionEvent,
-        MouseMotionEventBuilder, MouseMotionEventBuilderError, MouseWheelEvent,
-        MouseWheelEventBuilder, MouseWheelEventBuilderError,
+        MouseButtonEvent,
+        MouseButtonEventBuilder,
+        MouseButtonEventBuilderError,
+        MouseMotionEvent,
+        MouseMotionEventBuilder,
+        MouseMotionEventBuilderError,
+        MouseWheelEvent,
+        MouseWheelEventBuilder,
+        MouseWheelEventBuilderError,
     },
 };

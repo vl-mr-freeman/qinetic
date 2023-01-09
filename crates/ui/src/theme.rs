@@ -142,7 +142,5 @@ impl Theme {
     /// let theme_builder = Theme::builder();
     /// ```
     #[inline]
-    pub fn builder() -> ThemeBuilder {
-        ThemeBuilder::default()
-    }
+    pub fn builder() -> ThemeBuilder { ThemeBuilder::default() }
 }
